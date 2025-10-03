@@ -1,6 +1,6 @@
 import { BaseUIComponent } from './BaseUIComponent.js';
 import { marked } from '../vendor/marked.mjs';
-import { getColorHex, html } from '../framework.utils.js';
+import { getColorHex, html, highlightHTMLString } from '../framework.utils.js';
 import './XMarkdown.css';
 
 // Define x-markdown web component
@@ -45,7 +45,19 @@ export class XMarkdown extends BaseUIComponent {
 
 			// Parse markdown with marked.js using custom renderer
 			const html = this.parseWithCustomRenderer(unescapedContent);
+
 			this.innerHTML = html;
+
+			//TODO: fix this and then enable code highlighting
+			// const allCodeBlocks = Array.from(this.querySelectorAll('pre code'));
+			// allCodeBlocks.forEach((codeBlock) => {
+			// 	const language = codeBlock.className.split('-')[1];
+			// 	if (!language) return;
+			// 	const code = codeBlock.textContent;
+			// 	const highlighted = highlightHTMLString(code, language);
+			// 	if (!highlighted) return;
+			// 	codeBlock.innerHTML = highlighted;
+			// });
 
 			// Clear the content attribute after processing
 			if (this.getAttribute('content')) {
@@ -127,6 +139,17 @@ export class XMarkdown extends BaseUIComponent {
 			// 	return html`<x-typography variant="body1" sx:my="2" sx:mx="0">${text}</x-typography>`;
 			// },
 
+			// code({ text, lang, escaped }) {
+			// 	const language = (lang || '').match(/^\S*/)?.[0];
+			// 	const code = (text || '').replace(/\n$/, '') + '\n';
+			// 	if (!language) {
+			// 		return html`<pre><code>${code}</code></pre>`;
+			// 	}
+			// 	const highlighted = highlightHTMLString(code, language);
+			// 	console.log({ highlighted, language });
+			// 	return html`<pre><code class="lang-${language}">${highlighted}</code></pre>`;
+			// },
+
 			blockquote({ tokens }) {
 				const text = this.parser.parse(tokens);
 				// Remove <p> tags from blockquote content
@@ -205,7 +228,11 @@ export class XMarkdown extends BaseUIComponent {
 								// Task list - use checkboxes
 								iconName = item.checked ? 'fa-check-square-o' : 'fa-square-o';
 								iconSize = '1em';
-								textStyle = `opacity: ${item.checked ? '0.7' : '1'}; color: ${item.checked ? 'var(--paletteTextSecondary)' : 'var(--paletteTextPrimary)'};`;
+								textStyle = `opacity: ${item.checked ? '0.7' : '1'}; color: ${
+									item.checked
+										? 'var(--paletteTextSecondary)'
+										: 'var(--paletteTextPrimary)'
+								};`;
 							} else {
 								// Unordered list - use circle bullets
 								iconName = 'fa-circle';

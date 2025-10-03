@@ -22,7 +22,7 @@
 	},
 	"scripts": {
 		"build": "cross-env NODE_ENV=PROD vite build --config vite.build.js",
-		"dev": "cross-env NODE_ENV=DEV vite build --watch --config vite.build.js & cross-env NODE_ENV=DEV vite --config vite.serve.js",
+		"dev": "cross-env NODE_ENV=DEV vite build --watch --config vite.build.js & vite --config vite.serve.js",
 		"prepublishOnly": "npm run build"
 	},
 	"keywords": [

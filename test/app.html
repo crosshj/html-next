@@ -32,8 +32,8 @@
 
 		SetState('menuItems', state.menuItems.map(item => ({
 			...item,
-			variant: item.href === currentPath ? "primary" : "secondary",
-			opacity: item.href === currentPath ? "1" : "0.6"
+			variant: currentPath.startsWith(item.href) ? "primary" : "secondary",
+			opacity: currentPath.startsWith(item.href) ? 1 : 0.6
 		})));
 		SetData('activePath', currentPath);
 		Navigate(currentPath);

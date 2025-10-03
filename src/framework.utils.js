@@ -288,7 +288,9 @@ function evaluateComparison(leftSide, rightSide, state, isDebug = false) {
 	// Only log comparison details when debug is active
 	if (isDebug) {
 		console.log(
-			`🔍 Comparison: ${leftSide} (${JSON.stringify(leftValue)}) IS ${rightSide} (${JSON.stringify(rightValue)}) = ${result}`
+			`🔍 Comparison: ${leftSide} (${JSON.stringify(
+				leftValue
+			)}) IS ${rightSide} (${JSON.stringify(rightValue)}) = ${result}`
 		);
 	}
 
@@ -387,7 +389,12 @@ function transformXMarkdownElements(htmlContent) {
 	transformed = transformed.replace(
 		new RegExp(`${codeBlockPlaceholder}(\\d+)`, 'g'),
 		(match, index) => {
-			return codeBlockMatches[parseInt(index)];
+			return codeBlockMatches[parseInt(index)]
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;')
+				.replace(/\n/g, '&#10;')
+				.replace(/\r/g, '&#13;')
+				.replace(/\t/g, '&#9;');
 		}
 	);
 
@@ -468,3 +475,65 @@ export function cleanServerHTML(htmlContent) {
 
 	return cleaned;
 }
+
+export const highlightHTMLString = (htmlString, language) => {
+	console.log({ language, htmlString });
+	//TODO: this should be in a utility
+	const escape = (str) =>
+		str
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/&/g, '&amp;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;')
+			.replace(/\n/g, '&#10;')
+			.replace(/\r/g, '&#13;')
+			.replace(/\t/g, '&#9;');
+	function highlightHTML(str) {
+		const tagRe =
+			/(\<\/?)([A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9]+)*)([\s\S]*?)(\/?\>)/g;
+		const attrRe =
+			/(\s+[A-Za-z_:]*)(\s*=\s*)(&quot;.*?&quot;|&#39;.*?&#39;|[^\s/&]+)(?=(?:\s|\/?&gt;))/g;
+
+		return str.replace(tagRe, (_, open, tag, rest, close) => {
+			const attrs = rest.replace(
+				attrRe,
+				'<span style="color:red">$1</span>$2<span style="color:green">$3</span>'
+			);
+			// .replace(
+			// 	/(\s+[A-Za-z_:][-A-Za-z0-9:._]*)/g,
+			// 	'<span style="color:red">$1</span>'
+			// );
+			return `${open}<span style="color:blue">${tag}</span>${attrs}${close}`;
+		});
+	}
+
+	function highlightCSS(str) {
+		return str
+			.replace(/([a-z-]+)(?=\s*:)/g, '<span style="color:purple">$1</span>')
+			.replace(/(:\s*)([^;]+)/g, '$1<span style="color:green">$2</span>');
+	}
+
+	function highlightJS(str) {
+		return str
+			.replace(
+				/\b(function|const|let|var|return|if|else)\b/g,
+				'<span style="color:blue">$1</span>'
+			)
+			.replace(/("[^"]*"|'[^']*')/g, '<span style="color:brown">$1</span>');
+	}
+	const highlighter = {
+		html: highlightHTML,
+		css: highlightCSS,
+		js: highlightJS,
+		javascript: highlightJS,
+		json: highlightJS,
+	}[language];
+
+	if (!highlighter) {
+		console.warn(`No highlighter found for language: ${language}`);
+		return;
+	}
+
+	return highlighter(htmlString);
+};
