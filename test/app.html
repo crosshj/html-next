@@ -25,6 +25,8 @@
 		const currentPath = '/' + path;
 		if(state.activePath === currentPath) return;
 
+		SetData("mainContent", ''); //loading
+
 		console.log('Path changed to:', path);
 		fetch(`./pages/${path}.html`).then(x => SetData("mainContent", x.text()));
 
@@ -88,7 +90,7 @@
 			</x-box>
 		</div>
 		<div style="grid-area: main; overflow-y: auto">
-			<x-fragment contents="global_mainContent"></x-fragment>
+			<x-fragment contents="global_mainContent" showLoading="false"></x-fragment>
 		</div>
 	</div>
 </x-page>

@@ -42,6 +42,7 @@ export class XFragment extends BaseUIComponent {
 			if (showLoading) {
 				this.innerHTML = html`
 					<div
+						class="fragment-loading-spinner"
 						style="display: flex; align-items: center; justify-content: center; height: 100%;"
 					>
 						<div
@@ -50,7 +51,7 @@ export class XFragment extends BaseUIComponent {
 					</div>
 				`;
 			} else {
-				this.innerHTML = '';
+				this.innerHTML = '<div class="fragment-no-loading-spinner"></div>';
 			}
 			return;
 		}
