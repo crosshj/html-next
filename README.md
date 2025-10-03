@@ -1,15 +1,18 @@
 # HTMLNext
 
-A lightweight web component framework with state management and conditional rendering. Built for modern web applications that need a simple, powerful way to create interactive UIs without heavy frameworks.
+A lightweight (and AI-friendly) framework for making apps and pages with all the batteries included. Built for modern web applications that need a simple, powerful way to create interactive UIs without heavy frameworks.
+
+You don't really need a framework, do you?   
+
+How about some CSS and server-side-friendly HTML of your own and one ~25kB JS + one ~500kB CSS? 
 
 ## Features
 
-- 🧩 **Web Components** - Custom elements that work with any framework
-- 🔄 **State Management** - Reactive state system with subscriptions
+- 🎨 **HTML/CSS focus** Spend more time crafting beautiful interfaces and less time wrestling with JavaScript framework complexity.
+- 🔄 **State Management** - Reactive state system with subscriptions, and you don't have to care much about it
 - 🎨 **Conditional Rendering** - Dynamic UI based on state
-- 📱 **Mobile Ready** - Works great on mobile devices
+- 📱 **Mobile Ready** - Works okay on mobile devices, depends on your setup
 - 🚀 **Zero Dependencies** - No external dependencies
-- 📦 **Tree Shakable** - Import only what you need
 - 🎯 **TypeScript Support** - Full type definitions included
 
 ## Installation
@@ -127,7 +130,7 @@ unsubscribe();
 
 <!-- Conditional classes -->
 <x-button
-	className="WHEN global_isActive THEN active ELSE inactive"
+	class="WHEN global_isActive THEN active ELSE inactive"
 	sx:backgroundColor="WHEN global_isActive THEN green500 ELSE grey300"
 >
 	Button
@@ -250,25 +253,18 @@ const unsubscribe = subscribeToState('count', (event) => {
 
 ## Flows
 
-Flows are JavaScript functions that execute when state changes:
+Flows are JavaScript-like functions that execute when state changes:
 
 ```html
 <x-flow key="updateCounter">
 	// This code runs when triggered const count = state.count || 0;
-	setData('count', count + 1);
+	SetData('count', count + 1);
 </x-flow>
 
 <x-subscribe path="buttonClicked" handler="updateCounter">
 	<x-button>Increment</x-button>
 </x-subscribe>
 ```
-
-## Browser Support
-
-- Chrome 67+
-- Firefox 63+
-- Safari 11+
-- Edge 79+
 
 ## Development
 
@@ -286,50 +282,6 @@ npm run dev
 npm run dev:test
 ```
 
-## GitHub Actions
-
-This repository includes a simple GitHub Actions workflow for publishing to npm:
-
-- **Triggers**: Push to main branch or manual trigger
-- **Smart version checking**: Only publishes if the version doesn't already exist on npm
-- **Automatic git tagging**: Creates version tags automatically
-
-### Workflow Steps
-
-1. **Reads version from `package.json`** - Uses the version specified in your package.json file
-2. **Checks if version exists** - Queries npm to see if that version is already published
-3. **Publishes only if new** - Only publishes if the version doesn't exist on npm
-4. **Creates git tag** - Automatically tags the commit with `v{version}` (e.g., `v1.0.0`)
-5. **Skips if exists** - If the version already exists, skips publishing and logs a message
-
-### Setting up NPM Publishing
-
-1. Create an NPM access token:
-   - Go to [npmjs.com](https://www.npmjs.com) and log in
-   - Go to "Access Tokens" in your account settings
-   - Click "Generate New Token"
-   - Choose "Automation" type for CI/CD
-   - Copy the token
-
-2. Add the token as a GitHub secret:
-   - Go to your GitHub repository settings
-   - Navigate to "Secrets and variables" → "Actions"
-   - Click "New repository secret"
-   - Name: `NPM_TOKEN`
-   - Value: Your NPM access token
-
-3. The workflow will automatically run when you:
-   - Push to the `main` branch
-   - Create a release tag (e.g., `v1.0.0`)
-   - Manually trigger the workflow
-
-### Version Management
-
-- **Update version**: Change the version in `package.json` and push to main
-- **Automatic tagging**: The workflow will create a git tag like `v1.0.0`
-- **No duplicates**: Won't publish if the version already exists on npm
-- **Safe reruns**: You can safely rerun the workflow without worrying about duplicate publishes
-
 ## License
 
 MIT
@@ -343,12 +295,3 @@ MIT
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Changelog
-
-### 1.0.0
-
-- Initial release
-- Web components
-- State management
-- Conditional rendering
-- SX styling system
