@@ -5,7 +5,7 @@
 	></x-data>
 	<x-data
 		name="pathData"
-		route="/framework/test/index.html#/:rest*"
+		route="/#/:rest*"
 	></x-data>
 	<x-data
 		name="mainContent"
@@ -28,7 +28,6 @@
 		console.log('Path changed to:', path);
 		fetch(`./pages/${path}.html`).then(x => SetData("mainContent", x.text()));
 
-		console.log(state.menuItems);
 		SetState('menuItems', state.menuItems.map(item => ({
 			...item,
 			variant: item.href === currentPath ? "primary" : "secondary",

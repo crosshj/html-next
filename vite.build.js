@@ -47,33 +47,44 @@ export const moduleBuild = {
 	plugins: [
 		{
 			name: 'minify-es-module',
-			async writeBundle() {
+			async closeBundle() {
 				// Post-process the ES module to fully minify it
 				const esModulePath = resolve(__dirname, 'dist/htmlNext.js');
-				const code = readFileSync(esModulePath, 'utf8');
+				
+				// Check if file exists before trying to read it
+				if (!existsSync(esModulePath)) {
+					console.warn('⚠️  ES module file not found, skipping minification');
+					return;
+				}
+				
+				try {
+					const code = readFileSync(esModulePath, 'utf8');
 
-				const result = await minify(code, {
-					compress: {
-						drop_console: false,
-						drop_debugger: true,
-						passes: 2, // Multiple passes for better compression
-					},
-					mangle: {
-						toplevel: true,
-						properties: {
-							regex: /^_/, // Mangle properties starting with _
+					const result = await minify(code, {
+						compress: {
+							drop_console: false,
+							drop_debugger: true,
+							passes: 2, // Multiple passes for better compression
 						},
-					},
-					format: {
-						comments: false,
-					},
-				});
+						mangle: {
+							toplevel: true,
+							properties: {
+								regex: /^_/, // Mangle properties starting with _
+							},
+						},
+						format: {
+							comments: false,
+						},
+					});
 
-				if (result.error) {
-					console.error('Terser error:', result.error);
-				} else {
-					writeFileSync(esModulePath, result.code);
-					console.log('✅ ES module fully minified');
+					if (result.error) {
+						console.error('Terser error:', result.error);
+					} else {
+						writeFileSync(esModulePath, result.code);
+						console.log('✅ ES module fully minified');
+					}
+				} catch (error) {
+					console.warn('⚠️  Failed to minify ES module:', error.message);
 				}
 			},
 		},
