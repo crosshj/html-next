@@ -1,0 +1,56 @@
+{
+	"name": "@crosshj/html-next",
+	"version": "0.0.1",
+	"description": "A modern, declarative web component framework with reactive state management, conditional rendering, data visualization, and server-side fragment loading. Built for building interactive UIs without heavy frameworks.",
+	"type": "module",
+	"main": "./dist/htmlNext.js",
+	"module": "./dist/htmlNext.js",
+	"types": "./src/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./src/index.d.ts",
+			"import": "./dist/htmlNext.js"
+		},
+		"./css": "./dist/htmlNext.css"
+	},
+	"files": [
+		"dist/",
+		"src/",
+		"README.md"
+	],
+	"scripts": {
+		"build": "cross-env NODE_ENV=PROD vite build --config vite.build.js",
+		"dev": "cross-env NODE_ENV=DEV vite build --watch --config vite.build.js & cross-env NODE_ENV=DEV vite --config vite.serve.js",
+		"dev:test": "cross-env NODE_ENV=DEV vite --config vite.serve.js",
+		"prepublishOnly": "npm run build"
+	},
+	"keywords": [
+		"web-components",
+		"framework",
+		"reactive-state",
+		"conditional-rendering",
+		"data-visualization",
+		"declarative-ui",
+		"fragment-loading",
+		"html-templates",
+		"es6-modules",
+		"zero-dependencies",
+		"lightweight",
+		"mobile-ready"
+	],
+	"author": "crosshj",
+	"license": "MIT",
+	"devDependencies": {
+		"cross-env": "^7.0.3",
+		"terser": "^5.44.0",
+		"vite": "^7.0.4"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/crosshj/html-next.git"
+	},
+	"homepage": "https://github.com/crosshj/html-next#readme",
+	"bugs": {
+		"url": "https://github.com/crosshj/html-next/issues"
+	}
+}

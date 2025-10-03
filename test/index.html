@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>HTMLNext Test</title>
+		<link
+			rel="stylesheet"
+			href="./dist/htmlNext.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="./index.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="./pages/dashboard.css"
+		/>
+	</head>
+	<body class="test-framework">
+		<x-fragment contents="global_appContent"></x-fragment>
+
+		<script type="module">
+			import { initializeFramework, setState } from './dist/htmlNext.js';
+			initializeFramework();
+
+			const pages = [
+				{ label: 'Dashboard', href: '/dashboard' },
+				{ label: 'Users', href: '/users' },
+				{ label: 'Settings', href: '/settings' },
+			];
+
+			setState('menuItems', pages);
+
+			const appContent = await fetch('./app.html').then((response) =>
+				response.text()
+			);
+			setState('appContent', appContent);
+
+			// FOUC Prevention - Show content after framework loads
+			document.body.classList.add('framework-loaded');
+
+			window.addUser = () => alert('Add User Clicked');
+		</script>
+	</body>
+</html>

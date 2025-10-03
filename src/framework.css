@@ -1,0 +1,1249 @@
+/* Framework CSS - All styles should be nested under their component */
+
+@import url('./vendor/inter.css');
+@import url('./vendor/font-awesome.css');
+
+/* HTML and Body reset - remove all default browser styles */
+html {
+	overscroll-behavior: none;
+	font-family:
+		'Inter',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Helvetica Neue',
+		Arial,
+		sans-serif;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family:
+		'Inter',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Helvetica Neue',
+		Arial,
+		sans-serif;
+	line-height: 1.6;
+	color: #333;
+	background-color: #fff;
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overscroll-behavior: none;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* CSS Variables */
+:root {
+	/* Colors */
+	--color-primary: #007bff;
+	--color-primary-hover: #0056b3;
+	--color-primary-active: #004085;
+	--color-text: #333;
+	--color-text-muted: #666;
+	--color-background: #fff;
+	--color-background-muted: #f5f5f5;
+	--color-border: #ddd;
+	--color-border-light: #eee;
+
+	/* Palette System */
+	/* Primary Palette */
+	--palettePrimaryMain: #9a6b75;
+	--palettePrimaryLight: #b88a96;
+	--palettePrimaryDark: #7d4f5a;
+	--palettePrimaryContrast: #fff;
+	--palettePrimaryNavbar: #372759;
+
+	/* Secondary Palette */
+	--paletteSecondaryMain: #7a6b8a;
+	--paletteSecondaryDark: #625a73;
+	--paletteSecondaryLight: #9a8fb0;
+	--paletteSecondaryContrast: #fff;
+
+	/* Background Palette */
+	--paletteBackgroundDefault: #fafafa;
+	--paletteBackgroundPaper: #fff;
+	--paletteBackgroundContrast: #fff;
+
+	/* Text Palette */
+	--paletteTextPrimary: rgba(0, 0, 0, 0.87);
+	--paletteTextSecondary: rgba(0, 0, 0, 0.6);
+	--paletteTextTertiary: rgba(0, 0, 0, 0.55);
+	--paletteTextDisabled: rgba(0, 0, 0, 0.5);
+
+	/* Divider */
+	--paletteDivider: rgba(0, 0, 0, 0.12);
+
+	/* Warning Palette */
+	--paletteWarningMain: #f19812;
+	--paletteWarningDark: #d26d10;
+	--paletteWarningLight: #f19812;
+	--paletteWarningContrast: #fff;
+
+	/* Info Palette */
+	--paletteInfoMain: #0288d1;
+	--paletteInfoDark: #01579b;
+	--paletteInfoLight: #03a9f4;
+	--paletteInfoContrast: #fff;
+
+	/* Error Palette */
+	--paletteErrorMain: #c44f2d;
+	--paletteErrorDark: #9f2f0e;
+	--paletteErrorLight: #ef5350;
+	--paletteErrorContrast: #fff;
+
+	/* Success Palette */
+	--paletteSuccessMain: #3f8d55;
+	--paletteSuccessDark: #1e3605;
+	--paletteSuccessLight: #4d7722;
+	--paletteSuccessContrast: #fff;
+
+	/* Default Palette */
+	--paletteDefaultMain: #3f8d55;
+	--paletteDefaultDark: #1e3605;
+	--paletteDefaultLight: #777777;
+	--paletteDefaultContrast: #fff;
+
+	/* Action Palette */
+	--paletteActionActive: rgba(0, 0, 0, 0.6);
+	--paletteActionDisabled: rgba(0, 0, 0, 0.5);
+	--paletteActionDisabledBackground: rgba(0, 0, 0, 0.06);
+
+	/* Spacing */
+	--spacing-xs: 0.25rem;
+	--spacing-sm: 0.5rem;
+	--spacing-md: 1rem;
+	--spacing-lg: 1.5rem;
+	--spacing-xl: 2rem;
+	--spacing-2xl: 3rem;
+
+	/* Typography */
+	--font-family:
+		'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+		'Helvetica Neue', Arial, sans-serif;
+	--font-size-xs: 0.75rem;
+	--font-size-sm: 0.875rem;
+	--font-size-base: 1rem;
+	--font-size-lg: 1.125rem;
+	--font-size-xl: 1.25rem;
+	--font-size-2xl: 1.5rem;
+	--font-size-3xl: 1.875rem;
+	--font-size-4xl: 2.25rem;
+
+	/* Line heights */
+	--line-height-tight: 1.25;
+	--line-height-normal: 1.5;
+	--line-height-relaxed: 1.75;
+
+	/* Border radius */
+	--radius-sm: 0.25rem;
+	--radius-md: 0.375rem;
+	--radius-lg: 0.5rem;
+	--radius-xl: 0.75rem;
+
+	/* Shadows */
+	--shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	--shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	--shadow-lg:
+		0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+	/* Transitions */
+	--transition-fast: 0.15s ease;
+	--transition-normal: 0.2s ease;
+	--transition-slow: 0.3s ease;
+
+	/* Z-index scale */
+	--z-dropdown: 1000;
+	--z-sticky: 1020;
+	--z-fixed: 1030;
+	--z-modal-backdrop: 1040;
+	--z-modal: 1050;
+	--z-popover: 1060;
+	--z-tooltip: 1070;
+}
+
+/* Media Query Breakpoints */
+/* Mobile first approach - base styles are for mobile */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+	:root {
+		--spacing-md: 1.25rem;
+		--spacing-lg: 2rem;
+	}
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	:root {
+		--spacing-md: 1.5rem;
+		--spacing-lg: 2.5rem;
+		--spacing-xl: 3rem;
+	}
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	:root {
+		--spacing-md: 2rem;
+		--spacing-lg: 3rem;
+		--spacing-xl: 4rem;
+	}
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	:root {
+		--spacing-md: 2.5rem;
+		--spacing-lg: 4rem;
+		--spacing-xl: 5rem;
+	}
+}
+
+.standardLayoutContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: row;
+	height: 100vh;
+	width: 100vw;
+
+	div[variant='page'] {
+		height: 100%;
+	}
+	div[variant='page-header'] {
+		margin-top: 9px;
+	}
+
+	/* Main content area */
+	.main-content-area {
+		background: var(--paletteBackgroundDefault);
+		height: 100vh;
+		flex: 1;
+		overflow: auto;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Loading area */
+	.loading-area {
+		display: flex;
+		width: 100%;
+		height: 100%;
+		background: inherit;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* Menu sidebar */
+	.menu-sidebar {
+		display: contents;
+	}
+
+	/* Menu container */
+	.menu-container {
+		background: var(--palettePrimaryNavbar);
+		width: 260px;
+		height: 100vh;
+		flex-shrink: 0;
+		padding: 1.5rem;
+		padding-top: 0.25rem;
+	}
+
+	/* Logo area */
+	.logo-area {
+		width: 100%;
+		height: 55px;
+	}
+
+	/* Menu items container */
+	.menu-items {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		margin-left: -2px;
+	}
+
+	/* Menu item icons */
+	.menu-item-icon {
+		color: var(--palettePrimaryContrast);
+		opacity: 0.7;
+	}
+
+	/* Menu item text */
+	.menu-item-text {
+		color: var(--palettePrimaryContrast);
+	}
+
+	.standardMenuItem {
+		border-radius: 4px;
+		padding-inline: 11px;
+		padding-block: 9px;
+		align-items: center;
+		cursor: pointer;
+		gap: 12px;
+		display: flex;
+
+		&.active {
+			background-color: rgba(255, 255, 255, 0.1);
+		}
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.05);
+		}
+
+		&.active .fa {
+			opacity: 1;
+		}
+
+		.fa {
+			opacity: 0.7;
+			font-size: 18px;
+		}
+
+		/* Better typography for menu text */
+		x-typography {
+			font-family:
+				'Inter',
+				-apple-system,
+				BlinkMacSystemFont,
+				'Segoe UI',
+				'Roboto',
+				'Helvetica Neue',
+				Arial,
+				sans-serif;
+			font-size: 15px;
+			font-weight: 500;
+			letter-spacing: -0.01em;
+			line-height: 1.2;
+		}
+	}
+}
+
+/* x-flow component - hidden, no visual styling */
+x-flow {
+	display: none;
+}
+
+/* x-page component - main page container */
+x-page {
+	min-height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	font-family:
+		'Inter',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Helvetica Neue',
+		Arial,
+		sans-serif;
+	line-height: 1.6;
+	color: #333;
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* x-navbar component - navigation bar */
+x-navbar {
+	height: 75px;
+	background: rgba(255, 255, 255, 0.6);
+	padding: 0 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-shrink: 0;
+	width: 100%;
+	box-sizing: border-box;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+	border: none;
+	border-bottom: none;
+	/* Add gradient overlay for smoother transition */
+	background: linear-gradient(
+		to bottom,
+		rgba(255, 255, 255, 0.95) 0%,
+		rgba(255, 255, 255, 0.85) 70%,
+		rgba(255, 255, 255, 0.6) 100%
+	);
+
+	.navbar-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.navbar-right {
+		display: flex;
+		align-items: center;
+	}
+
+	.navbar-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+}
+
+/* x-content component - main content area */
+x-content {
+	padding: 1rem;
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+	flex: 1;
+	box-sizing: border-box;
+	overflow-y: auto;
+	height: calc(100vh - 60px); /* Subtract navbar height */
+	border: none;
+	border-top: none;
+	/* Common content styling */
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	margin-bottom: 200px;
+	margin-top: 1em;
+}
+
+/* x-include component - include content container */
+x-include {
+	display: block;
+}
+
+/* x-box component - flexible container */
+x-box {
+	display: block;
+	box-sizing: border-box;
+
+	&[display='flex'] {
+		display: flex;
+	}
+
+	&[justifyContent='flex-end'] {
+		justify-content: flex-end;
+	}
+
+	&[justifyContent='center'] {
+		justify-content: center;
+	}
+
+	&[justifyContent='space-between'] {
+		justify-content: space-between;
+	}
+
+	&[alignItems='center'] {
+		align-items: center;
+	}
+
+	&[alignItems='flex-start'] {
+		align-items: flex-start;
+	}
+
+	&[alignItems='flex-end'] {
+		align-items: flex-end;
+	}
+
+	&[gap='2'] {
+		gap: 0.5rem;
+	}
+
+	&[gap='4'] {
+		gap: 1rem;
+	}
+
+	&[gap='8'] {
+		gap: 2rem;
+	}
+}
+
+/* x-typography component - text styling */
+x-typography {
+	display: inline;
+
+	/* Reset all heading margins to prevent user agent overrides */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+	/* Default span styling */
+	span {
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+
+	/* Typography Scale Variants */
+	&[variant='h1'] {
+		/* Page titles, main headings */
+		font-size: 1.45em;
+		font-weight: 300;
+		line-height: 1.2;
+		background: linear-gradient(
+			358deg,
+			var(--palettePrimaryMain) 0%,
+			color-mix(
+					in srgb,
+					var(--palettePrimaryMain) 50%,
+					var(--paletteTextPrimary)
+				)
+				50%,
+			var(--paletteTextPrimary) 100%
+		);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		letter-spacing: 0.5px;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	&[variant='h2'] {
+		/* Section headers, major content divisions */
+		font-size: 1.25rem;
+		font-weight: 500;
+		line-height: 1.2;
+		color: var(--paletteTextSecondary);
+	}
+
+	&[variant='h3'] {
+		/* Subsections, content groupings */
+		font-size: 1.2rem;
+		font-weight: 400;
+		line-height: 1.3;
+		color: var(--paletteTextSecondary);
+	}
+
+	&[variant='h4'] {
+		/* Sub-subsections, minor headings */
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.4;
+		color: var(--paletteTextTertiary);
+	}
+
+	&[variant='h5'] {
+		/* Small headings, labels */
+		font-size: 0.875rem;
+		font-weight: 400;
+		line-height: 1.4;
+		color: var(--paletteTextTertiary);
+	}
+
+	&[variant='h6'] {
+		/* Micro labels, metadata, fine print */
+		font-size: 0.75rem;
+		font-weight: 400;
+		line-height: 1.4;
+		letter-spacing: 0.01em;
+		color: var(--paletteTextTertiary);
+	}
+
+	&[variant='body1'] {
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.6;
+		color: var(--paletteTextPrimary);
+	}
+
+	&[variant='body2'] {
+		font-size: 0.875rem;
+		font-weight: 400;
+		line-height: 1.4;
+		color: var(--paletteTextSecondary);
+	}
+
+	&[variant='caption'] {
+		font-size: 0.75rem;
+		font-weight: 400;
+		line-height: 1.4;
+		opacity: 0.8;
+		color: var(--paletteTextSecondary);
+	}
+
+	&[variant='overline'] {
+		font-size: 0.75rem;
+		font-weight: 500;
+		line-height: 1.4;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--paletteTextSecondary);
+	}
+
+	&[variant='label'] {
+		font-size: 1rem;
+		font-weight: 500;
+		line-height: 1.4;
+		letter-spacing: 0.01em;
+		color: var(--paletteTextPrimary);
+	}
+
+	&[variant='intro'] {
+		font-size: 1.125rem;
+		font-weight: 400;
+		line-height: 1.6;
+		color: var(--paletteTextPrimary);
+	}
+}
+
+/* x-map component - data mapping */
+x-map {
+	display: contents;
+}
+
+/* x-icon component - Font Awesome Icons */
+x-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.2em;
+	height: 1.2em;
+	flex-shrink: 0;
+	vertical-align: middle;
+
+	/* Font Awesome icon styling */
+	.fa {
+		font-family: 'FontAwesome';
+		font-weight: normal;
+		font-style: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		color: inherit;
+	}
+
+	/* Size variants */
+	&[size='small'] {
+		width: 1em;
+		height: 1em;
+		font-size: 0.875rem;
+	}
+
+	&[size='medium'] {
+		width: 1.2em;
+		height: 1.2em;
+		font-size: 1rem;
+	}
+
+	&[size='large'] {
+		width: 1.5em;
+		height: 1.5em;
+		font-size: 1.25rem;
+	}
+
+	&[size='xlarge'] {
+		width: 2em;
+		height: 2em;
+		font-size: 1.5rem;
+	}
+}
+
+/* =====================
+	LIST STYLING
+	===================== */
+
+/* Global List Styles - Basic styling only, indicators handled in renderer */
+ul,
+ol {
+	margin: 0 0 1rem 0;
+	padding-left: 0;
+	color: var(--paletteTextPrimary);
+	line-height: 1.6;
+	list-style: none;
+}
+
+li {
+	margin: 0.25rem 0;
+	color: var(--paletteTextPrimary);
+}
+
+/* Add period after numbered list items */
+ol li span[style*="font-family: 'Courier New'"]::after {
+	content: '.';
+	position: absolute;
+	right: -0.4em;
+}
+
+/* Blockquote lists */
+blockquote ul,
+blockquote ol {
+	margin: 0.5rem 0;
+	padding-left: 1rem;
+}
+
+blockquote ul li::before {
+	color: var(--paletteTextSecondary);
+}
+
+blockquote ol li::before {
+	color: var(--paletteTextSecondary);
+}
+
+/* =====================
+	TABLE STYLING
+	===================== */
+
+/* Tables */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1.5rem 0;
+	background: white;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+table thead {
+	background: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 20%,
+		var(--paletteBackgroundPaper)
+	);
+}
+
+table th {
+	padding: 12px 16px;
+	text-align: left;
+	font-weight: 600;
+	font-size: 0.875rem;
+	color: var(--paletteTextPrimary);
+	border-bottom: 1px solid #e9ecef;
+	text-transform: capitalize;
+}
+
+table td {
+	padding: 12px 16px;
+	border-bottom: 1px solid #e9ecef;
+	font-size: 0.875rem;
+	color: var(--paletteTextPrimary);
+	vertical-align: top;
+}
+
+table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+table tbody tr:nth-child(even) {
+	background: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 8%,
+		var(--paletteBackgroundPaper)
+	);
+}
+
+table tbody tr:hover {
+	background: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 12%,
+		var(--paletteBackgroundPaper)
+	);
+}
+
+/* Table links */
+table a {
+	color: var(--palettePrimaryMain);
+	text-decoration: underline;
+	font-weight: 500;
+}
+
+table a:hover {
+	color: var(--palettePrimaryDark);
+	text-decoration: none;
+}
+
+/* Horizontal rules */
+x-markdown hr {
+	border: none;
+	border-top: 1px solid var(--paletteDivider);
+	margin-block: 3rem;
+	background: none;
+}
+
+/* Status icons in tables - override global code styling */
+table code {
+	background: transparent;
+	padding: 0;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+}
+
+/* Code and emphasis styling with primary color */
+code {
+	background: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 15%,
+		var(--paletteBackgroundPaper)
+	);
+	color: var(--paletteTextPrimary);
+	padding: 0.125rem 0.25rem;
+	border-radius: 0.25rem;
+	font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+	font-size: 0.875em;
+}
+
+pre {
+	background: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 8%,
+		var(--paletteBackgroundPaper)
+	);
+	color: var(--paletteTextPrimary);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+	font-size: 0.875rem;
+	overflow-x: auto;
+}
+
+pre code {
+	background: transparent;
+	padding: 0;
+	border-radius: 0;
+	font-size: inherit;
+}
+
+em {
+	background: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 12%,
+		var(--paletteBackgroundPaper)
+	);
+	color: var(--paletteTextPrimary);
+	font-style: italic;
+	padding: 0.125rem 0.25rem;
+	border-radius: 0.25rem;
+}
+
+blockquote,
+x-typography[variant='blockquote'] {
+	margin: 1.5rem 0;
+	padding: 0.75rem 0 0.75rem 1rem;
+	border-left: 4px solid
+		color-mix(
+			in srgb,
+			var(--palettePrimaryMain) 60%,
+			var(--paletteBackgroundPaper)
+		);
+	background: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 5%,
+		var(--paletteBackgroundPaper)
+	);
+	border-radius: 0 0.25rem 0.25rem 0;
+	font-style: italic;
+	color: var(--paletteTextSecondary);
+}
+
+/* Table responsive behavior */
+@media (max-width: 768px) {
+	table {
+		font-size: 0.75rem;
+	}
+
+	table th,
+	table td {
+		padding: 8px 12px;
+	}
+}
+
+/* =====================
+	LOADING INDICATORS
+	===================== */
+
+/* Main loading indicator - full screen overlay */
+.loading-indicator {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--paletteBackgroundDefault);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+
+	/* Loading text */
+	p {
+		color: var(--paletteTextTertiary);
+		font-size: 0.9rem;
+		margin: 0;
+	}
+}
+
+/* Inline loading state - for content areas */
+.loading-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 400px;
+	padding: 2rem;
+	text-align: center;
+	width: 100%;
+	opacity: 0;
+	animation: fadeInAfterDelay 0.3s ease-in-out 1.5s forwards;
+
+	/* Loading text */
+	p {
+		color: var(--paletteTextTertiary);
+		font-size: 1rem;
+		margin: 0;
+	}
+}
+
+/* SVG Loading Spinner - used in standard layout */
+.loading-spinner-svg {
+	width: 55px;
+	height: 55px;
+	opacity: 0.5;
+
+	svg {
+		.r {
+			transform-origin: 22px 22px;
+			animation: spin 1s linear infinite;
+		}
+
+		.c {
+			stroke-width: 4;
+			stroke-linecap: round;
+			animation: dash 1.5s ease-in-out infinite;
+		}
+	}
+}
+
+/* Loading animations */
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes dash {
+	0% {
+		stroke-dasharray: 1, 150;
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dasharray: 90, 150;
+		stroke-dashoffset: -35;
+	}
+	100% {
+		stroke-dasharray: 90, 150;
+		stroke-dashoffset: -124;
+	}
+}
+
+@keyframes fadeInAfterDelay {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* ========================================
+   BUTTON COMPONENT STYLES
+   ======================================== */
+
+x-button {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+}
+
+x-button button,
+x-button x-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	font-family: inherit;
+	font-weight: 500;
+	font-size: 0.875rem;
+	line-height: 1.75;
+	letter-spacing: 0.02857em;
+	text-decoration: none;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	white-space: nowrap;
+	position: relative;
+	overflow: hidden;
+	user-select: none;
+	outline: none;
+	min-width: 64px;
+}
+
+x-button button:focus,
+x-button x-link:focus {
+	outline: 2px solid var(--palettePrimaryMain);
+	outline-offset: 2px;
+}
+
+x-button button:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+/* Button Variants */
+x-button button.x-button-primary,
+x-button x-link.x-button-primary {
+	background-color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
+	border-color: var(--palettePrimaryMain);
+}
+
+x-button button.x-button-primary:hover:not(:disabled),
+x-button x-link.x-button-primary:hover:not(:disabled) {
+	background-color: var(--palettePrimaryDark);
+	border-color: var(--palettePrimaryDark);
+}
+
+x-button button.x-button-secondary,
+x-button x-link.x-button-secondary {
+	background-color: var(--paletteSecondaryMain);
+	color: var(--paletteSecondaryContrast);
+	border-color: var(--paletteSecondaryMain);
+}
+
+x-button button.x-button-secondary:hover:not(:disabled),
+x-button x-link.x-button-secondary:hover:not(:disabled) {
+	background-color: var(--paletteSecondaryDark);
+	border-color: var(--paletteSecondaryDark);
+}
+
+x-button button.x-button-outlined,
+x-button x-link.x-button-outlined {
+	background-color: transparent;
+	color: var(--palettePrimaryMain);
+	border-color: var(--palettePrimaryMain);
+}
+
+x-button button.x-button-outlined:hover:not(:disabled),
+x-button x-link.x-button-outlined:hover:not(:disabled) {
+	background-color: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 30%,
+		transparent
+	);
+	color: var(--palettePrimaryMain);
+}
+
+x-button button.x-button-text,
+x-button x-link.x-button-text {
+	background-color: transparent;
+	color: var(--palettePrimaryMain);
+	border-color: transparent;
+}
+
+x-button button.x-button-text:hover:not(:disabled),
+x-button x-link.x-button-text:hover:not(:disabled) {
+	background-color: color-mix(
+		in srgb,
+		var(--palettePrimaryMain) 20%,
+		transparent
+	);
+}
+
+/* Button Sizes */
+x-button button.x-button-small,
+x-button x-link.x-button-small {
+	padding: 0.125rem 0.5rem; /* 2px top/bottom, 8px left/right */
+	font-size: 0.75rem;
+	min-height: 1.25rem; /* 20px - smaller than before */
+}
+
+x-button button.x-button-medium,
+x-button x-link.x-button-medium {
+	padding: 0.25rem 0.75rem; /* 4px top/bottom, 12px left/right for shorter height */
+	font-size: 0.875rem;
+	min-height: 1.5rem; /* 24px - shorter than current 32px */
+}
+
+x-button button.x-button-large,
+x-button x-link.x-button-large {
+	padding: 0.375rem 1rem; /* 6px top/bottom, 16px left/right */
+	font-size: 1rem;
+	min-height: 1.875rem; /* 30px - smaller than before */
+}
+
+/* Full Width Button */
+x-button button.x-button-fullwidth,
+x-button x-link.x-button-fullwidth {
+	width: 100%;
+	justify-content: center;
+}
+
+/* Ripple effect */
+x-button button::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.3);
+	transform: translate(-50%, -50%);
+	transition:
+		width 0.6s,
+		height 0.6s;
+}
+
+x-button button:active::before {
+	width: 300px;
+	height: 300px;
+}
+
+/* Button Icon */
+x-button .button-icon {
+	font-size: 1.25rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 8px;
+	flex-shrink: 0;
+}
+
+/* Icon-only buttons - center the icon perfectly */
+x-button button.x-button-icon-only {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+
+x-button button.x-button-icon-only .button-icon {
+	margin: 0;
+}
+
+x-button[iconPosition='right'] .button-icon {
+	margin-right: 0;
+	margin-left: 8px;
+}
+
+x-button[iconPosition='right'] button {
+	flex-direction: row-reverse;
+}
+
+x-button .button-icon.fa-spin {
+	animation: fa-spin 1s infinite linear;
+}
+
+/* Menu button variant for layout menus */
+x-button.menu button,
+x-button.menu x-link {
+	background: transparent;
+	color: var(--palettePrimaryContrast);
+	border: none;
+	padding: 0.5625rem 0.6875rem; /* 9px 11px to match original */
+	justify-content: flex-start;
+	text-transform: uppercase;
+	font-weight: 500;
+	min-width: auto;
+	width: 100%;
+	border-radius: 8px;
+	gap: 0.75rem; /* 12px to match original */
+	text-decoration: none !important; /* Force remove link underline */
+}
+
+x-button.menu button:hover,
+x-button.menu x-link:hover {
+	background: rgba(255, 255, 255, 0.05);
+	text-decoration: none !important; /* Force remove link underline on hover */
+}
+
+x-button.menu button:active,
+x-button.menu x-link:active {
+	background: rgba(255, 255, 255, 0.1);
+	text-decoration: none !important; /* Force remove link underline on active */
+}
+
+x-button.menu.active button,
+x-button.menu.active x-link {
+	background: rgba(255, 255, 255, 0.1);
+	text-decoration: none !important; /* Force remove link underline on active */
+}
+
+x-button.menu .button-icon {
+	font-size: 1.125rem; /* 18px to match original */
+	margin-right: 0;
+	opacity: 0.7;
+}
+
+x-button.menu button:hover .button-icon,
+x-button.menu x-link:hover .button-icon {
+	opacity: 0.7; /* Keep same opacity on hover */
+}
+
+x-button.menu.active .button-icon {
+	opacity: 1; /* Full opacity only on active */
+}
+
+/* Override any x-link underline styling for menu buttons */
+x-button.menu x-link {
+	text-decoration: none !important;
+}
+
+x-button.menu x-link:hover {
+	text-decoration: none !important;
+}
+
+x-button.menu x-link:visited {
+	text-decoration: none !important;
+}
+
+@keyframes fa-spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* x-table component styles */
+x-table {
+	display: contents;
+}
