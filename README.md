@@ -275,11 +275,9 @@ npm install
 # Build the framework
 npm run build
 
-# Watch mode for development
+# Development watch mode (see /test/index.html)
 npm run dev
 
-# Just serve the test app
-npm run dev:test
 ```
 
 ## License

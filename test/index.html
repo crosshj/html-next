@@ -8,14 +8,14 @@
 		/>
 		<title>HTMLNext Test</title>
 		<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-		<!-- <link
-			rel="stylesheet"
-			href="./dist/htmlNext.css"
-		/> -->
 		<link
 			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.css"
+			href="./dist/htmlNext.css"
 		/>
+		<!-- <link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.css"
+		/> -->
 		<link
 			rel="stylesheet"
 			href="./index.css"
@@ -29,14 +29,15 @@
 		<x-fragment contents="global_appContent" showLoading="false"></x-fragment>
 
 		<script type="module">
-			// import { initializeFramework, setState } from './dist/htmlNext.js';
-			import { initializeFramework, setState } from 'https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.js';
+			import { initializeFramework, setState } from './dist/htmlNext.js';
+			// import { initializeFramework, setState } from 'https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.js';
 			initializeFramework();
 
 			const pages = [
 				{ label: 'Dashboard', href: '/dashboard' },
 				{ label: 'Users', href: '/users' },
 				{ label: 'Settings', href: '/settings' },
+				{ label: 'Features', href: '/features' },
 			];
 
 			setState('menuItems', pages);
