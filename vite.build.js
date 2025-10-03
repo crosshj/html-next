@@ -29,7 +29,7 @@ export const moduleBuild = {
 			},
 		},
 		cssCodeSplit: false,
-		sourcemap: true,
+		sourcemap: false,
 		assetsDir: '',
 		rollupOptions: {
 			external: [],
@@ -45,6 +45,22 @@ export const moduleBuild = {
 		},
 	},
 	plugins: [
+		{
+			name: 'generate-types',
+			async closeBundle() {
+				// Copy TypeScript definitions to dist folder
+				const srcTypesPath = resolve(__dirname, 'src/index.d.ts');
+				const distTypesPath = resolve(__dirname, 'dist/htmlNext.d.ts');
+				
+				if (existsSync(srcTypesPath)) {
+					const typesContent = readFileSync(srcTypesPath, 'utf8');
+					writeFileSync(distTypesPath, typesContent);
+					console.log('✅ TypeScript definitions copied to dist/htmlNext.d.ts');
+				} else {
+					console.warn('⚠️  TypeScript definitions not found at src/index.d.ts');
+				}
+			},
+		},
 		{
 			name: 'minify-es-module',
 			async closeBundle() {
