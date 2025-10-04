@@ -206,6 +206,13 @@ export class BaseUIComponent extends HTMLElement {
 
 		// Apply spacing transformation for spacing-related properties
 		const spacingProperties = [
+			'gap',
+			'flex-gap',
+			'row-gap',
+			'column-gap',
+			'grid-row-gap',
+			'grid-column-gap',
+			'grid-gap',
 			'margin',
 			'padding',
 			'top',

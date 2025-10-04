@@ -1489,7 +1489,9 @@
 					<x-box class="categories-grid">
 						<x-box
 							class="category-card"
-							sx:background="linear-gradient(135deg, #fffbf0 0%, #fef3c7 100%)"
+							sx:--grad1="orange100"
+							sx:--grad2="amber200"
+							sx:background="linear-gradient(135deg, var(--grad1) 0%, var(--grad2) 100%)"
 						>
 							<x-box
 								class="category-icon"
@@ -1519,7 +1521,9 @@
 
 						<x-box
 							class="category-card"
-							sx:background="linear-gradient(135deg, #f0fdfa 0%, #dcfce7 100%)"
+							sx:--grad1="teal100"
+							sx:--grad2="green200"
+							sx:background="linear-gradient(135deg, var(--grad1) 0%, var(--grad2) 100%)"
 						>
 							<x-box
 								class="category-icon"
@@ -2132,7 +2136,7 @@
 						<x-box class="activity-item">
 							<x-box
 								class="activity-icon"
-								sx:background-color="brown500"
+								sx:background-color="indigo500"
 							>
 								<x-icon
 									icon="fa-bed"
