@@ -17,12 +17,6 @@
 			- **Type Safety**: Consistent camelCase attribute naming
 			- **Error Handling**: Graceful fallback for malformed JSON data
 
-			## Usage
-
-			```html
-			<x-data name="myData" defaultValue='{"key": "value"}'></x-data>
-			```
-
 			## Attributes
 
 			| Attribute | Type | Required | Description |
@@ -30,6 +24,12 @@
 			| `name` | string | Yes | Unique identifier for the data source |
 			| `defaultValue` | string | No | JSON string containing the initial data |
 			| `route` | string | No | Route pattern for dynamic data loading |
+
+			## Usage
+
+			```html
+			<x-data name="myData" defaultValue='{"key": "value"}'></x-data>
+			```
 
 			## How It Works
 

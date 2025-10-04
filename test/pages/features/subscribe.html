@@ -17,19 +17,19 @@
 			- **Performance**: Efficient subscription management with minimal overhead
 			- **Error Handling**: Graceful handling of missing or invalid paths
 
-			## Usage
-
-			```html
-			<x-subscribe path="global_userName" handler="userNameChanged"></x-subscribe>
-			<x-subscribe path="pathData" handler="pathChange"></x-subscribe>
-			```
-
 			## Attributes
 
 			| Attribute | Type | Required | Description |
 			|-----------|------|----------|-------------|
 			| `path` | string | Yes | State path to subscribe to |
 			| `handler` | string | Yes | Flow key to trigger when data changes |
+
+			## Usage
+
+			```html
+			<x-subscribe path="global_userName" handler="userNameChanged"></x-subscribe>
+			<x-subscribe path="pathData" handler="pathChange"></x-subscribe>
+			```
 
 			## Basic Examples
 

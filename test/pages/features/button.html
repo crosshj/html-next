@@ -18,6 +18,19 @@
 			- **Custom Styling**: Full support for the `sx:` attribute system
 			- **Theme Integration**: Consistent with the design system
 
+			## Attributes
+
+			| Attribute | Type | Required | Default | Description |
+			|-----------|------|----------|---------|-------------|
+			| `variant` | string | No | `primary` | Button style: `primary`, `secondary`, `outlined`, `text` |
+			| `size` | string | No | `medium` | Button size: `small`, `medium`, `large` |
+			| `label` | string | No | - | Button text content |
+			| `icon` | string | No | - | Font Awesome icon name in PascalCase |
+			| `iconPosition` | string | No | `left` | Icon position: `left`, `right` |
+			| `href` | string | No | - | URL or path for navigation (makes button act as link) |
+			| `disabled` | boolean | No | `false` | Whether the button is disabled |
+			| `loading` | boolean | No | `false` | Whether the button shows loading state |
+
 			## Usage
 
 			```html
@@ -67,6 +80,38 @@
 				<x-button variant="primary" href="/features" label="Go to Features"></x-button>
 				<x-button variant="outlined" href="/home" icon="Home" label="Home"></x-button>
 			</x-box>
+
+			## Using Buttons as Links
+
+			The `href` attribute allows buttons to function as navigation links:
+
+			### Basic Link Button
+			```html
+			<x-button href="/dashboard" label="Go to Dashboard"></x-button>
+			```
+
+			### Link Button with Icon
+			```html
+			<x-button href="/settings" icon="Settings" label="Settings"></x-button>
+			```
+
+			### External Links
+			```html
+			<x-button href="https://example.com" label="External Site"></x-button>
+			```
+
+			### Styled Link Buttons
+			```html
+			<x-button 
+				href="/profile" 
+				variant="outlined" 
+				icon="User" 
+				label="View Profile"
+				sx:color="var(--palettePrimaryMain)"
+			></x-button>
+			```
+
+			**Note**: When using `href`, the button automatically handles navigation and state management, making it perfect for navigation menus, call-to-action buttons, and interactive links.
 		</x-markdown>
 	</x-content>
 </x-page>

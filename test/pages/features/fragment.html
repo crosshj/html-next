@@ -18,6 +18,13 @@
 			- **Error Handling**: Graceful handling of missing or invalid content
 			- **Lifecycle Management**: Proper cleanup of subscriptions when component is removed
 
+			## Attributes
+
+			| Attribute | Type | Required | Default | Description |
+			|-----------|------|----------|---------|-------------|
+			| `contents` | string | Yes | - | State path to subscribe to (with or without `global_` prefix) |
+			| `showLoading` | boolean | No | `true` | Whether to show loading spinner when content is empty |
+
 			## Usage
 
 			```html
@@ -25,13 +32,6 @@
 			<x-fragment contents="userProfile" showLoading="false"></x-fragment>
 			<x-fragment contents="global_dashboardData"></x-fragment>
 			```
-
-			## Attributes
-
-			| Attribute | Type | Required | Default | Description |
-			|-----------|------|----------|---------|-------------|
-			| `contents` | string | Yes | - | State path to subscribe to (with or without `global_` prefix) |
-			| `showLoading` | boolean | No | `true` | Whether to show loading spinner when content is empty |
 
 			## Content Types
 

@@ -16,8 +16,6 @@
 	<x-content>
 		<!-- prettier-ignore -->
 		<x-markdown>
-			## Overview
-
 			The `VizBar` component provides a simple bar chart visualization for displaying data arrays. It automatically scales bars based on the maximum value and renders each data point as a vertical bar with labels and values.
 
 			## Features
@@ -28,11 +26,12 @@
 			- **Label Support**: Displays labels for each data point
 			- **Error Handling**: Graceful handling of missing or invalid data
 
-			## Usage
+			## Attributes
 
-			```html
-			<x-viz-bar data="global_salesData"></x-viz-bar>
-			```
+			| Attribute | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `data` | string | Yes | State path to the data array |
+			| `color` | string | No | Base color for the bar chart (hex, rgb, or CSS custom property) |
 
 			## Data Format
 
@@ -46,44 +45,26 @@
 			]
 			```
 
-			## Live Example
+			## Default Usage
+
+			```html
+			<x-viz-bar data="global_salesData"></x-viz-bar>
+			```
 
 			<x-box sx:width="100%" sx:height="300px">
 				<x-viz-bar data="global_salesData"></x-viz-bar>
 			</x-box>
 
-			## Attributes
+			## Custom Color
 
-			| Attribute | Type | Required | Description |
-			|-----------|------|----------|-------------|
-			| `data` | string | Yes | State path to the data array |
+			```html
+			<x-viz-bar data="global_salesData" color="#ff6b6b"></x-viz-bar>
+			```
 
-			## How It Works
+			<x-box sx:width="100%" sx:height="300px">
+				<x-viz-bar data="global_salesData" color="#ff6b6b"></x-viz-bar>
+			</x-box>
 
-			### Data Processing
-			1. **Data Retrieval**: Gets data from state using the `data` attribute path
-			2. **Validation**: Checks if data is an array and has valid structure
-			3. **Scaling**: Finds maximum value and calculates scaling factor
-			4. **Rendering**: Creates HTML structure for each bar with proportional heights
-
-			### Bar Rendering
-			1. **Height Calculation**: Calculates bar height as percentage of maximum value
-			2. **Value Display**: Shows actual value on each bar
-			3. **Label Display**: Shows label below each bar
-			4. **Styling**: Applies consistent styling to all bars
-
-			### State Subscription
-			1. **Automatic Subscription**: Subscribes to data path for changes
-			2. **Re-rendering**: Automatically re-renders when data changes
-			3. **Cleanup**: Unsubscribes when component is disconnected
-			4. **Performance**: Only re-renders when the specific data path changes
-
-			## Common Use Cases
-
-			- **Sales Dashboards**: Monthly, quarterly, and yearly sales performance
-			- **Website Analytics**: Page views, user sessions, and traffic patterns
-			- **Performance Metrics**: KPIs, goals, and achievement tracking
-			- **Survey Results**: Response rates and answer distributions
 		</x-markdown>
 	</x-content>
 </x-page>

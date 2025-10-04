@@ -18,6 +18,13 @@
 			- **Style Support**: Full support for `sx:` styling attributes
 			- **Underline Control**: Configurable text decoration
 
+			## Attributes
+
+			| Attribute | Type | Required | Default | Description |
+			|-----------|------|----------|---------|-------------|
+			| `href` | string | Yes | - | URL or path to navigate to |
+			| `underline` | boolean | No | `true` | Whether to show underline decoration |
+
 			## Usage
 
 			```html
@@ -25,13 +32,6 @@
 			<x-link href="/profile" underline="false">Profile</x-link>
 			<x-link href="/settings" sx:color="var(--palettePrimaryMain)">Settings</x-link>
 			```
-
-			## Attributes
-
-			| Attribute | Type | Required | Default | Description |
-			|-----------|------|----------|---------|-------------|
-			| `href` | string | Yes | - | URL or path to navigate to |
-			| `underline` | boolean | No | `true` | Whether to show underline decoration |
 
 			## Basic Links
 
@@ -58,30 +58,6 @@
 			<x-link href="/contact" sx:color="var(--paletteTextPrimary)">Contact</x-link>
 			```
 			**Description**: Links with custom colors using theme variables.
-
-			## Button Integration
-
-			### Button-style Links
-			```html
-			<x-button variant="primary">
-				<x-link href="/dashboard" underline="false">Dashboard</x-link>
-			</x-button>
-			<x-button variant="secondary">
-				<x-link href="/settings" underline="false">Settings</x-link>
-			</x-button>
-			```
-			**Description**: Links styled as buttons with appropriate button styling.
-
-			### Navigation Buttons
-			```html
-			<x-button variant="outlined">
-				<x-link href="/back" underline="false">← Back</x-link>
-			</x-button>
-			<x-button variant="text">
-				<x-link href="/next" underline="false">Next →</x-link>
-			</x-button>
-			```
-			**Description**: Navigation buttons with arrow indicators.
 
 			## Breadcrumbs
 
