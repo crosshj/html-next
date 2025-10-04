@@ -134,6 +134,11 @@
 	justify-content: center;
 }
 
+/* Fix button overflow for circular buttons */
+x-button.navbar-button button {
+	height: 100%;
+}
+
 /* Two-column grid */
 .two-column-grid {
 	display: grid;
