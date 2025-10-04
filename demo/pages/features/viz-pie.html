@@ -31,6 +31,7 @@
 			|-----------|------|----------|-------------|
 			| `data` | string | Yes | State path to the data array |
 			| `color` | string | No | Base color for the pie chart (hex, rgb, or CSS custom property) |
+			| `variant` | string | No | Chart variant: default (full pie) or "dial-full" (donut with hollow center) |
 
 			## Data Format
 
@@ -64,6 +65,16 @@
 
 			<x-box sx:width="400px" sx:height="300px">
 				<x-viz-pie data="global_deviceUsage" color="#ff6b6b"></x-viz-pie>
+			</x-box>
+
+			## Dial-Full Variant (Donut Chart)
+
+			```html
+			<x-viz-pie data="global_deviceUsage" variant="dial-full" color="#059669"></x-viz-pie>
+			```
+
+			<x-box sx:width="400px" sx:height="300px">
+				<x-viz-pie data="global_deviceUsage" variant="dial-full" color="#059669"></x-viz-pie>
 			</x-box>
 
 		</x-markdown>

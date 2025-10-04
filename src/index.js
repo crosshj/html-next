@@ -23,3 +23,4 @@ import './framework.css';
 import './components/XMarkdown.css';
 import './components/XVizBar.css';
 import './components/XVizPie.css';
+import './components/XVizLine.css';

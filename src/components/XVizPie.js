@@ -53,7 +53,12 @@ export class XVizPie extends BaseUIComponent {
 			this.getAttribute('color') || 'var(--palettePrimaryMain, #1976d2)';
 		this.style.setProperty('--pie-base-color', baseColor);
 
+		// Check if this is a dial-full variant
+		const variant = this.getAttribute('variant');
+		const isDialFull = variant === 'dial-full';
+
 		const radius = 98;
+		const innerRadius = isDialFull ? 60 : 0; // Hollow center for dial-full
 		const centerX = 100;
 		const centerY = 100;
 		let currentAngle = 0;
@@ -78,12 +83,34 @@ export class XVizPie extends BaseUIComponent {
 
 			const largeArcFlag = angle > 180 ? 1 : 0;
 
-			const pathData = [
-				`M ${centerX} ${centerY}`,
-				`L ${startX} ${startY}`,
-				`A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`,
-				'Z',
-			].join(' ');
+			let pathData;
+			if (isDialFull) {
+				// Create donut arc path with inner and outer radius
+				const startInnerX =
+					centerX + innerRadius * Math.cos(((currentAngle - 90) * Math.PI) / 180);
+				const startInnerY =
+					centerY + innerRadius * Math.sin(((currentAngle - 90) * Math.PI) / 180);
+				const endInnerX =
+					centerX + innerRadius * Math.cos(((endAngle - 90) * Math.PI) / 180);
+				const endInnerY =
+					centerY + innerRadius * Math.sin(((endAngle - 90) * Math.PI) / 180);
+
+				pathData = [
+					`M ${startX} ${startY}`,
+					`A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`,
+					`L ${endInnerX} ${endInnerY}`,
+					`A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${startInnerX} ${startInnerY}`,
+					'Z',
+				].join(' ');
+			} else {
+				// Original pie slice path
+				pathData = [
+					`M ${centerX} ${centerY}`,
+					`L ${startX} ${startY}`,
+					`A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`,
+					'Z',
+				].join(' ');
+			}
 
 			svgContent += `
 				<path 

@@ -1,0 +1,85 @@
+<x-page>
+	<!-- Data for the line chart -->
+	<x-data
+		name="weeklyTraffic"
+		defaultValue='[
+			{ "label": "Mon", "value": 1200 },
+			{ "label": "Tue", "value": 1900 },
+			{ "label": "Wed", "value": 3000 },
+			{ "label": "Thu", "value": 5000 },
+			{ "label": "Fri", "value": 3000 },
+			{ "label": "Sat", "value": 2000 },
+			{ "label": "Sun", "value": 1500 }
+		]'
+	></x-data>
+
+	<x-navbar> </x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			The `VizLine` component provides a simple line chart visualization for displaying data arrays. It automatically scales points based on the maximum value and renders each data point as a connected line with labels and values, perfect for showing trends over time.
+
+			## Features
+
+			- **Automatic Scaling**: Points are automatically scaled based on the maximum value
+			- **Data Subscription**: Automatically updates when data changes
+			- **Value Display**: Shows actual values at each data point
+			- **Label Support**: Displays labels for each data point
+			- **Trend Visualization**: Connected line shows data trends clearly
+			- **Error Handling**: Graceful handling of missing or invalid data
+
+			## Attributes
+
+			| Attribute | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `data` | string | Yes | State path to the data array |
+			| `color` | string | No | Base color for the line chart (hex, rgb, or CSS custom property) |
+			| `variant` | string | No | Chart variant: default (straight lines) or "smooth" (curved lines) |
+
+			## Data Format
+
+			The component expects an array of objects with `label` and `value` properties:
+
+			```javascript
+			[
+				{ label: "Mon", value: 1200 },
+				{ label: "Tue", value: 1900 },
+				{ label: "Wed", value: 3000 },
+				{ label: "Thu", value: 5000 }
+			]
+			```
+
+			## Default Usage
+
+			```html
+			<x-viz-line data="global_weeklyTraffic"></x-viz-line>
+			```
+
+			<x-box sx:width="100%" sx:height="300px">
+				<x-viz-line data="global_weeklyTraffic"></x-viz-line>
+			</x-box>
+
+			## Custom Color
+
+			```html
+			<x-viz-line data="global_weeklyTraffic" color="#ff6b6b"></x-viz-line>
+			```
+
+			<x-box sx:width="100%" sx:height="300px">
+				<x-viz-line data="global_weeklyTraffic" color="#ff6b6b"></x-viz-line>
+			</x-box>
+
+			## Smooth Variant (Curved Lines)
+
+			```html
+			<x-viz-line data="global_weeklyTraffic" variant="smooth" color="#059669"></x-viz-line>
+			```
+
+			<x-box sx:width="100%" sx:height="300px">
+				<x-viz-line data="global_weeklyTraffic" variant="smooth" color="#059669"></x-viz-line>
+			</x-box>
+
+		</x-markdown>
+	</x-content>
+</x-page>

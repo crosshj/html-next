@@ -1,0 +1,138 @@
+/* x-viz-line component styles */
+x-viz-line {
+	display: block;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	--line-base-color: var(--palettePrimaryMain, #1976d2);
+}
+
+x-viz-line * {
+	box-sizing: border-box;
+}
+
+x-viz-line .viz-line-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+x-viz-line .viz-svg {
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+x-viz-line .viz-line {
+	stroke: var(--line-base-color);
+	stroke-width: 2;
+	fill: none;
+	transition: stroke 0.2s ease;
+}
+
+x-viz-line .viz-line:hover {
+	stroke: color-mix(in srgb, var(--line-base-color) 80%, black);
+}
+
+x-viz-line .viz-point {
+	fill: var(--line-base-color);
+	stroke: var(--paletteBackgroundPaper, #ffffff);
+	stroke-width: 2;
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+x-viz-line .viz-point-group:hover .viz-point {
+	fill: color-mix(in srgb, var(--line-base-color) 80%, black);
+	r: 6;
+}
+
+x-viz-line .viz-label-text {
+	font-family: var(
+		--font-family,
+		'Inter',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Helvetica Neue',
+		Arial,
+		sans-serif
+	);
+	font-size: 12px;
+	fill: var(--paletteTextSecondary, #666);
+	text-anchor: middle;
+}
+
+x-viz-line .viz-y-axis-text {
+	font-family: var(
+		--font-family,
+		'Inter',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Helvetica Neue',
+		Arial,
+		sans-serif
+	);
+	font-size: 11px;
+	fill: var(--paletteTextSecondary, #666);
+	text-anchor: end;
+}
+
+x-viz-line .viz-y-axis-tick {
+	stroke: var(--paletteDivider, #e0e0e0);
+	stroke-width: 1;
+}
+
+x-viz-line .viz-value-text {
+	font-family: var(
+		--font-family,
+		'Inter',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Helvetica Neue',
+		Arial,
+		sans-serif
+	);
+	font-size: 11px;
+	font-weight: 500;
+	fill: var(--paletteTextPrimary, #333);
+	text-anchor: middle;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+	pointer-events: none;
+	paint-order: stroke fill;
+	stroke: var(--paletteBackgroundPaper, #ffffff);
+	stroke-width: 3px;
+	stroke-linejoin: round;
+}
+
+x-viz-line .viz-point-group:hover .viz-value-text {
+	opacity: 1;
+}
+
+x-viz-line .viz-error {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: var(--paletteErrorMain, #d32f2f);
+	font-family: var(
+		--font-family,
+		'Inter',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Helvetica Neue',
+		Arial,
+		sans-serif
+	);
+}

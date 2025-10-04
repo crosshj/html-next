@@ -26,6 +26,7 @@ import { XFragment } from './components/XFragment.js';
 import { XInclude } from './components/XInclude.js';
 import { XVizBar } from './components/XVizBar.js';
 import { XVizPie } from './components/XVizPie.js';
+import { XVizLine } from './components/XVizLine.js';
 import { XMarkdown } from './components/XMarkdown.js';
 import { XTable } from './components/XTable.js';
 import { cleanServerHTML } from './framework.utils.js';
@@ -49,6 +50,7 @@ function registerFrameworkComponents() {
 		{ name: 'x-fragment', class: XFragment },
 		{ name: 'x-viz-bar', class: XVizBar },
 		{ name: 'x-viz-pie', class: XVizPie },
+		{ name: 'x-viz-line', class: XVizLine },
 		{ name: 'x-markdown', class: XMarkdown },
 		{ name: 'x-table', class: XTable },
 	];

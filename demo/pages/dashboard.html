@@ -509,10 +509,10 @@
 						sx:gap="1rem"
 					>
 						<x-typography variant="h4">Monthly Revenue</x-typography>
-						<x-viz-bar
+						<x-viz-line
 							data="global_monthlyRevenue"
 							color="#3b82f6"
-						></x-viz-bar>
+						></x-viz-line>
 					</x-box>
 
 					<!-- Device Usage Pie Chart -->
@@ -531,6 +531,7 @@
 						<x-viz-pie
 							data="global_deviceUsage"
 							color="#059669"
+							variant="dial-full"
 						></x-viz-pie>
 					</x-box>
 
@@ -553,7 +554,7 @@
 						></x-viz-pie>
 					</x-box>
 
-					<!-- Weekly Traffic Bar Chart -->
+					<!-- Weekly Traffic Line Chart -->
 					<x-box
 						class="dashboard-chart-card"
 						sx:padding="1.5rem"
@@ -566,10 +567,11 @@
 						sx:gap="1rem"
 					>
 						<x-typography variant="h4">Weekly Traffic</x-typography>
-						<x-viz-bar
+						<x-viz-line
 							data="global_weeklyTraffic"
 							color="#7c3aed"
-						></x-viz-bar>
+							variant="smooth"
+						></x-viz-line>
 					</x-box>
 
 					<!-- User Growth Bar Chart -->
