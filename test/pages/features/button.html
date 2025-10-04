@@ -1,4 +1,14 @@
 <x-page>
+	<x-data
+		name="count"
+		defaultValue="1"
+	></x-data>
+	<!-- prettier-ignore -->
+	<x-flow key="incrementCount">
+		const current = state.count || 0;
+		SetState('count', current + 1);
+	</x-flow>
+
 	<x-navbar> </x-navbar>
 
 	<x-content>
@@ -26,8 +36,10 @@
 			| `icon` | string | No | - | Font Awesome icon name in PascalCase |
 			| `iconPosition` | string | No | `left` | Icon position: `left`, `right` |
 			| `href` | string | No | - | URL or path for navigation (makes button act as link) |
+			| `handler` | string | No | - | Flow key to trigger when button is clicked |
 			| `disabled` | boolean | No | `false` | Whether the button is disabled |
 			| `loading` | boolean | No | `false` | Whether the button shows loading state |
+			| `fullWidth` | boolean | No | `false` | Whether the button takes full width |
 
 			## Usage
 
@@ -110,6 +122,28 @@
 			```
 
 			**Note**: When using `href`, the button automatically handles navigation and state management, making it perfect for navigation menus, call-to-action buttons, and interactive links.
+
+			## Triggering Flows with Buttons
+
+			Buttons can trigger flows using the `handler` attribute:
+
+			```html
+			<!-- Data source -->
+			<x-data name="count" defaultValue="1"></x-data>
+
+			<!-- Flow definition -->
+			<x-flow key="incrementCount">
+				const current = state.count;
+				SetState('count', current + 1);
+			</x-flow>
+
+			Current count: <x-fragment contents="global_count"></x-fragment>
+			<x-button handler="increment" label="Increment Counter"></x-button>
+			```
+
+			### Live Example
+			Current count: <x-fragment contents="global_count"></x-fragment>
+			<x-button handler="incrementCount" label="Increment Count"></x-button>
 		</x-markdown>
 	</x-content>
 </x-page>

@@ -1,5 +1,5 @@
 import { BaseUIComponent } from './BaseUIComponent.js';
-import { Navigate } from '../framework.core.js';
+import { Navigate, frameworkCore } from '../framework.core.js';
 
 // Define x-button web component
 export class XButton extends BaseUIComponent {
@@ -13,6 +13,7 @@ export class XButton extends BaseUIComponent {
 
 		const label = this.getAttribute('label');
 		const href = this.getAttribute('href');
+		const handler = this.getAttribute('handler');
 		const icon = this.getAttribute('icon');
 		const iconPosition = this.getAttribute('iconPosition') || 'left';
 		const variant = this.getAttribute('variant') || 'primary';
@@ -61,6 +62,18 @@ export class XButton extends BaseUIComponent {
 			button.addEventListener('click', (e) => {
 				e.preventDefault();
 				Navigate(href);
+			});
+		}
+
+		// Add click handler for flow execution if handler is provided
+		if (handler && !disabled && !loading) {
+			button.addEventListener('click', (e) => {
+				e.preventDefault();
+				// Trigger the flow using the framework core
+				frameworkCore.triggerFlow(handler, {
+					triggeredBy: 'button',
+					element: this,
+				});
 			});
 		}
 
