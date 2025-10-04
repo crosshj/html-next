@@ -73,7 +73,7 @@
 					<x-typography variant="h6">User List</x-typography>
 				</x-box>
 				<x-map items="global_userList">
-					<x-box sx:display="grid" sx:grid-LTemplateColumns="1fr 1fr 1fr" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)" sx:gap="2">
+					<x-box sx:display="grid" sx:grid-template-columns="1fr 1fr 1fr" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)" sx:gap="2">
 						<x-typography>{{item.name}}</x-typography>
 						<x-typography>{{item.email}}</x-typography>
 						<x-typography>{{item.role}}</x-typography>
@@ -90,7 +90,7 @@
 					<x-typography variant="h6">Product Inventory</x-typography>
 				</x-box>
 				<x-map items="global_productList">
-					<x-box sx:display="grid" sx:grid-LTemplateColumns="2fr 1fr 1fr 1fr" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)" sx:gap="2" sx:background="WHEN index % 2 === 0 THEN var(--paletteBackgroundPaper) ELSE transparent">
+					<x-box sx:display="grid" sx:grid-template-columns="2fr 1fr 1fr 1fr" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)" sx:gap="2" sx:background="WHEN index % 2 === 0 THEN var(--paletteBackgroundPaper) ELSE transparent">
 						<x-typography variant="strong">{{item.name}}</x-typography>
 						<x-typography>{{item.category}}</x-typography>
 						<x-typography>{{item.price}}</x-typography>
@@ -182,7 +182,7 @@
 
 			### Empty List Handling
 			```html
-			<x-box sx:display="WHEN global_userList.length > 0 THEN none ELSE flex" sx:flex-LDirection="column" sx:align-items="center" sx:padding="4" sx:color="var(--paletteTextSecondary)">
+			<x-box sx:display="WHEN global_userList.length > 0 THEN none ELSE flex" sx:flex-direction="column" sx:align-items="center" sx:padding="4" sx:color="var(--paletteTextSecondary)">
 				<x-icon icon="User" size="large" sx:color="var(--paletteTextDisabled)"></x-icon>
 				<x-typography variant="h6">No users found</x-typography>
 				<x-typography>Add some users to get started</x-typography>
