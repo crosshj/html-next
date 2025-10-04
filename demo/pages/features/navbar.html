@@ -50,7 +50,7 @@
 			### Multiple Actions
 			```html
 			<x-navbar>
-				<x-box sx:display="flex" sx:gap="2" sx:alignItems="center">
+				<x-box sx:display="flex" sx:gap="2" sx:align-items="center">
 					<x-button variant="text" size="small">Help</x-button>
 					<x-button variant="outlined" size="small">Settings</x-button>
 					<x-button variant="primary" size="small">Save</x-button>
@@ -105,8 +105,8 @@
 
 			### Custom Styling
 			```html
-			<x-navbar sx:background="var(--paletteBackgroundPaper)" sx:borderBottom="2px solid var(--palettePrimaryMain)" sx:padding="2">
-				<x-box sx:display="flex" sx:gap="2" sx:alignItems="center">
+			<x-navbar sx:background="var(--paletteBackgroundPaper)" sx:border-bottom="2px solid var(--palettePrimaryMain)" sx:padding="2">
+				<x-box sx:display="flex" sx:gap="2" sx:align-items="center">
 					<x-icon icon="Settings" size="small"></x-icon>
 					<x-typography variant="body2">Admin Panel</x-typography>
 				</x-box>
@@ -117,7 +117,7 @@
 			### Responsive Navbar
 			```html
 			<x-navbar sx:padding="WHEN screen.width < 768 THEN 1 ELSE 2">
-				<x-box sx:display="flex" sx:gap="2" sx:alignItems="center" sx:flexWrap="wrap">
+				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:flexWrap="wrap">
 					<x-button variant="text" size="small">Menu</x-button>
 					<x-button variant="outlined" size="small">Settings</x-button>
 					<x-button variant="primary" size="small">Save</x-button>
@@ -131,7 +131,7 @@
 			### Icon Content
 			```html
 			<x-navbar>
-				<x-box sx:display="flex" sx:gap="2" sx:alignItems="center">
+				<x-box sx:display="flex" sx:gap="2" sx:align-items="center">
 					<x-icon icon="User" size="small"></x-icon>
 					<x-typography variant="body2">John Doe</x-typography>
 				</x-box>
@@ -142,7 +142,7 @@
 			### Status Indicators
 			```html
 			<x-navbar>
-				<x-box sx:display="flex" sx:gap="2" sx:alignItems="center">
+				<x-box sx:display="flex" sx:gap="2" sx:align-items="center">
 					<x-icon icon="CheckCircle" size="small" color="var(--paletteSuccessMain)"></x-icon>
 					<x-typography variant="body2" sx:color="var(--paletteSuccessMain)">Online</x-typography>
 				</x-box>
@@ -153,7 +153,7 @@
 			### Breadcrumb Style
 			```html
 			<x-navbar>
-				<x-box sx:display="flex" sx:gap="1" sx:alignItems="center">
+				<x-box sx:display="flex" sx:gap="1" sx:align-items="center">
 					<x-link href="/" sx:color="var(--paletteTextSecondary)">Home</x-link>
 					<x-typography sx:color="var(--paletteTextSecondary)">/</x-typography>
 					<x-link href="/features" sx:color="var(--paletteTextSecondary)">Features</x-link>

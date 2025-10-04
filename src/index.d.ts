@@ -44,7 +44,6 @@ export class BaseUIComponent extends HTMLElement {
 		property: string,
 		value: string
 	): Record<string, string>;
-	fixCssPropertyName(property: string): string;
 }
 
 // Global declarations for browser environment

@@ -82,7 +82,7 @@
 
 			### Mobile-first Design
 			```html
-			<x-page sx:padding="WHEN screen.width < 768 THEN 2 ELSE 4" sx:maxWidth="1200px" sx:mx="auto">
+			<x-page sx:padding="WHEN screen.width < 768 THEN 2 ELSE 4" sx:max-width="1200px" sx:mx="auto">
 				<x-typography variant="h1">Responsive Page</x-typography>
 				<x-typography>This page adapts to different screen sizes.</x-typography>
 			</x-page>
@@ -91,13 +91,13 @@
 
 			### Flexible Layout
 			```html
-			<x-page sx:display="flex" sx:flexDirection="column" sx:minHeight="100vh">
+			<x-page sx:display="flex" sx:flex-direction="column" sx:min-height="100vh">
 				<x-box sx:flex="1" sx:padding="4">
 					<x-typography variant="h1">Flexible Page</x-typography>
 					<x-typography>This page uses flexbox for flexible layout.</x-typography>
 				</x-box>
-				<x-box sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:borderTop="1px solid var(--paletteDivider)">
-					<x-typography variant="body2" sx:textAlign="center">Footer Content</x-typography>
+				<x-box sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:border-top="1px solid var(--paletteDivider)">
+					<x-typography variant="body2" sx:text-align="center">Footer Content</x-typography>
 				</x-box>
 			</x-page>
 			```
@@ -119,7 +119,7 @@
 
 			### Page with Sidebar
 			```html
-			<x-page sx:display="flex" sx:minHeight="100vh">
+			<x-page sx:display="flex" sx:min-height="100vh">
 				<x-box sx:width="250px" sx:background="var(--paletteBackgroundPaper)" sx:borderRight="1px solid var(--paletteDivider)" sx:padding="2">
 					<x-typography variant="h6">Sidebar</x-typography>
 					<x-typography>Navigation items here</x-typography>

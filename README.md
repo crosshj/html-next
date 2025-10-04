@@ -45,7 +45,7 @@ Build interactive apps with custom elements and reactive state using web standar
                 <x-box
                     sx:display="flex"
                     sx:gap="1"
-                    sx:alignItems="center"
+                    sx:align-items="center"
                     sx:visibility="WHEN global_isVisible THEN visible ELSE hidden"
                 >
                     <x-typography variant="h3">Count: </x-typography>
@@ -84,7 +84,7 @@ Build interactive apps with custom elements and reactive state using web standar
 ```bash
 # clone this repo, then...
 npm install
-# Development watch mode (see /test/index.html)
+# Development watch mode (see /demo/index.html)
 npm run dev
 ```
 

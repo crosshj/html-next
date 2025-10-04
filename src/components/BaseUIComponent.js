@@ -104,8 +104,6 @@ export class BaseUIComponent extends HTMLElement {
 		const sxStyles = {};
 		this.originalAttributes.forEach((value, name) => {
 			if (name.startsWith('sx:')) {
-				// Debug for x-button
-
 				// Remove 'sx:' prefix and convert to CSS property
 				const cssProperty = name.substring(3);
 				const cssValue = parseConditionalValue(value, this.initialState);
@@ -120,7 +118,6 @@ export class BaseUIComponent extends HTMLElement {
 		});
 
 		// Apply the styles directly to the element
-
 		Object.entries(sxStyles).forEach(([property, value]) => {
 			// Convert string values to numbers for numeric CSS properties
 			const numericProperties = [
@@ -168,166 +165,52 @@ export class BaseUIComponent extends HTMLElement {
 			return val;
 		};
 
-		// Padding shorthand properties
-		if (property === 'p') {
-			expanded['padding'] = addMuiSpacing(value);
-		} else if (property === 'pt') {
-			expanded['padding-top'] = addMuiSpacing(value);
-		} else if (property === 'pb') {
-			expanded['padding-bottom'] = addMuiSpacing(value);
-		} else if (property === 'pl') {
-			expanded['padding-left'] = addMuiSpacing(value);
-		} else if (property === 'pr') {
-			expanded['padding-right'] = addMuiSpacing(value);
-		} else if (property === 'py') {
-			expanded['padding-block'] = addMuiSpacing(value);
-		} else if (property === 'px') {
-			expanded['padding-inline'] = addMuiSpacing(value);
-		}
-		// Margin shorthand properties
-		else if (property === 'm') {
-			expanded['margin'] = addMuiSpacing(value);
-		} else if (property === 'mt') {
-			expanded['margin-top'] = addMuiSpacing(value);
-		} else if (property === 'mb') {
-			expanded['margin-bottom'] = addMuiSpacing(value);
-		} else if (property === 'ml') {
-			expanded['margin-left'] = addMuiSpacing(value);
-		} else if (property === 'mr') {
-			expanded['margin-right'] = addMuiSpacing(value);
-		} else if (property === 'my') {
-			expanded['margin-block'] = addMuiSpacing(value);
-		} else if (property === 'mx') {
-			expanded['margin-inline'] = addMuiSpacing(value);
-		}
-		// Handle regular camelCase properties
-		else {
-			// Convert camelCase to kebab-case for CSS properties
-			let kebabProperty = property.replace(/([A-Z])/g, '-$1').toLowerCase();
-
-			// Fix specific CSS properties that need proper hyphenation
-			kebabProperty = this.fixCssPropertyName(kebabProperty);
-
-			// Don't apply MUI spacing to non-spacing properties
-			const nonSpacingProperties = [
-				'opacity',
-				'z-index',
-				'font-weight',
-				'line-height',
-			];
-			if (nonSpacingProperties.includes(kebabProperty)) {
-				expanded[kebabProperty] = value;
-			} else {
-				expanded[kebabProperty] = addMuiSpacing(value);
-			}
-		}
-
-		return expanded;
-	}
-
-	/**
-	 * Fix CSS property names that need special handling
-	 * @param {string} property - The kebab-case property name
-	 * @returns {string} - The corrected CSS property name
-	 */
-	fixCssPropertyName(property) {
-		const fixes = {
-			// CSS Grid properties
-			gridtemplatecolumns: 'grid-template-columns',
-			gridtemplaterows: 'grid-template-rows',
-			gridcolumn: 'grid-column',
-			gridrow: 'grid-row',
-			gridarea: 'grid-area',
-			gridgap: 'grid-gap',
-			gridcolumngap: 'grid-column-gap',
-			gridrowgap: 'grid-row-gap',
-
-			// Background properties
-			backgroundimage: 'background-image',
-			backgroundsize: 'background-size',
-			backgroundposition: 'background-position',
-			backgroundrepeat: 'background-repeat',
-			backgroundattachment: 'background-attachment',
-			backgroundcolor: 'background-color',
-
-			// Border properties
-			borderradius: 'border-radius',
-			borderwidth: 'border-width',
-			borderstyle: 'border-style',
-			bordercolor: 'border-color',
-			borderleft: 'border-left',
-			borderright: 'border-right',
-			borderbottom: 'border-bottom',
-			bordertop: 'border-top',
-
-			// Font properties
-			fontsize: 'font-size',
-			fontweight: 'font-weight',
-			fontfamily: 'font-family',
-			fontstyle: 'font-style',
-			lineheight: 'line-height',
-			letterspacing: 'letter-spacing',
-			textalign: 'text-align',
-			textdecoration: 'text-decoration',
-			texttransform: 'text-transform',
-
-			// Flexbox properties
-			flexdirection: 'flex-direction',
-			flexwrap: 'flex-wrap',
-			justifycontent: 'justify-content',
-			alignitems: 'align-items',
-			aligncontent: 'align-content',
-			alignself: 'align-self',
-			flexgrow: 'flex-grow',
-			flexshrink: 'flex-shrink',
-			flexbasis: 'flex-basis',
-
-			// Box model properties
-			boxsizing: 'box-sizing',
-			boxshadow: 'box-shadow',
-			overflowx: 'overflow-x',
-			overflowy: 'overflow-y',
-
-			// Position properties
-			zindex: 'z-index',
-			top: 'top',
-			right: 'right',
-			bottom: 'bottom',
-			left: 'left',
-
-			// Transform properties
-			transformorigin: 'transform-origin',
-			transformstyle: 'transform-style',
-			perspective: 'perspective',
-			perspectiveorigin: 'perspective-origin',
-			backfacevisibility: 'backface-visibility',
-
-			// Transition properties
-			transitionproperty: 'transition-property',
-			transitionduration: 'transition-duration',
-			transitiontimingfunction: 'transition-timing-function',
-			transitiondelay: 'transition-delay',
-
-			// Animation properties
-			animationname: 'animation-name',
-			animationduration: 'animation-duration',
-			animationtimingfunction: 'animation-timing-function',
-			animationdelay: 'animation-delay',
-			animationiterationcount: 'animation-iteration-count',
-			animationdirection: 'animation-direction',
-			animationfillmode: 'animation-fill-mode',
-			animationplaystate: 'animation-play-state',
-
-			// Filter properties
-			filter: 'filter',
-			backdropfilter: 'backdrop-filter',
-
-			// Outline properties
-			outlinewidth: 'outline-width',
-			outlinestyle: 'outline-style',
-			outlinecolor: 'outline-color',
+		// Step 1: Map shorthand/alias to kebab-case CSS property names
+		const shorthandMap = {
+			// Spacing shorthands
+			m: 'margin',
+			mt: 'margin-top',
+			mr: 'margin-right',
+			mb: 'margin-bottom',
+			ml: 'margin-left',
+			mx: 'margin-inline',
+			my: 'margin-block',
+			p: 'padding',
+			pt: 'padding-top',
+			pr: 'padding-right',
+			pb: 'padding-bottom',
+			pl: 'padding-left',
+			px: 'padding-inline',
+			py: 'padding-block',
+			// Color shorthands
+			bgcolor: 'background-color',
+			bg: 'background-color',
 		};
 
-		return fixes[property] || property;
+		// Convert shorthand to CSS property name (or use as-is)
+		const cssProperty = shorthandMap[property] || property;
+
+		// Apply spacing transformation for spacing-related properties
+		const spacingProperties = [
+			'margin',
+			'padding',
+			'top',
+			'right',
+			'bottom',
+			'left',
+			'width',
+			'height',
+			'min-width',
+			'min-height',
+			'max-width',
+			'max-height',
+		];
+		const isSpacingProperty = spacingProperties.some((prop) =>
+			cssProperty.includes(prop)
+		);
+
+		expanded[cssProperty] = isSpacingProperty ? addMuiSpacing(value) : value;
+
+		return expanded;
 	}
 }

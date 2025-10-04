@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 
 // Serve configuration: extends module build with dev server settings
 export default defineConfig({
-	root: 'test',
+	root: 'demo',
 	server: {
 		port: 3000,
 		open: false,

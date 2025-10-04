@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'DEV') {
 }
 
 export const moduleBuild = {
-	root: process.env.NODE_ENV === 'DEV' ? 'test' : '.',
+	root: process.env.NODE_ENV === 'DEV' ? 'demo' : '.',
 	build: {
 		outDir: 'dist',
 		lib: {

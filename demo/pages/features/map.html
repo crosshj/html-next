@@ -35,7 +35,7 @@
 			### Simple List
 			```html
 			<x-map items="global_todoList">
-				<x-box sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:borderRadius="4px" sx:mb="1">
+				<x-box sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
 					{{item.title}}
 				</x-box>
 			</x-map>
@@ -45,7 +45,7 @@
 			### Numbered List
 			```html
 			<x-map items="global_priorityList">
-				<x-box sx:display="flex" sx:gap="2" sx:alignItems="center" sx:padding="1">
+				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1">
 					<x-typography variant="strong">{{index}}.</x-typography>
 					<x-typography>{{item.task}}</x-typography>
 				</x-box>
@@ -56,7 +56,7 @@
 			### Styled List
 			```html
 			<x-map items="global_featureList">
-				<x-box sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:borderRadius="8px" sx:mb="2" sx:boxShadow="0 1px 3px rgba(0,0,0,0.1)">
+				<x-box sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:border-radius="8px" sx:mb="2" sx:box-shadow="0 1px 3px rgba(0,0,0,0.1)">
 					<x-typography variant="h6" sx:color="var(--palettePrimaryMain)">{{item.title}}</x-typography>
 					<x-typography sx:color="var(--paletteTextSecondary)">{{item.description}}</x-typography>
 				</x-box>
@@ -68,12 +68,12 @@
 
 			### Basic Table
 			```html
-			<x-box sx:border="1px solid var(--paletteDivider)" sx:borderRadius="4px" sx:overflow="hidden">
-				<x-box sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:borderBottom="1px solid var(--paletteDivider)">
+			<x-box sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:overflow="hidden">
+				<x-box sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)">
 					<x-typography variant="h6">User List</x-typography>
 				</x-box>
 				<x-map items="global_userList">
-					<x-box sx:display="grid" sx:gridTemplateColumns="1fr 1fr 1fr" sx:padding="2" sx:borderBottom="1px solid var(--paletteDivider)" sx:gap="2">
+					<x-box sx:display="grid" sx:grid-LTemplateColumns="1fr 1fr 1fr" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)" sx:gap="2">
 						<x-typography>{{item.name}}</x-typography>
 						<x-typography>{{item.email}}</x-typography>
 						<x-typography>{{item.role}}</x-typography>
@@ -85,12 +85,12 @@
 
 			### Styled Table
 			```html
-			<x-box sx:border="1px solid var(--paletteDivider)" sx:borderRadius="8px" sx:overflow="hidden">
+			<x-box sx:border="1px solid var(--paletteDivider)" sx:border-radius="8px" sx:overflow="hidden">
 				<x-box sx:background="var(--palettePrimaryMain)" sx:color="white" sx:padding="2">
 					<x-typography variant="h6">Product Inventory</x-typography>
 				</x-box>
 				<x-map items="global_productList">
-					<x-box sx:display="grid" sx:gridTemplateColumns="2fr 1fr 1fr 1fr" sx:padding="2" sx:borderBottom="1px solid var(--paletteDivider)" sx:gap="2" sx:background="WHEN index % 2 === 0 THEN var(--paletteBackgroundPaper) ELSE transparent">
+					<x-box sx:display="grid" sx:grid-LTemplateColumns="2fr 1fr 1fr 1fr" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)" sx:gap="2" sx:background="WHEN index % 2 === 0 THEN var(--paletteBackgroundPaper) ELSE transparent">
 						<x-typography variant="strong">{{item.name}}</x-typography>
 						<x-typography>{{item.category}}</x-typography>
 						<x-typography>{{item.price}}</x-typography>
@@ -106,7 +106,7 @@
 			### Conditional Items
 			```html
 			<x-map items="global_taskList">
-				<x-box sx:display="WHEN item.completed IS true THEN none ELSE flex" sx:gap="2" sx:alignItems="center" sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:borderRadius="4px" sx:mb="1">
+				<x-box sx:display="WHEN item.completed IS true THEN none ELSE flex" sx:gap="2" sx:align-items="center" sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
 					<x-typography>{{item.title}}</x-typography>
 					<x-typography sx:color="var(--paletteTextSecondary)">(Pending)</x-typography>
 				</x-box>
@@ -117,7 +117,7 @@
 			### Status-based Styling
 			```html
 			<x-map items="global_orderList">
-				<x-box sx:padding="2" sx:borderRadius="4px" sx:mb="2" sx:background="WHEN item.status IS 'shipped' THEN var(--paletteSuccessMain) WHEN item.status IS 'pending' THEN var(--paletteWarningMain) ELSE var(--paletteErrorMain)" sx:color="white">
+				<x-box sx:padding="2" sx:border-radius="4px" sx:mb="2" sx:background="WHEN item.status IS 'shipped' THEN var(--paletteSuccessMain) WHEN item.status IS 'pending' THEN var(--paletteWarningMain) ELSE var(--paletteErrorMain)" sx:color="white">
 					<x-typography variant="strong">Order #{{item.id}}</x-typography>
 					<x-typography>{{item.status}}</x-typography>
 				</x-box>
@@ -130,7 +130,7 @@
 			### Nested Object Access
 			```html
 			<x-map items="global_companyList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:borderRadius="4px" sx:mb="2">
+				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
 					<x-typography variant="h6">{{item.name}}</x-typography>
 					<x-typography>{{item.address.street}}, {{item.address.city}}</x-typography>
 					<x-typography>{{item.contact.phone}} - {{item.contact.email}}</x-typography>
@@ -142,7 +142,7 @@
 			### Nested Arrays
 			```html
 			<x-map items="global_departmentList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:borderRadius="4px" sx:mb="2">
+				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
 					<x-typography variant="h6">{{item.name}}</x-typography>
 					<x-map items="item.employees">
 						<x-typography sx:ml="2">• {{item.name}} ({{item.position}})</x-typography>
@@ -157,7 +157,7 @@
 			### Dynamic Styling
 			```html
 			<x-map items="global_metricList">
-				<x-box sx:padding="2" sx:borderRadius="4px" sx:mb="2" sx:background="WHEN item.value > item.target THEN var(--paletteSuccessMain) WHEN item.value > item.target * 0.8 THEN var(--paletteWarningMain) ELSE var(--paletteErrorMain)" sx:color="white">
+				<x-box sx:padding="2" sx:border-radius="4px" sx:mb="2" sx:background="WHEN item.value > item.target THEN var(--paletteSuccessMain) WHEN item.value > item.target * 0.8 THEN var(--paletteWarningMain) ELSE var(--paletteErrorMain)" sx:color="white">
 					<x-typography variant="strong">{{item.name}}</x-typography>
 					<x-typography>{{item.value}} / {{item.target}}</x-typography>
 				</x-box>
@@ -168,7 +168,7 @@
 			### Interactive Elements
 			```html
 			<x-map items="global_actionList">
-				<x-box sx:display="flex" sx:gap="2" sx:alignItems="center" sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:borderRadius="4px" sx:mb="1">
+				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
 					<x-typography>{{item.name}}</x-typography>
 					<x-button variant="outlined" size="small" href="flow:{{item.action}}">
 						{{item.buttonText}}
@@ -182,13 +182,13 @@
 
 			### Empty List Handling
 			```html
-			<x-box sx:display="WHEN global_userList.length > 0 THEN none ELSE flex" sx:flexDirection="column" sx:alignItems="center" sx:padding="4" sx:color="var(--paletteTextSecondary)">
+			<x-box sx:display="WHEN global_userList.length > 0 THEN none ELSE flex" sx:flex-LDirection="column" sx:align-items="center" sx:padding="4" sx:color="var(--paletteTextSecondary)">
 				<x-icon icon="User" size="large" sx:color="var(--paletteTextDisabled)"></x-icon>
 				<x-typography variant="h6">No users found</x-typography>
 				<x-typography>Add some users to get started</x-typography>
 			</x-box>
 			<x-map items="global_userList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:borderRadius="4px" sx:mb="1">
+				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
 					{{item.name}} - {{item.email}}
 				</x-box>
 			</x-map>
