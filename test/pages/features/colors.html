@@ -1,0 +1,114 @@
+<x-page>
+	<x-data
+		name="colorPalette"
+		defaultValue="[]"
+	></x-data>
+
+	<x-subscribe
+		path="colorPalette"
+		handler="buildColorPalette"
+	></x-subscribe>
+
+	<template id="colorRowLabelTemplate">
+		<x-typography variant="h5">{{colorName}}</x-typography>
+	</template>
+
+	<template id="colorSwatchTemplate">
+		<x-box
+			sx:background-color="{{colorToken}}"
+			sx:width="20px"
+			sx:height="20px"
+			sx:border="1px solid var(--paletteTextPrimary)"
+		></x-box>
+	</template>
+
+	<!-- prettier-ignore -->
+	<x-flow key="buildColorPalette">
+		if (state.colorPalette.length > 0) return;
+
+		const swatchTemplate = document.getElementById('colorSwatchTemplate').innerHTML;
+		const rowLabelTemplate = document.getElementById('colorRowLabelTemplate').innerHTML;
+
+		const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 'A100', 'A200', 'A400', 'A700'];
+
+		const baseColors = [
+			'red',
+			'pink',
+			'purple',
+			'deepPurple',
+			'indigo',
+			'blue',
+			'lightBlue',
+			'cyan',
+			'teal',
+			'green',
+			'lightGreen',
+			'lime',
+			'yellow',
+			'amber',
+			'orange',
+			'deepOrange',
+			'brown',
+			'grey',
+			'blueGrey'
+		];
+
+		const colorPalette = baseColors.map(baseColor => ({
+			...Object.fromEntries(shades.map(shade => [
+				shade,
+				swatchTemplate.replace('{{colorToken}}', `${baseColor}${shade}`)
+			])),
+			name: rowLabelTemplate.replace('{{colorName}}', baseColor),
+		}));
+
+		SetState('colorPalette', colorPalette);
+	</x-flow>
+
+	<x-navbar></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			> NOTE: Most of the time you want to stick to using the colors that come along with variants, but sometimes you need a custom color.
+		
+			## Usage
+
+			```html
+			<x-icon name="fa-check" sx:color="green500"></x-icon>
+
+			<x-box sx:background="red500" sx:color="red50">
+				Content
+			</x-box>
+
+			<x-button sx:background-color="blue600" sx:color="white">
+				Click me
+			</x-button>
+
+			```
+
+			## Reference
+		</x-markdown>
+
+		<x-table data="global_colorPalette">
+			<thead>
+				<tr>
+					<th property="name"></th>
+					<th property="50">50</th>
+					<th property="100">100</th>
+					<th property="200">200</th>
+					<th property="300">300</th>
+					<th property="400">400</th>
+					<th property="500">500</th>
+					<th property="600">600</th>
+					<th property="700">700</th>
+					<th property="800">800</th>
+					<th property="900">900</th>
+					<th property="A100">A100</th>
+					<th property="A200">A200</th>
+					<th property="A400">A400</th>
+					<th property="A700">A700</th>
+				</tr>
+			</thead>
+		</x-table>
+	</x-content>
+</x-page>

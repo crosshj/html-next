@@ -1,31 +1,63 @@
 <x-page>
+	<style>
+		.features-list {
+			table {
+				td:nth-child(1),
+				th:nth-child(1) {
+					width: 2rem;
+					text-align: center;
+				}
+				td:nth-child(2),
+				th:nth-child(2) {
+					width: 8rem;
+
+					a {
+						text-decoration: none;
+					}
+				}
+			}
+		}
+	</style>
+
 	<x-navbar> </x-navbar>
 
 	<x-content>
 		<!-- prettier-ignore -->
-		<x-markdown>
-            ### Components Demos/Docs
+		<x-markdown class="features-list">
+			### Utilities
 
-            | Status                      | Name / Link                                                              | Description                                                                              |
-            | --------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-            | icon:CheckCircle;green500   | [Box](/features/box)                                      | Container component with flexible layout and styling options                             |
-            | icon:CheckCircle;green500   | [Button](/features/button)                                | Button component with various styles and states                                          |
-            | icon:CheckCircle;green500   | [Content](/features/content)                              | Main content area component for page layouts                                             |
-            | icon:CheckCircle;green500   | [Data](/features/data)                                    | Data display and management component                                                    |
-            | icon:CheckCircle;green500   | [Flow](/features/flow)                                    | Flow control and conditional rendering component                                         |
-            | icon:CheckCircle;green500   | [Fragment](/features/fragment)                            | Fragment inclusion and embedding component                                               |
-            | icon:CheckCircle;green500   | [Icon](/features/icon)                                    | Icon component with Font Awesome integration                                             |
-            | icon:CheckCircle;green500   | [Include](/features/include)                              | Include external content and fragments                                                   |
-            | icon:CheckCircle;green500   | [Link](/features/link)                                    | Link component with enhanced styling and behavior                                        |
-            | icon:CheckCircle;green500   | [Map](/features/map)                                      | Map visualization component                                                              |
-            | icon:CheckCircle;green500   | [Markdown](/features/markdown)                            | Markdown rendering component with custom renderers                                       |
-            | icon:CheckCircle;green500   | [Navbar](/features/navbar)                                | Navigation bar component                                                                 |
-            | icon:CheckCircle;green500   | [Page](/features/page)                                    | Page container component                                                                 |
-            | icon:CheckCircle;green500   | [Subscribe](/features/subscribe)                          | State subscription and reactivity component                                              |
-            | icon:CheckCircle;green500   | [Table](/features/table)                                  | Data-driven table component                                                              |
-            | icon:CheckCircle;green500   | [Typography](/features/typography)                        | Typography component with theme integration                                              |
-            | icon:CheckCircle;green500   | [VizBar](/features/vizbar)                                | Bar chart visualization component                                                        |
-            | icon:CheckCircle;green500   | [VizPie](/features/vizpie)                                | Pie chart visualization component                                                        |
-        </x-markdown>
+			| Status                          | Name                                    | Description                                                                              |
+			| ------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------- |
+			| icon:fa-check-circle;green500   | [Colors](/features/Colors)              | CSS color-mix based color tokens (red500, blue600) for sx: attributes                    |
+
+			### Visual Components
+
+			| Status                          | Name                                    | Description                                                                              |
+			| ------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------- |
+			| icon:fa-check-circle;green500   | [Box](/features/Box)                    | Flexible container with Material-UI Box concept and sx: styling system                   |
+			| icon:fa-check-circle;green500   | [Button](/features/Button)              | Interactive elements with variants, sizes, states, icons, and navigation support         |
+			| icon:fa-check-circle;green500   | [Content](/features/Content)            | Flexible container for main page content with sx: styling support                        |
+			| icon:fa-check-circle;green500   | [Icon](/features/Icon)                  | Font Awesome icon display with PascalCase names and size/color options                   |
+			| icon:fa-check-circle;green500   | [Link](/features/Link)                  | Enhanced navigation with state management, hash routing, and button styling              |
+			| icon:fa-check-circle;green500   | [Map](/features/Map)                    | Template-based rendering for dynamic content generation from data arrays                 |
+			| icon:fa-check-circle;green500   | [Markdown](/features/Markdown)          | Rich markdown rendering with custom renderers and framework component integration        |
+			| icon:fa-check-circle;green500   | [Navbar](/features/Navbar)              | Dynamic navigation header that updates based on current application path                 |
+			| icon:fa-check-circle;green500   | [Page](/features/Page)                  | Simple container component providing foundation for page-level layouts                   |
+			| icon:fa-check-circle;green500   | [Table](/features/Table)                | Data-driven table component with automatic row generation and property mapping           |
+			| icon:fa-check-circle;green500   | [Typography](/features/Typography)      | Comprehensive text rendering with predefined variants and responsive design              |
+			| icon:fa-check-circle;green500   | [Viz-Bar](/features/Viz-Bar)            | Simple bar chart visualization with automatic scaling and data point rendering           |
+			| icon:fa-check-circle;green500   | [Viz-Pie](/features/Viz-Pie)            | Simple pie chart visualization with automatic angle calculation and legend display       |
+
+			### Framework Components
+
+			| Status                          | Name                                    | Description                                                                              |
+			| ------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------- |
+			| icon:fa-check-circle;green500   | [Data](/features/Data)                  | State management component that registers data sources with the global state system      |
+			| icon:fa-check-circle;green500   | [Flow](/features/Flow)                  | Executable JavaScript code component for business logic and state changes                |
+			| icon:fa-check-circle;green500   | [Fragment](/features/Fragment)          | Dynamic content display component with state subscription and automatic updates          |
+			| icon:fa-check-circle;green500   | [Include](/features/Include)            | External HTML file inclusion component with path resolution and content cleaning         |
+			| icon:fa-check-circle;green500   | [Subscribe](/features/Subscribe)        | Reactive state subscription component that triggers flows on state changes               |
+
+		</x-markdown>
 	</x-content>
 </x-page>
