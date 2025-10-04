@@ -66,6 +66,20 @@ export class BaseUIComponent extends HTMLElement {
 		this.initialState = newState || this.getCurrentState();
 		this.applySxStyles();
 		this.applyConditionalAttributes();
+
+		// Call hook for child components to respond to state changes
+		this.onStateChange(newState);
+	}
+
+	/**
+	 * Hook method for child components to override
+	 * Called after BaseUIComponent has processed state changes and updated styles/attributes
+	 * Safe to override without breaking core functionality
+	 * @param {Object} newState - The new state object
+	 */
+	onStateChange(newState) {
+		// Default implementation does nothing
+		// Child components can override this to respond to state changes
 	}
 
 	applyConditionalAttributes() {

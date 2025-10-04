@@ -36,6 +36,7 @@
 			| `data` | string | Yes | State path to the data array |
 			| `color` | string | No | Base color for the line chart (hex, rgb, or CSS custom property) |
 			| `variant` | string | No | Chart variant: default (straight lines) or "smooth" (curved lines) |
+			| `fill` | boolean | No | Add translucent area fill under the line (true or empty attribute) |
 
 			## Data Format
 
@@ -63,21 +64,31 @@
 			## Custom Color
 
 			```html
-			<x-viz-line data="global_weeklyTraffic" color="#ff6b6b"></x-viz-line>
+			<x-viz-line data="global_weeklyTraffic" sx:color="red500"></x-viz-line>
 			```
 
 			<x-box sx:width="100%" sx:height="300px">
-				<x-viz-line data="global_weeklyTraffic" color="#ff6b6b"></x-viz-line>
+				<x-viz-line data="global_weeklyTraffic" sx:color="red500"></x-viz-line>
 			</x-box>
 
 			## Smooth Variant (Curved Lines)
 
 			```html
-			<x-viz-line data="global_weeklyTraffic" variant="smooth" color="#059669"></x-viz-line>
+			<x-viz-line data="global_weeklyTraffic" variant="smooth" sx:color="green600"></x-viz-line>
 			```
 
 			<x-box sx:width="100%" sx:height="300px">
-				<x-viz-line data="global_weeklyTraffic" variant="smooth" color="#059669"></x-viz-line>
+				<x-viz-line data="global_weeklyTraffic" variant="smooth" sx:color="green600"></x-viz-line>
+			</x-box>
+
+			## With Area Fill
+
+			```html
+			<x-viz-line data="global_weeklyTraffic" variant="smooth" fill sx:color="purple500"></x-viz-line>
+			```
+
+			<x-box sx:width="100%" sx:height="300px">
+				<x-viz-line data="global_weeklyTraffic" variant="smooth" fill sx:color="purple500"></x-viz-line>
 			</x-box>
 
 		</x-markdown>

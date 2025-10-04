@@ -37,6 +37,16 @@ x-viz-line .viz-line:hover {
 	stroke: color-mix(in srgb, var(--line-base-color) 80%, black);
 }
 
+x-viz-line .viz-area {
+	fill: var(--line-base-color);
+	fill-opacity: 0.1;
+	transition: fill-opacity 0.2s ease;
+}
+
+x-viz-line .viz-area:hover {
+	fill-opacity: 0.15;
+}
+
 x-viz-line .viz-point {
 	fill: var(--line-base-color);
 	stroke: var(--paletteBackgroundPaper, #ffffff);

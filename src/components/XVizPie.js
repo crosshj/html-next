@@ -1,38 +1,41 @@
 import { BaseUIComponent } from './BaseUIComponent.js';
-import { getState, subscribeToState } from '../framework.core.js';
+import { getState } from '../framework.core.js';
 import './XVizPie.css';
 
 // Define x-viz-pie web component
 export class XVizPie extends BaseUIComponent {
 	constructor() {
 		super();
-		this.unsubscribe = null;
 	}
 
 	connectedCallback() {
+		// Call parent connectedCallback to handle sx: attribute processing and state subscriptions
+		super.connectedCallback();
+
 		const dataPath = this.getAttribute('data');
 		if (!dataPath) {
 			console.warn('x-viz-pie: no data attribute provided');
 			return;
 		}
 
-		// Remove global_ prefix if present
-		const actualPath =
-			dataPath && dataPath.startsWith('global_')
-				? dataPath.substring(7)
-				: dataPath;
-
-		// Subscribe to data changes
-		this.unsubscribe = subscribeToState(actualPath, (newData) => {
-			this.updateChart(newData);
-		});
-
-		// Set initial data
+		// Set initial data (BaseUIComponent handles subscriptions automatically)
+		const actualPath = dataPath.startsWith('global_')
+			? dataPath.substring(7)
+			: dataPath;
 		const initialData = getState(actualPath);
 		this.updateChart(initialData);
+	}
 
-		// Apply sx: styles
-		this.applySxStyles();
+	onStateChange(newState) {
+		// Update chart when state changes
+		const dataPath = this.getAttribute('data');
+		if (dataPath) {
+			const actualPath = dataPath.startsWith('global_')
+				? dataPath.substring(7)
+				: dataPath;
+			const data = getState(actualPath);
+			this.updateChart(data);
+		}
 	}
 
 	updateChart(data) {
@@ -48,17 +51,17 @@ export class XVizPie extends BaseUIComponent {
 			return;
 		}
 
-		// Set CSS variable for base color
-		const baseColor =
-			this.getAttribute('color') || 'var(--palettePrimaryMain, #1976d2)';
+		// Use explicit color from sx:color or fall back to app's primary color
+		const baseColor = this.style.color || 'var(--palettePrimaryMain)';
+
 		this.style.setProperty('--pie-base-color', baseColor);
 
-		// Check if this is a dial-full variant
+		// Check if this is a donut variant
 		const variant = this.getAttribute('variant');
-		const isDialFull = variant === 'dial-full';
+		const isDonut = variant === 'donut';
 
 		const radius = 98;
-		const innerRadius = isDialFull ? 60 : 0; // Hollow center for dial-full
+		const innerRadius = isDonut ? 60 : 0; // Hollow center for donut
 		const centerX = 100;
 		const centerY = 100;
 		let currentAngle = 0;
@@ -84,12 +87,14 @@ export class XVizPie extends BaseUIComponent {
 			const largeArcFlag = angle > 180 ? 1 : 0;
 
 			let pathData;
-			if (isDialFull) {
+			if (isDonut) {
 				// Create donut arc path with inner and outer radius
 				const startInnerX =
-					centerX + innerRadius * Math.cos(((currentAngle - 90) * Math.PI) / 180);
+					centerX +
+					innerRadius * Math.cos(((currentAngle - 90) * Math.PI) / 180);
 				const startInnerY =
-					centerY + innerRadius * Math.sin(((currentAngle - 90) * Math.PI) / 180);
+					centerY +
+					innerRadius * Math.sin(((currentAngle - 90) * Math.PI) / 180);
 				const endInnerX =
 					centerX + innerRadius * Math.cos(((endAngle - 90) * Math.PI) / 180);
 				const endInnerY =
@@ -142,11 +147,5 @@ export class XVizPie extends BaseUIComponent {
 				</div>
 			</div>
 		`;
-	}
-
-	disconnectedCallback() {
-		if (this.unsubscribe) {
-			this.unsubscribe();
-		}
 	}
 }

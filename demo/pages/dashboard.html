@@ -511,7 +511,8 @@
 						<x-typography variant="h4">Monthly Revenue</x-typography>
 						<x-viz-line
 							data="global_monthlyRevenue"
-							color="#3b82f6"
+							sx:color="blue500"
+							fill
 						></x-viz-line>
 					</x-box>
 
@@ -530,8 +531,8 @@
 						<x-typography variant="h4">Device Usage</x-typography>
 						<x-viz-pie
 							data="global_deviceUsage"
-							color="#059669"
-							variant="dial-full"
+							sx:color="green600"
+							variant="donut"
 						></x-viz-pie>
 					</x-box>
 
@@ -550,7 +551,7 @@
 						<x-typography variant="h4">Sales by Category</x-typography>
 						<x-viz-pie
 							data="global_salesByCategory"
-							color="#d97706"
+							sx:color="orange600"
 						></x-viz-pie>
 					</x-box>
 
@@ -569,7 +570,7 @@
 						<x-typography variant="h4">Weekly Traffic</x-typography>
 						<x-viz-line
 							data="global_weeklyTraffic"
-							color="#7c3aed"
+							sx:color="purple500"
 							variant="smooth"
 						></x-viz-line>
 					</x-box>
@@ -589,7 +590,7 @@
 						<x-typography variant="h4">User Growth</x-typography>
 						<x-viz-bar
 							data="global_userGrowth"
-							color="#dc2626"
+							sx:color="red500"
 						></x-viz-bar>
 					</x-box>
 
@@ -608,7 +609,7 @@
 						<x-typography variant="h4">Revenue by Region</x-typography>
 						<x-viz-pie
 							data="global_revenueByRegion"
-							color="#0891b2"
+							sx:color="cyan600"
 						></x-viz-pie>
 					</x-box>
 				</x-box>
