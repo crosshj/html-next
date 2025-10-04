@@ -136,8 +136,8 @@
 	<x-data
 		name="topCategories"
 		defaultValue='[
-			{ "name": "Footwear", "units": "18,941 units", "icon": "fa-shopping-bag", "iconColor": "orange500", "grad1": "orange100", "grad2": "amber200" },
-			{ "name": "Accessories", "units": "26,061 units", "icon": "fa-hand-paper-o", "iconColor": "green500", "grad1": "teal100", "grad2": "green200" }
+			{ "name": "Footwear", "units": "18,941 units", "icon": "fa-shopping-bag", "iconColor": "orange500" },
+			{ "name": "Accessories", "units": "26,061 units", "icon": "fa-hand-paper-o", "iconColor": "green500" }
 		]'
 	></x-data>
 
@@ -429,9 +429,7 @@
 						<x-map items="global_topCategories">
 							<x-box
 								class="category-card"
-								sx:--grad1="{{item_grad1}}"
-								sx:--grad2="{{item_grad2}}"
-								sx:background="linear-gradient(135deg, var(--grad1) 0%, var(--grad2) 100%)"
+								sx:background="var(--paletteBackgroundDefault)"
 							>
 								<x-box
 									class="category-icon"

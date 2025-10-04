@@ -3,6 +3,24 @@
 /* FOUC Prevention - Hide content until framework loads */
 body {
 	visibility: hidden;
+	/* Border Radius - More Rounded */
+	--radius-sm: 0.375rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 0.75rem;
+	--radius-xl: 1rem;
+
+	/* Spacing - More Generous */
+	--spacing-xs: 0.375rem;
+	--spacing-sm: 0.75rem;
+	--spacing-md: 1.25rem;
+	--spacing-lg: 2rem;
+	--spacing-xl: 3rem;
+	--spacing-2xl: 4rem;
+
+	/* Transitions - Smoother */
+	--transition-fast: 0.2s ease;
+	--transition-normal: 0.3s ease;
+	--transition-slow: 0.4s ease;
 }
 
 body.framework-loaded {
@@ -37,25 +55,37 @@ body.framework-loaded {
 
 	/* Divider - Subtle */
 	--paletteDivider: #e2e8f0;
+}
 
-	/* Border Radius - More Rounded */
-	--radius-sm: 0.375rem;
-	--radius-md: 0.5rem;
-	--radius-lg: 0.75rem;
-	--radius-xl: 1rem;
+@media (prefers-color-scheme: dark) {
+	.test-framework {
+		/* Primary Palette - Dark Mode Blue Theme */
+		--palettePrimaryMain: #3b82f6;
+		--palettePrimaryLight: #60a5fa;
+		--palettePrimaryDark: #1d4ed8;
+		--palettePrimaryContrast: #ffffff;
+		--palettePrimaryNavbar: #1b2636;
 
-	/* Spacing - More Generous */
-	--spacing-xs: 0.375rem;
-	--spacing-sm: 0.75rem;
-	--spacing-md: 1.25rem;
-	--spacing-lg: 2rem;
-	--spacing-xl: 3rem;
-	--spacing-2xl: 4rem;
+		/* Secondary Palette - Dark Mode Blue */
+		--paletteSecondaryMain: #06b6d4;
+		--paletteSecondaryDark: #0891b2;
+		--paletteSecondaryLight: #22d3ee;
+		--paletteSecondaryContrast: #ffffff;
 
-	/* Transitions - Smoother */
-	--transition-fast: 0.2s ease;
-	--transition-normal: 0.3s ease;
-	--transition-slow: 0.4s ease;
+		/* Background Palette - Dark Mode */
+		--paletteBackgroundDefault: #1b2636;
+		--paletteBackgroundPaper: #1e293b;
+		--paletteBackgroundContrast: #334155;
+
+		/* Text Palette - Dark Mode High Contrast */
+		--paletteTextPrimary: #f8fafc;
+		--paletteTextSecondary: #cbd5e1;
+		--paletteTextTertiary: #94a3b8;
+		--paletteTextDisabled: #64748b;
+
+		/* Divider - Dark Mode */
+		--paletteDivider: #334155;
+	}
 }
 
 /* App Layout - Let framework handle component styling */
