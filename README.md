@@ -14,69 +14,68 @@ Build interactive apps with custom elements and reactive state using web standar
 
 ## Quick Start
 
+<!-- prettier-ignore -->
 ```html
 <!DOCTYPE html>
 <html>
-	<head>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.css"
-		/>
-	</head>
-	<body>
-		<template id="appContent">
-			<x-data name="count" defaultValue="1"></x-data>
-			<x-data name="isVisible" defaultValue="true"></x-data>
+    <head>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.css"
+        />
+    </head>
+    <body>
+        <template id="appContent">
+            <x-data name="count" defaultValue="1"></x-data>
+            <x-data name="isVisible" defaultValue="true"></x-data>
 
-			<!-- prettier-ignore -->
-			<x-flow key="increment">
-				SetState('count', state.count + 1);
-			</x-flow>
-			<!-- prettier-ignore -->
-			<x-flow key="toggle">
-				SetState('isVisible', !(state.isVisible+'' === 'true'));
-			</x-flow>
+            <x-flow key="increment">
+                SetState('count', state.count + 1);
+            </x-flow>
+            <x-flow key="toggle">
+                SetState('isVisible', !(state.isVisible+'' === 'true'));
+            </x-flow>
 
-			<x-box>
-				<x-typography variant="h1">Count Demo</x-typography>
-				<x-box
-					sx:display="flex"
-					sx:gap="1"
-					sx:alignItems="center"
-					sx:visibility="WHEN global_isVisible THEN visible ELSE hidden"
-				>
-					<x-typography variant="h3">Count: </x-typography>
-					<x-fragment contents="global_count"></x-fragment>
-					<x-button handler="increment" icon="fa-plus"> Increment </x-button>
-				</x-box>
-				<x-button
-					handler="toggle"
-					icon="fa-eye"
-					sx:color="brown500"
-					variant="outlined"
-				>
-					Toggle Visibility
-				</x-button>
-			</x-box>
-		</template>
+            <x-box>
+                <x-typography variant="h1">Count Demo</x-typography>
+                <x-box
+                    sx:display="flex"
+                    sx:gap="1"
+                    sx:alignItems="center"
+                    sx:visibility="WHEN global_isVisible THEN visible ELSE hidden"
+                >
+                    <x-typography variant="h3">Count: </x-typography>
+                    <x-fragment contents="global_count"></x-fragment>
+                    <x-button handler="increment" icon="fa-plus"> Increment </x-button>
+                </x-box>
+                <x-button
+                    handler="toggle"
+                    icon="fa-eye"
+                    sx:color="brown500"
+                    variant="outlined"
+                >
+                    Toggle Visibility
+                </x-button>
+            </x-box>
+        </template>
 
-		<x-fragment contents="global_appContent"></x-fragment>
+        <x-fragment contents="global_appContent"></x-fragment>
 
-		<script type="module">
-			import {
-				initializeFramework,
-				SetState,
-			} from 'https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.js';
-			initializeFramework();
-			// loaded from template here, but could be loaded from network
-			const appContent = document.getElementById('appContent').innerHTML;
-			SetState('appContent', appContent);
-		</script>
-	</body>
+        <script type="module">
+            import {
+                initializeFramework,
+                SetState,
+            } from 'https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.js';
+            initializeFramework();
+            // loaded from template here, but could be loaded from network
+            const appContent = document.getElementById('appContent').innerHTML;
+            SetState('appContent', appContent);
+        </script>
+    </body>
 </html>
 ```
 
@@ -87,7 +86,6 @@ Build interactive apps with custom elements and reactive state using web standar
 npm install
 # Development watch mode (see /test/index.html)
 npm run dev
-
 ```
 
 ## License
