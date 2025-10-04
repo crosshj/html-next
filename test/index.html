@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -7,7 +7,20 @@
 			content="width=device-width, initial-scale=1.0"
 		/>
 		<title>HTMLNext Test</title>
-		<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="./favicon.svg"
+		/>
+		<!-- Load fonts locally for development -->
+		<link
+			rel="stylesheet"
+			href="./vendor/inter.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="./vendor/font-awesome.css"
+		/>
 		<link
 			rel="stylesheet"
 			href="./dist/htmlNext.css"
@@ -26,7 +39,10 @@
 		/>
 	</head>
 	<body class="test-framework">
-		<x-fragment contents="global_appContent" showLoading="false"></x-fragment>
+		<x-fragment
+			contents="global_appContent"
+			showLoading="false"
+		></x-fragment>
 
 		<script type="module">
 			import { initializeFramework, setState } from './dist/htmlNext.js';

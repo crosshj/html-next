@@ -4,9 +4,9 @@ import { writeFileSync, readFileSync, existsSync, renameSync } from 'fs';
 import { minify } from 'terser';
 
 if (process.env.NODE_ENV === 'DEV') {
-	console.log('🔴 DEV MODE')
+	console.log('🔴 DEV MODE');
 } else {
-	console.log('🟢 PROD MODE')
+	console.log('🟢 PROD MODE');
 }
 
 export const moduleBuild = {
@@ -56,14 +56,23 @@ export const moduleBuild = {
 			async closeBundle() {
 				// Copy TypeScript definitions to dist folder
 				const srcTypesPath = resolve(__dirname, 'src/index.d.ts');
-				const distTypesPath = resolve(__dirname, moduleBuild.root, moduleBuild.build.outDir, 'htmlNext.d.ts');
-				
+				const distTypesPath = resolve(
+					__dirname,
+					moduleBuild.root,
+					moduleBuild.build.outDir,
+					'htmlNext.d.ts'
+				);
+
 				if (existsSync(srcTypesPath)) {
 					const typesContent = readFileSync(srcTypesPath, 'utf8');
 					writeFileSync(distTypesPath, typesContent);
-					console.log(`✅ TypeScript definitions copied to ${moduleBuild.root}/${moduleBuild.build.outDir}/htmlNext.d.ts`);
+					console.log(
+						`✅ TypeScript definitions copied to ${moduleBuild.root}/${moduleBuild.build.outDir}/htmlNext.d.ts`
+					);
 				} else {
-					console.warn('⚠️  TypeScript definitions not found at src/index.d.ts');
+					console.warn(
+						'⚠️  TypeScript definitions not found at src/index.d.ts'
+					);
 				}
 			},
 		},
@@ -71,14 +80,19 @@ export const moduleBuild = {
 			name: 'minify-es-module',
 			async closeBundle() {
 				// Post-process the ES module to fully minify it
-				const esModulePath = resolve(__dirname, moduleBuild.root, moduleBuild.build.outDir, 'htmlNext.js');
-				
+				const esModulePath = resolve(
+					__dirname,
+					moduleBuild.root,
+					moduleBuild.build.outDir,
+					'htmlNext.js'
+				);
+
 				// Check if file exists before trying to read it
 				if (!existsSync(esModulePath)) {
 					console.warn('⚠️  ES module file not found, skipping minification');
 					return;
 				}
-				
+
 				try {
 					const code = readFileSync(esModulePath, 'utf8');
 
@@ -114,7 +128,7 @@ export const moduleBuild = {
 	optimizeDeps: {
 		include: [],
 	},
-}
+};
 
 // Production configuration: build the library from project root for npm publishing
 export default defineConfig(moduleBuild);
