@@ -1,0 +1,69 @@
+---
+alwaysApply: true
+---
+
+# Project Guidelines
+
+## Framework Overview
+
+This is the html-next framework - a modern, declarative web component framework with reactive state management, conditional rendering, data visualization, and server-side fragment loading.
+
+## Key Principles
+
+- Use web components with custom elements (x-\* prefix)
+- Maintain reactive state management
+- Follow declarative UI patterns
+- Keep components lightweight and zero-dependency
+- Use TypeScript definitions for better IDE support
+
+## Development Commands
+
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build production bundle
+- `npm run test` - Run Jest tests
+
+## File Structure
+
+- `src/components/` - All web component definitions
+- `demo/` - Example implementations and documentation
+- `demo/pages/features/` - documentation and usage for framework and components
+
+## Code Style
+
+- Use tabs for indentation
+- Follow the existing component patterns
+- Maintain consistent naming conventions
+- Document all public APIs
+
+## Core Framework Principles
+
+- **Web Components**: Use `x-` prefixed custom elements, extend `BaseUIComponent`
+- **State Management**: Use `getState()`, `subscribeToState()`, `SetData()`
+- **Styling**: Prefer external CSS over inline styles, use `sx:` for dynamic styling
+- **Naming**: PascalCase for classes, kebab-case for elements and CSS properties
+
+## State References
+
+- **Global state**: `global_` prefix in attributes, `{{}}` interpolation in content
+- **Flow state**: `state.propertyName` syntax (no underscore)
+- **Data components**: Use descriptive camelCase names
+
+## Styling Approach
+
+- **External CSS**: For static styling, layout, typography, hover states
+- **sx: attributes**: For dynamic/state-based styling, one-off values
+- **Colors**: Prefer `var(--paletteColor)` over hardcoded values
+- **Spacing**: Use 8px base unit system
+
+## Component Patterns
+
+- **Lifecycle**: Always call `super.connectedCallback()` first
+- **Cleanup**: Unsubscribe in `disconnectedCallback()`
+- **Rendering**: Use `html` template helper for safe templating
+- **Error Handling**: Fail fast with clear messages
+
+## Documentation
+
+- **Attribute tables**: Type, Required, Default, Description columns
+- **Examples**: Provide both code snippets and live examples
+- **Markdown**: Use `<x-markdown>` for documentation content

@@ -1,0 +1,125 @@
+---
+alwaysApply: true
+description: Coding Standards & Rules for JavaScript
+globs: ['src/**/*.js', 'src/**/*.mjs']
+---
+
+# Coding Standards
+
+These standards are inferred from the existing implementation under `src/`. They aim to preserve clarity, consistency, and the zero-dependency philosophy of the framework.
+
+## Language and Modules
+
+- Use modern JavaScript (ES modules).
+- Export named APIs from entrypoints; avoid default exports unless necessary.
+- Keep zero runtime dependencies in `src/`.
+
+## Control Flow and Functions
+
+- **Strongly prefer early exit/early return pattern** - handle error cases and edge conditions first, then continue with main logic.
+- **Prefer judicious use of if blocks** - avoid else blocks and definitely avoid nested if blocks.
+- **Prefer for loops over Array.forEach** - better performance and clearer control flow.
+- **Prefer arrow functions over regular functions** - more concise and consistent with modern JS.
+- **Break out complex map/reduce operations** - if a map or reduce is longer than a few lines, extract to a named arrow function.
+
+## File and Component Organization
+
+- One web component per file in `src/components/` with the class name matching the file name (e.g., `XNavbar` in `XNavbar.js`).
+- Register custom elements in a single place (`framework.js`) rather than inside component files.
+- Keep shared helpers in `framework.utils.js`; core state in `framework.core.js`.
+
+## Custom Elements
+
+- Extend `BaseUIComponent` for all UI components to inherit state/subscription and `sx:` style behavior.
+- Custom element names use `x-` prefix and are defined in `framework.js`:
+  - Example map entry: `{ name: 'x-navbar', class: XNavbar }`.
+- Avoid defining elements multiple times; guard with `customElements.get(name)` before `define` (as in `framework.js`).
+
+## State Management
+
+- Read global state via `getState(key)` when rendering; do not access `window.state` directly outside `BaseUIComponent` internals.
+- Subscribe to state with `subscribeToState(key, handler)` and store unsubscribe handles; unsubscribe in `disconnectedCallback`.
+- For components, set up subscriptions in `connectedCallback` after calling `super.connectedCallback()`.
+
+## Lifecycle and Base Behaviors
+
+- Always call `super.connectedCallback()` first when overriding to ensure `sx:` and conditional attributes apply.
+- Use `onStateChange(newState)` for component-specific reactions to state updates; avoid duplicating logic in multiple places.
+- Clean up in `disconnectedCallback()` and call `super.disconnectedCallback()` when you override.
+
+## DOM Manipulation
+
+- Mutate the DOM minimally; prefer re-rendering inner content in a single assignment using `html\`` template helper.
+- Use ` html\`` from  `framework.utils.js`for safe, readable templating when setting`innerHTML`.
+- Sanitize or clean server HTML with `cleanServerHTML` before injection (as in `loadFragment`).
+
+## `sx:` Styling System
+
+- The `sx:` styling system is implemented in `BaseUIComponent` and provides state-aware inline styles.
+- Shorthand expansions supported: `m`, `mt`, `mr`, `mb`, `ml`, `mx`, `my`, `p`, `pt`, `pr`, `pb`, `pl`, `px`, `py`, plus `bg/bgcolor`.
+- Numeric spacing values are multiplied by 8px (MUI-style spacing scale).
+- After applying, `sx:` attributes are removed from the DOM by the base class—do not rely on them post-render.
+
+## Error Handling
+
+- Fail fast with clear messages; log errors to `console.error` with context. Example pattern used in `loadFragment`.
+- Avoid try/catch unless IO or a known error boundary is present.
+
+## Naming
+
+- Classes: `PascalCase` (e.g., `XContent`, `BaseUIComponent`).
+- Files: `PascalCase.js` for components, `kebab-case.css` for component styles, and `framework.*.js` for framework modules.
+- Custom elements: kebab-case with `x-` prefix (e.g., `x-navbar`).
+
+## Formatting
+
+- Tabs for indentation; single quotes for strings.
+- Keep lines under 80 characters where reasonable (see `.prettierrc`).
+- Prefer multi-line clarity over clever one-liners.
+
+## Comments
+
+- Add comments to explain non-obvious rationale, invariants, or edge cases.
+- Avoid comment noise that restates what the code already expresses.
+
+## Registration
+
+- Add new components to the `components` array in `framework.js`.
+- Keep registration centralized; do not call `customElements.define` from component files.
+
+## Performance
+
+- Prefer a single `innerHTML` assignment over multiple DOM mutations during render.
+- Avoid unnecessary subscriptions; only watch keys the component actually uses.
+
+## Component Implementation Pattern
+
+```js
+// Example skeleton
+import { BaseUIComponent } from './BaseUIComponent.js';
+import { html } from '../framework.utils.js';
+import { getState, subscribeToState } from '../framework.core.js';
+
+export class XExample extends BaseUIComponent {
+	constructor() {
+		super();
+		this.unsubscribe = null;
+	}
+
+	connectedCallback() {
+		super.connectedCallback();
+		this.unsubscribe = subscribeToState('someKey', () => this.render());
+		this.render();
+	}
+
+	disconnectedCallback() {
+		if (this.unsubscribe) this.unsubscribe();
+		// Optionally call super.disconnectedCallback() if you override base cleanup
+	}
+
+	render() {
+		const value = getState('someKey');
+		this.innerHTML = html`<div>${value}</div>`;
+	}
+}
+```

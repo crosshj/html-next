@@ -1,0 +1,286 @@
+---
+alwaysApply: true
+description: Coding Standards & Rules for HTML Fragments
+globs: ['demo/pages/**/*.html']
+---
+
+# HTML Coding Standards
+
+These standards are inferred from the existing implementation in `demo/pages/`. They aim to preserve clarity, consistency, and the declarative nature of the framework.
+
+## HTML Fragment Focus
+
+**Important**: These standards apply specifically to **HTML fragments** used within the html-next framework demo, not full HTML documents. HTML fragments are partial HTML content that gets loaded dynamically and integrated into the framework's page structure.
+
+### What HTML Fragments Should NOT Include:
+
+- `<!DOCTYPE>` declarations
+- `<html>`, `<head>`, or `<body>` tags
+- `<title>` tags (handled by the framework)
+- `<meta>` tags (handled by the framework)
+- `<script>` tags (use `<x-flow>` instead)
+- `<style>` tags (use `sx:` attributes or framework CSS)
+
+### What HTML Fragments Should Include:
+
+- Framework custom elements (`<x-page>`, `<x-content>`, etc.)
+- Content structure and layout
+- State management components (`<x-data>`, `<x-flow>`)
+- Dynamic content (`<x-fragment>`, `<x-include>`)
+- Documentation and examples (`<x-markdown>`)
+
+## Page Structure Pattern
+
+Every page follows this consistent structure:
+
+```html
+<x-page>
+	<x-navbar menuButtonShow="true" menuButtonTarget="sidebar"></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			<!-- Documentation content here -->
+		</x-markdown>
+	</x-content>
+</x-page>
+```
+
+## Custom Elements Usage
+
+- Use `x-` prefixed custom elements for all framework components.
+- Never self-close custom elements.
+- Use proper indentation (tabs) for nested custom elements.
+- Group related custom elements logically.
+
+## Data and State Management
+
+### Data Components
+
+- Place `<x-data>` components at the top of the page before other content, just under `<x-page>` opening tag.
+- Use descriptive camelCase names: `userProfile`, `dashboardConfig`, `salesData`.
+- Use `defaultValue` for JSON data with proper escaping.
+- Use `route` attribute for URL parameter capture.
+
+```html
+<x-data
+	name="salesData"
+	defaultValue='[
+		{ "label": "January", "value": 100 },
+		{ "label": "February", "value": 150 }
+	]'
+></x-data>
+```
+
+### Flow Components
+
+- Use `<!-- prettier-ignore -->` comments to preserve formatting in `<x-flow>`.
+- Place `<x-flow>` components after data definitions.
+- Use descriptive camelCase keys: `updateCounter`, `pathChange`, `userLogin`.
+- Keep flow logic focused and single-purpose.
+
+```html
+<x-flow key="updateCounter">
+	const current = state.counter || 0; SetData('counter', current + 1);
+</x-flow>
+```
+
+## State References
+
+- Use `global_` prefix for state references in attributes: `global_userProfile`.
+- Use `{{}}` syntax for state interpolation in content: `{{global_userProfile.name}}`.
+- In flows, use `state.propertyName` syntax (without underscore).
+
+## Styling Approach
+
+### Prefer External CSS Over Inline Styles
+
+- **Primary approach**: Use nearby CSS files for component-specific styling rather than inline `sx:` attributes
+- **CSS file location**: Place component CSS in `src/components/ComponentName.css` and import in `src/index.js`
+- **Inline styles**: Use `sx:` attributes only for dynamic/state-based styling that can't be handled in CSS
+- **Separation of concerns**: Keep structural styling in CSS, interactive styling in `sx:` attributes
+
+### When to Use Each Approach
+
+**Use CSS files for:**
+
+- Static component styling
+- Layout and positioning
+- Typography and spacing
+- Hover states and transitions
+- Component variants and themes
+
+**Use `sx:` attributes for:**
+
+- State-based styling (`WHEN` conditions)
+- Dynamic values from state
+- One-off styling that doesn't warrant a CSS rule
+- Responsive breakpoints with state logic
+
+### Examples
+
+**Good - Using CSS for static styling:**
+
+```html
+<!-- Component CSS handles the layout -->
+<x-button variant="primary" label="Save"></x-button>
+
+<!-- CSS file: XButton.css -->
+x-button[variant="primary"] { background-color: var(--palettePrimaryMain);
+color: var(--palettePrimaryContrast); padding: 0.5rem 1rem; border-radius:
+0.25rem; }
+```
+
+**Good - Using sx: for dynamic styling:**
+
+```html
+<!-- sx: for state-based styling -->
+<x-box sx:display="WHEN global_isLoading THEN flex ELSE none">
+	Loading content...
+</x-box>
+
+<!-- sx: for one-off dynamic values -->
+<x-typography sx:color="var(--paletteTextPrimary)" sx:font-size="1.2rem">
+	Dynamic content
+</x-typography>
+```
+
+**Avoid - Overusing sx: for static styling:**
+
+```html
+<!-- Don't do this - should be in CSS -->
+<x-button
+	sx:background-color="var(--palettePrimaryMain)"
+	sx:color="var(--palettePrimaryContrast)"
+	sx:padding="0.5rem 1rem"
+	sx:border-radius="0.25rem"
+	label="Save"
+></x-button>
+```
+
+## Styling with sx: Attributes
+
+- Use `sx:` prefix for inline styling: `sx:display="flex"`, `sx:gap="2"`.
+- Use numeric values for spacing (multiplied by 8px): `sx:p="2"` = 16px padding.
+- **Colors**: Prefer CSS custom properties using root variables defined in `src/framework.css`: `sx:color="var(--palettePrimaryMain)"` or the same within CSS.
+- **Short color names**: Use `red600` style colors only within `sx:` props: `sx:color="red600"`.
+- **Property names**: Use kebab-case for CSS properties: `sx:background-color`, `sx:border-radius`.
+- Group related styling attributes together.
+
+### Examples
+
+```html
+<x-box sx:display="flex" sx:gap="2" sx:mb="4" sx:flex-wrap="wrap">
+	Content here
+</x-box>
+```
+
+## Conditional Rendering
+
+- Use `WHEN` syntax for conditional attributes: `sx:display="WHEN global_userRole IS 'admin' THEN block ELSE none"`.
+- Use `DEBUG` prefix for debug-only content: `DEBUG global_debugData`.
+
+## Documentation Pattern
+
+- Document component changes in `demo/pages/features.html` and `demo/pages/features/`
+- Use `<x-markdown>` for all documentation content.
+- Include comprehensive attribute tables with Type, Required, Default, and Description columns.
+- Provide live examples and corresponding code snippets.
+
+### Button Examples
+
+```html
+<x-button variant="primary" label="Primary Button"></x-button>
+```
+
+### Typography Examples
+
+```html
+<x-typography variant="h1">Main Heading</x-typography>
+<x-typography variant="body1" sx:p="2" sx:color="var(--palettePrimaryMain)">
+	Body text with styling
+</x-typography>
+```
+
+### Box Layout Examples
+
+```html
+<x-box sx:display="flex" sx:gap="2" sx:mb="2">
+	<x-box sx:background-color="blue600" sx:p="2" sx:color="white">Item 1</x-box>
+	<x-box sx:background-color="green600" sx:p="2" sx:color="white">Item 2</x-box>
+</x-box>
+```
+
+## Data Visualization
+
+- Use `<x-viz-bar>`, `<x-viz-pie>`, `<x-viz-line>` for charts.
+- Provide data through state references: `data="global_salesData"`.
+- Use `sx:color` for custom colors: `sx:color="red500"` (short color names only in sx: props).
+
+```html
+<x-box sx:width="100%" sx:height="300px">
+	<x-viz-bar data="global_salesData"></x-viz-bar>
+</x-box>
+```
+
+## Accessibility
+
+- Use semantic HTML elements for better screen reader support.
+- Ensure proper heading hierarchy (`h1`, `h2`, `h3`, etc.).
+
+## Common Patterns
+
+### Page with Data and Flow
+
+```html
+<x-page>
+	<x-data name="count" defaultValue="0"></x-data>
+	<x-flow key="incrementCount">
+		const current = state.counter || 0; SetData('counter', current + 1);
+	</x-flow>
+
+	<x-navbar menuButtonShow="true"></x-navbar>
+	<x-content>
+		<x-typography variant="h1">Counter Page</x-typography>
+		<x-typography>Current count: {{global_count}}</x-typography>
+		<x-button handler="incrementCount" label="Increment"></x-button>
+	</x-content>
+</x-page>
+```
+
+### Responsive Layout
+
+```html
+<x-box
+	sx:display="flex"
+	sx:flex-direction="WHEN screen.width < 768 THEN column ELSE row"
+	sx:gap="3"
+>
+	<x-box
+		sx:flex="1"
+		sx:p="2"
+		sx:background-color="var(--paletteBackgroundPaper)"
+	>
+		Item 1
+	</x-box>
+	<x-box
+		sx:flex="1"
+		sx:p="2"
+		sx:background-color="var(--paletteBackgroundPaper)"
+	>
+		Item 2
+	</x-box>
+</x-box>
+```
+
+### State-based Styling
+
+```html
+<x-box
+	sx:background-color="WHEN global_theme IS 'dark' THEN var(--paletteBackgroundDark) ELSE var(--paletteBackgroundPaper)"
+	sx:color="WHEN global_theme IS 'dark' THEN white ELSE var(--paletteTextPrimary)"
+	sx:p="4"
+>
+	Themed Content
+</x-box>
+```
