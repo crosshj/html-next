@@ -33,7 +33,7 @@ body.framework-loaded {
 	--palettePrimaryMain: #2563eb;
 	--palettePrimaryLight: #60a5fa;
 	--palettePrimaryDark: #1d4ed8;
-	--palettePrimaryContrast: #1d3877;
+	--palettePrimaryContrast: #ffffff;
 	--palettePrimaryNavbar: #f0f8ff;
 
 	/* Secondary Palette - Light Blue */
@@ -118,7 +118,11 @@ body.framework-loaded {
 			border-color: var(--bg-color);
 			color: var(--palettePrimaryContrast);
 			&:hover {
-				background-color: var(--palettePrimaryMain);
+				--bg-color: color-mix(
+					in srgb,
+					var(--palettePrimaryMain) 60%,
+					var(--paletteBackgroundPaper) 40%
+				);
 			}
 		}
 		&.inactive button,
@@ -126,8 +130,11 @@ body.framework-loaded {
 			color: color-mix(
 				in srgb,
 				var(--paletteBackgroundPaper) 50%,
-				var(--palettePrimaryContrast) 50%
+				var(--paletteTextPrimary) 50%
 			);
+			&:hover {
+				color: var(--palettePrimaryContrast);
+			}
 		}
 	}
 }
