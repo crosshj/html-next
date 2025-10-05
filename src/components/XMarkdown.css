@@ -17,6 +17,10 @@ x-markdown {
 	color: var(--paletteTextPrimary, #333);
 }
 
+x-markdown x-typography:first-child {
+	margin-top: 0 !important;
+}
+
 x-markdown h1 {
 	font-size: 2rem;
 	font-weight: 600;

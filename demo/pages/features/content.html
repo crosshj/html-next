@@ -1,66 +1,30 @@
 <x-page>
-	<x-navbar> </x-navbar>
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
 
 	<x-content>
 		<!-- prettier-ignore -->
 		<x-markdown>
-			The `Content` component provides a flexible container for main page content. It serves as a wrapper that can be styled with the `sx:` attribute system and is commonly used as the main content area in page layouts.
+			`x-content` is a flexible container for main page content with full `sx:` styling support.  This is mostly just used as a wrapper for any given page's content.
 
-			## Features
+			## Attributes
 
-			- **Flexible Container**: Can hold any content and be styled as needed
-			- **SX Styling**: Full support for the `sx:` attribute system
-			- **Layout Integration**: Designed to work within page layouts
-			- **Semantic Structure**: Provides proper content hierarchy
-
-			## Usage
-
-			```html
-			<x-content>
-				Your content here
-			</x-content>
-			```
+			| Attribute | Type | Required | Default | Description |
+			|-----------|------|----------|---------|-------------|
+			| None | - | - | - | This component has no attributes |
 
 			## Examples
 
-			### Basic Content
+			### Basic
 			```html
-			<x-content sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px">
-				Basic content container
-			</x-content>
+			<x-content>Your content here</x-content>
 			```
+			> Note: This example sets a border and a height of 200px to demonstrate the content container's dimensions.
 
-			### Styled Content
-			```html
-			<x-content sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:border-radius="8px" sx:box-shadow="0 2px 4px rgba(0,0,0,0.1)">
-				Styled content with background and shadow
-			</x-content>
-			```
+			<x-content sx:border="1px solid var(--paletteDivider)" sx:height="200px">Your content here</x-content>
 
-			### Content with Different Sizes
-			```html
-			<x-content sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:min-width="200px">
-				Small content
-			</x-content>
-			<x-content sx:padding="3" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:min-width="300px">
-				Large content with more padding
-			</x-content>
-			```
-
-			### Content with Flex Layout
-			```html
-			<x-content sx:display="flex" sx:flex-direction="column" sx:gap="1" sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:flex="1" sx:min-width="200px">
-				<x-typography variant="h3">Title</x-typography>
-				<x-typography>This is content with a title and description.</x-typography>
-			</x-content>
-			```
-
-			## Common Use Cases
-
-			- **Page Content**: Main content area for pages and sections
-			- **Card Containers**: Wrapping content in cards and panels
-			- **Form Sections**: Grouping form elements and labels
-			- **Article Content**: Containing articles, blog posts, and documentation
 		</x-markdown>
 	</x-content>
 </x-page>

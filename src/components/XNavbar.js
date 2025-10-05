@@ -12,9 +12,12 @@ export class XNavbar extends BaseUIComponent {
 	connectedCallback() {
 		// Call parent connectedCallback first to handle sx: styles
 		super.connectedCallback();
-		
-		// Subscribe to activePath changes to update the title
-		this.unsubscribe = subscribeToState('activePath', () => {
+
+		// Determine which global state key provides the title source
+		const titleSource = this.getAttribute('titleSource') || 'activePath';
+
+		// Subscribe to title source changes to update the title
+		this.unsubscribe = subscribeToState(titleSource, () => {
 			this.updateTitle();
 		});
 
@@ -29,21 +32,13 @@ export class XNavbar extends BaseUIComponent {
 	}
 
 	updateTitle() {
-		const activePath = getState('activePath') || '';
-		let title = 'Navigation';
+		const titleSource = this.getAttribute('titleSource') || 'activePath';
+		const manualTitle = this.getAttribute('titleText');
+		const activePath = getState(titleSource) || '';
+		let title = manualTitle || 'Navigation';
 
-		// Map activePath to display title
-		if (activePath === '/' || activePath === '') {
-			title = 'Home';
-		} else if (activePath === '/issues') {
-			title = 'Issues';
-		} else if (activePath === '/wiki') {
-			title = 'Wiki';
-		} else if (activePath === '/files') {
-			title = 'Files';
-		} else if (activePath === '/settings') {
-			title = 'Settings';
-		} else if (activePath.startsWith('/')) {
+		// Derive title from state when manual title not provided
+		if (!manualTitle && activePath.startsWith('/')) {
 			// Extract title from path for other pages
 			const pathName = activePath.substring(1); // Remove leading slash
 			// Add spaces around forward slashes and remove x- prefix for better readability
@@ -56,10 +51,33 @@ export class XNavbar extends BaseUIComponent {
 		// Store the original content for the right side actions
 		const originalContent = this.innerHTML;
 
+		// Check if hamburger menu button should be shown
+		const menuButtonShow = this.getAttribute('menuButtonShow');
+		const menuButtonTarget = this.getAttribute('menuButtonTarget') || 'sidebar';
+		const showMenuButton = menuButtonShow === 'true';
+
+		// Create hamburger button if needed
+		const hamburgerButton = showMenuButton
+			? html`
+					<button
+						class="navbar-hamburger"
+						onclick="document.getElementById('${menuButtonTarget}')?.classList?.toggle('open')"
+						aria-label="Toggle menu"
+					>
+						<span class="hamburger-line"></span>
+						<span class="hamburger-line"></span>
+						<span class="hamburger-line"></span>
+					</button>
+			  `
+			: '';
+
 		// Create navbar structure with dark grey header
 		this.innerHTML = html`
 			<div class="navbar-header">
-				<x-typography variant="h1"> ${title} </x-typography>
+				<div class="navbar-left">
+					${hamburgerButton}
+					<x-typography variant="h1"> ${title} </x-typography>
+				</div>
 				<div class="navbar-right">
 					<div class="navbar-actions">${originalContent}</div>
 				</div>

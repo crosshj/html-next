@@ -1,0 +1,259 @@
+---
+alwaysApply: true
+description: Coding Standards & Rules for CSS
+globs: ['src/**/*.css', 'demo/**/*.css']
+---
+
+# CSS Coding Standards
+
+These standards are inferred from the existing implementation in `src/framework.css` and `demo/`. They aim to preserve clarity, consistency, and maintainability of stylesheets.
+
+## CSS Organization
+
+- **Component-scoped styles**: All component styles should be nested under their component selector
+- **Framework CSS**: Main framework styles go in `src/framework.css`
+- **Component CSS**: Individual component styles go in `src/components/ComponentName.css`
+- **Demo CSS**: Demo-specific styles go in `demo/` directory
+
+## CSS Variables and Custom Properties
+
+- **Root variables**: Define all color and theme variables in `:root` selector
+- **Naming convention**: Use descriptive names with component prefixes
+- **Color system**: Use semantic color names (e.g., `--palettePrimaryMain`, `--paletteTextPrimary`)
+- **Spacing system**: Use consistent spacing scale (8px base unit)
+
+```css
+:root {
+	/* Primary Palette */
+	--palettePrimaryMain: #9a6b75;
+	--palettePrimaryLight: #b88a96;
+	--palettePrimaryDark: #7d4f5a;
+	--palettePrimaryContrast: #fff;
+
+	/* Text Palette */
+	--paletteTextPrimary: rgba(0, 0, 0, 0.87);
+	--paletteTextSecondary: rgba(0, 0, 0, 0.6);
+}
+```
+
+## Component Styling Structure
+
+- **Nest styles under component selectors**: All styles should be scoped to their component
+- **Use kebab-case**: For class names and selectors
+- **Group related styles**: Group properties logically (layout, typography, colors, etc.)
+
+```css
+/* Component styles should be nested */
+x-navbar {
+	/* Navbar-specific styles */
+}
+
+x-navbar .navbar-header {
+	/* Nested element styles */
+}
+
+x-navbar .navbar-left {
+	/* More nested styles */
+}
+```
+
+## Color Usage
+
+- **Prefer CSS custom properties**: Use `var(--palettePrimaryMain)` over hardcoded colors
+- **Semantic naming**: Use semantic color names that describe purpose, not appearance
+- **Consistent palette**: Stick to the defined color palette system
+- **Accessibility**: Ensure sufficient contrast ratios
+
+```css
+/* Good - using semantic color variables */
+.button-primary {
+	background-color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
+}
+
+/* Avoid - hardcoded colors */
+.button-primary {
+	background-color: #9a6b75;
+	color: #fff;
+}
+```
+
+## Spacing and Layout
+
+- **Consistent spacing**: Use the 8px base unit system
+- **Responsive design**: Use relative units and media queries
+- **Flexbox/Grid**: Prefer modern layout methods
+- **Mobile-first**: Design for mobile first, then enhance for larger screens
+
+```css
+/* Use consistent spacing scale */
+.component {
+	padding: 1rem; /* 16px */
+	margin: 0.5rem; /* 8px */
+	gap: 0.25rem; /* 4px */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+	.component {
+		padding: 0.5rem;
+	}
+}
+```
+
+## Typography
+
+- **Font families**: Use the defined font stack
+- **Font sizes**: Use relative units (rem, em) for scalability
+- **Line height**: Use consistent line-height ratios
+- **Font weights**: Use semantic weight names
+
+```css
+/* Typography system */
+.heading {
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+	font-size: 1.5rem;
+	line-height: 1.2;
+	font-weight: 600;
+}
+```
+
+## CSS Architecture
+
+- **Component-based**: Each component has its own CSS file
+- **Import structure**: Import component CSS in main framework file
+- **No global styles**: Avoid global styles that affect multiple components
+- **Specificity**: Keep specificity low and predictable
+
+```css
+/* framework.css - main file */
+@import './components/XNavbar.css';
+@import './components/XButton.css';
+@import './components/XTypography.css';
+```
+
+## Component Variants Over CSS Overrides
+
+**CRITICAL**: Always check if a component supports variants before writing CSS overrides. Prefer extending component functionality over overriding styles.
+
+### Before Writing CSS Overrides
+
+1. **Check component documentation** - Look for existing variants, props, or attributes
+2. **Review component source** - Examine the component's CSS structure and available options
+3. **Ask**: "Should this be a component variant instead of a CSS override?"
+
+### Warning Signs to Stop and Reconsider
+
+- Writing CSS that targets component internals (e.g., `.button-inner`, `.navbar-header`)
+- Using high specificity selectors to override component styles
+- Duplicating component styling across multiple files
+- Creating utility classes that replicate component functionality
+
+### Preferred Approach
+
+```css
+/* ✅ GOOD - Using component variants */
+x-button[variant='custom'] {
+	/* Extend existing component */
+	background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+}
+
+/* ❌ AVOID - Overriding component internals */
+x-button .button-inner {
+	background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+}
+```
+
+### When CSS Overrides Are Acceptable
+
+- **Theming**: Global theme adjustments that affect all components
+- **Layout**: Positioning and spacing that doesn't conflict with component design
+- **State-based styling**: Dynamic styles that can't be handled by component variants
+- **One-off exceptions**: Truly unique cases that don't warrant component changes
+
+### Component Extension Guidelines
+
+- **Add new variants** to the component's CSS file
+- **Use attribute selectors** for variant-based styling
+- **Maintain component API** - don't break existing functionality
+- **Document new variants** in component documentation
+
+## Performance Considerations
+
+- **Efficient selectors**: Avoid overly complex selectors
+- **Minimize reflows**: Use transform and opacity for animations
+- **Critical CSS**: Keep above-the-fold styles in critical path
+- **Unused styles**: Remove unused CSS rules
+
+## Browser Support
+
+- **Modern CSS**: Use modern CSS features with appropriate fallbacks
+- **Vendor prefixes**: Use autoprefixer for vendor prefixes
+- **Progressive enhancement**: Ensure basic functionality without modern features
+
+## Code Organization
+
+- **Logical grouping**: Group related styles together
+- **Consistent formatting**: Use consistent indentation and spacing
+- **Comments**: Add comments for complex or non-obvious styles
+- **Alphabetical properties**: Consider alphabetical ordering for maintainability
+
+```css
+/* Component with organized styles */
+x-button {
+	/* Layout */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	/* Spacing */
+	padding: 0.5rem 1rem;
+	margin: 0.25rem;
+
+	/* Typography */
+	font-family: inherit;
+	font-size: 0.875rem;
+	font-weight: 500;
+
+	/* Colors */
+	background-color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
+
+	/* Border */
+	border: none;
+	border-radius: 0.25rem;
+
+	/* Interaction */
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+```
+
+## Common Patterns
+
+### Component Base Styles
+
+```css
+x-component {
+	/* Reset and base styles */
+	box-sizing: border-box;
+	display: block;
+}
+
+x-component * {
+	box-sizing: inherit;
+}
+```
+
+### State-based Styling
+
+```css
+x-button[disabled] {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+x-button:hover:not([disabled]) {
+	background-color: var(--palettePrimaryDark);
+}
+```
