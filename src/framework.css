@@ -377,6 +377,46 @@ x-navbar {
 		align-items: center;
 		gap: 0.75rem;
 	}
+
+	.navbar-left {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		.navbar-hamburger {
+			background: none;
+			border: none;
+			cursor: pointer;
+			padding: 0.5rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			width: 2rem;
+			height: 2rem;
+			transition: all 0.3s ease;
+			border-radius: 0.25rem;
+
+			&:hover {
+				background-color: color-mix(
+					in srgb,
+					var(--palettePrimaryMain) 20%,
+					transparent
+				);
+			}
+
+			&:focus {
+				outline: 2px solid var(--palettePrimaryMain);
+				outline-offset: 2px;
+			}
+
+			.hamburger-line {
+				width: 100%;
+				height: 2px;
+				background-color: var(--paletteTextPrimary);
+				transition: all 0.3s ease;
+				border-radius: 1px;
+			}
+		}
+	}
 }
 
 /* x-content component - main content area */
@@ -478,7 +518,8 @@ x-typography {
 		font-size: 1.45em;
 		font-weight: 300;
 		line-height: 1.2;
-		background: linear-gradient(
+		color: var(--paletteTextPrimary);
+		/* background: linear-gradient(
 			358deg,
 			var(--palettePrimaryMain) 0%,
 			color-mix(
@@ -493,7 +534,7 @@ x-typography {
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
 		letter-spacing: 0.5px;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 	}
 
 	&[variant='h2'] {
