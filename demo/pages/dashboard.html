@@ -367,7 +367,6 @@
 			<x-box class="sidebar-sticky-header">
 				<x-typography
 					variant="h1"
-					sx:margin-bottom="12px"
 					sx:color="var(--paletteTextPrimary)"
 				>
 					Summary
@@ -429,7 +428,8 @@
 						<x-map items="global_topCategories">
 							<x-box
 								class="category-card"
-								sx:background="var(--paletteBackgroundDefault)"
+								sx:--item-accent="{{item_iconColor}}"
+								sx:background="color-mix(in srgb, var(--paletteBackgroundDefault) 80%, var(--item-accent))"
 							>
 								<x-box
 									class="category-icon"
