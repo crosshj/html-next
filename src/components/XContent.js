@@ -7,7 +7,7 @@ export class XContent extends BaseUIComponent {
 	}
 
 	connectedCallback() {
-		// Apply sx: styles if any
-		this.applySxStyles();
+		// Call parent connectedCallback first to handle sx: styles
+		super.connectedCallback();
 	}
 }

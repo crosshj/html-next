@@ -13,8 +13,11 @@ export class XNavbar extends BaseUIComponent {
 		// Call parent connectedCallback first to handle sx: styles
 		super.connectedCallback();
 
-		// Subscribe to activePath changes to update the title
-		this.unsubscribe = subscribeToState('activePath', () => {
+		// Determine which global state key provides the title source
+		const titleSource = this.getAttribute('titleSource') || 'activePath';
+
+		// Subscribe to title source changes to update the title
+		this.unsubscribe = subscribeToState(titleSource, () => {
 			this.updateTitle();
 		});
 
@@ -29,11 +32,13 @@ export class XNavbar extends BaseUIComponent {
 	}
 
 	updateTitle() {
-		const activePath = getState('activePath') || '';
-		let title = 'Navigation';
+		const titleSource = this.getAttribute('titleSource') || 'activePath';
+		const manualTitle = this.getAttribute('titleText');
+		const activePath = getState(titleSource) || '';
+		let title = manualTitle || 'Navigation';
 
-		// Map activePath to display title
-		if (activePath.startsWith('/')) {
+		// Derive title from state when manual title not provided
+		if (!manualTitle && activePath.startsWith('/')) {
 			// Extract title from path for other pages
 			const pathName = activePath.substring(1); // Remove leading slash
 			// Add spaces around forward slashes and remove x- prefix for better readability

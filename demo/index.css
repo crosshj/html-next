@@ -140,7 +140,7 @@ body.framework-loaded {
 			width: 100%;
 		}
 	}
-	x-navbar .navbar-left .navbar-hamburger {
+	.dashboard-main > x-navbar .navbar-left .navbar-hamburger {
 		display: none;
 	}
 }
@@ -158,7 +158,7 @@ body.framework-loaded {
 			--bg-color: color-mix(
 				in srgb,
 				var(--palettePrimaryMain) 30%,
-				var(--paletteBackgroundPaper) 60%
+				var(--palettePrimaryNavbar) 60%
 			);
 			background: var(--bg-color);
 			border-color: var(--bg-color);
@@ -171,7 +171,7 @@ body.framework-loaded {
 		&.inactive .menuItem-avatar {
 			color: color-mix(
 				in srgb,
-				var(--paletteBackgroundPaper) 60%,
+				var(--palettePrimaryNavbar) 60%,
 				var(--paletteTextPrimary)
 			);
 			&:hover {

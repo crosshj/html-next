@@ -19,16 +19,6 @@
 		<x-markdown>
 			The `Button` component provides interactive elements with multiple variants, sizes, and states. It supports icons, navigation, and comprehensive styling options for a complete button system.
 
-			## Features
-
-			- **Multiple Variants**: Primary, secondary, outlined, and text buttons
-			- **Size Options**: Small, medium, and large sizes
-			- **Icon Support**: Can include Font Awesome icons with left/right positioning
-			- **State Management**: Disabled and loading states
-			- **Navigation**: Can act as a link with the `href` attribute
-			- **Custom Styling**: Full support for the `sx:` attribute system
-			- **Theme Integration**: Consistent with the design system
-
 			## Attributes
 
 			| Attribute | Type | Required | Default | Description |
@@ -43,13 +33,6 @@
 			| `disabled` | boolean | No | `false` | Whether the button is disabled |
 			| `loading` | boolean | No | `false` | Whether the button shows loading state |
 			| `fullWidth` | boolean | No | `false` | Whether the button takes full width |
-
-			## Usage
-
-			```html
-			<x-button variant="primary" size="medium" label="Click me">
-			</x-button>
-			```
 
 			## Examples
 
@@ -98,43 +81,24 @@
 
 			The `href` attribute allows buttons to function as navigation links:
 
+			**Note**: When using `href`, the button automatically handles navigation and state management, making it perfect for navigation menus, call-to-action buttons, and interactive links.
+
+
 			### Basic Link Button
 			```html
 			<x-button href="/dashboard" label="Go to Dashboard"></x-button>
 			```
 
-			### Link Button with Icon
-			```html
-			<x-button href="/settings" icon="Settings" label="Settings"></x-button>
-			```
+			<x-button href="/dashboard" label="Go to Dashboard"></x-button>
 
-			### External Links
-			```html
-			<x-button href="https://example.com" label="External Site"></x-button>
-			```
-
-			### Styled Link Buttons
-			```html
-			<x-button 
-				href="/profile" 
-				variant="outlined" 
-				icon="User" 
-				label="View Profile"
-				sx:color="var(--palettePrimaryMain)"
-			></x-button>
-			```
-
-			**Note**: When using `href`, the button automatically handles navigation and state management, making it perfect for navigation menus, call-to-action buttons, and interactive links.
 
 			## Triggering Flows with Buttons
 
 			Buttons can trigger flows using the `handler` attribute:
 
 			```html
-			<!-- Data source -->
 			<x-data name="count" defaultValue="1"></x-data>
 
-			<!-- Flow definition -->
 			<x-flow key="incrementCount">
 				const current = state.count;
 				SetState('count', current + 1);
