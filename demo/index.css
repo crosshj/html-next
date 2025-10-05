@@ -141,6 +141,7 @@ body.framework-loaded {
 			width: 100%;
 		}
 	}
+	x-page > x-navbar .navbar-left .navbar-hamburger,
 	.dashboard-main > x-navbar .navbar-left .navbar-hamburger {
 		display: none;
 	}
