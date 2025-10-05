@@ -1,0 +1,123 @@
+<x-page>
+	<x-navbar>
+		<x-button
+			variant="secondary"
+			icon="fa-edit"
+		>
+			Edit
+		</x-button>
+	</x-navbar>
+
+	<x-content class="fade-up">
+		<!-- Profile Header -->
+		<x-box
+			class="dashboard-card"
+			sx:margin-bottom="2rem"
+		>
+			<x-box
+				class="flex-start gap-lg"
+				sx:margin-bottom="2rem"
+			>
+				<x-box
+					class="flex-center"
+					sx:width="80px"
+					sx:height="80px"
+					sx:border-radius="50%"
+					sx:background-color="var(--palettePrimaryMain)"
+				>
+					<x-icon
+						name="fa-user-circle"
+						sx:color="white"
+						sx:font-size="2.5rem"
+					></x-icon>
+				</x-box>
+				<x-box>
+					<x-typography
+						variant="h1"
+						sx:margin-bottom="0.5rem"
+					>
+						Sarah Johnson
+					</x-typography>
+					<x-typography
+						variant="h4"
+						sx:color="var(--paletteTextSecondary)"
+						sx:margin-bottom="0.25rem"
+					>
+						Senior Developer • Engineering
+					</x-typography>
+					<x-typography
+						variant="body2"
+						sx:color="var(--paletteTextTertiary)"
+					>
+						sarah.johnson@clientinc.com
+					</x-typography>
+					<x-typography
+						variant="caption"
+						sx:color="var(--paletteTextTertiary)"
+					>
+						Joined March 15, 2023 • Last login 15 minutes ago
+					</x-typography>
+				</x-box>
+			</x-box>
+		</x-box>
+
+		<!-- Profile Stats -->
+		<x-box
+			class="dashboard-metrics-grid"
+			sx:margin-bottom="2rem"
+		>
+			<x-map items="global_profileStats">
+				<x-box class="dashboard-card">
+					<x-box class="flex-between margin-bottom-1">
+						<x-typography variant="h4">{{item_label}}</x-typography>
+						<x-icon
+							name="{{item_icon}}"
+							sx:color="{{item_color}}"
+							sx:font-size="1.5rem"
+						></x-icon>
+					</x-box>
+					<x-typography
+						variant="h2"
+						sx:color="{{item_color}}"
+						class="margin-bottom-half"
+						>{{item_value}}</x-typography
+					>
+				</x-box>
+			</x-map>
+		</x-box>
+
+		<!-- Profile Information -->
+		<!-- prettier-ignore -->
+		<x-markdown>
+			## Profile Information
+
+			Manage your personal information and account settings.
+
+			### Account Details
+
+			- **Name**: Update your display name
+			- **Email**: Change your email address
+			- **Password**: Update your password
+			- **Avatar**: Upload a profile picture
+
+			### Preferences
+
+			- **Notifications**: Configure email and push notifications
+			- **Theme**: Choose between light and dark modes
+			- **Language**: Select your preferred language
+			- **Timezone**: Set your local timezone
+
+			### Privacy Settings
+
+			- **Profile Visibility**: Control who can see your profile
+			- **Activity Status**: Show or hide your online status
+			- **Data Sharing**: Manage data sharing preferences
+
+			### Security
+
+			- **Two-Factor Authentication**: Enable 2FA for added security
+			- **Login History**: View recent login activity
+			- **Active Sessions**: Manage your active sessions
+		</x-markdown>
+	</x-content>
+</x-page>

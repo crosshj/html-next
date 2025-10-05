@@ -1,0 +1,68 @@
+<x-page>
+	<x-box
+		sx:display="flex"
+		sx:align-items="center"
+		sx:justify-content="center"
+		sx:min-height="100vh"
+		sx:padding="2rem"
+	>
+		<x-box
+			class="dashboard-card"
+			sx:text-align="center"
+			sx:max-width="400px"
+		>
+			<x-box
+				class="flex-center"
+				sx:width="80px"
+				sx:height="80px"
+				sx:border-radius="50%"
+				sx:background-color="var(--paletteWarningMain)"
+				sx:margin="0 auto 1.5rem auto"
+			>
+				<x-icon
+					name="fa-sign-out"
+					sx:color="white"
+					sx:font-size="2rem"
+				></x-icon>
+			</x-box>
+
+			<x-typography
+				variant="h1"
+				sx:margin-bottom="1rem"
+			>
+				Sign Out
+			</x-typography>
+
+			<x-typography
+				variant="body1"
+				sx:color="var(--paletteTextSecondary)"
+				sx:margin-bottom="2rem"
+			>
+				Are you sure you want to sign out of your account?
+			</x-typography>
+
+			<x-box
+				sx:display="flex"
+				sx:gap="2"
+				sx:justify-content="center"
+				sx:flex-wrap="wrap"
+			>
+				<x-button
+					variant="text"
+					href="/dashboard"
+					fullWidth
+				>
+					Cancel
+				</x-button>
+
+				<x-button
+					variant="primary"
+					icon="fa-sign-out"
+					fullWidth
+				>
+					Sign Out
+				</x-button>
+			</x-box>
+		</x-box>
+	</x-box>
+</x-page>

@@ -52,14 +52,66 @@
 			// } from 'https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.js';
 			initializeFramework();
 
-			const pages = [
-				{ label: 'Dashboard', href: '/dashboard' },
-				{ label: 'Users', href: '/users' },
-				{ label: 'Settings', href: '/settings' },
-				{ label: 'Features', href: '/features' },
-			];
+			setState('menuItems', [
+				{
+					label: 'Dashboard',
+					href: '/dashboard',
+					icon: 'fa-tachometer',
+				},
+				{ label: 'Users', href: '/users', icon: 'fa-users' },
+				{ label: 'Features', href: '/features', icon: 'fa-star' },
+			]);
 
-			setState('menuItems', pages);
+			const userProfile = {
+				name: 'Sarah Johnson',
+				email: 'sarah.johnson@clientinc.com',
+				role: 'Senior Developer',
+				department: 'Engineering',
+				joinDate: 'March 15, 2023',
+				lastLogin: '15 minutes ago',
+				avatar: '/assets/test_user.png',
+			};
+
+			setState('menuItemsBottom', [
+				{
+					label: userProfile.name,
+					href: '/profile',
+					avatar: userProfile.avatar,
+					hasAvatar: true,
+				},
+				{ label: 'Settings', href: '/settings', icon: 'fa-cog' },
+				{ label: 'Logout', href: '/logout', icon: 'fa-sign-out' },
+			]);
+
+			// Profile page data
+			setState('userProfile', userProfile);
+
+			setState('profileStats', [
+				{
+					label: 'Projects Completed',
+					value: '42',
+					icon: 'fa-check-circle',
+					color: 'var(--paletteSuccessMain)',
+				},
+				{
+					label: 'Tasks Assigned',
+					value: '89',
+					icon: 'fa-tasks',
+					color: 'var(--paletteInfoMain)',
+				},
+				{
+					label: 'Team Members',
+					value: '12',
+					icon: 'fa-users',
+					color: 'var(--palettePrimaryMain)',
+				},
+				{
+					label: 'Days Active',
+					value: '234',
+					icon: 'fa-calendar',
+					color: 'var(--paletteWarningMain)',
+				},
+			]);
 
 			const appContent = await fetch('./app.html').then((response) =>
 				response.text()
