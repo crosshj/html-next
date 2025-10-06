@@ -29,6 +29,11 @@ These standards are inferred from the existing implementation in `demo/pages/`. 
 - Dynamic content (`<x-fragment>`, `<x-include>`)
 - Documentation and examples (`<x-markdown>`)
 
+## Reference Files
+
+- **demo/fragments/** contains XML files for reference only. Do not assume these patterns are supported without first verifying current implementation.
+- Always check `src/components/` for actual component implementations before using patterns from reference files.
+
 ## Page Structure Pattern
 
 Every page follows this consistent structure:
@@ -78,6 +83,14 @@ Every page follows this consistent structure:
 - Place `<x-flow>` components after data definitions.
 - Use descriptive camelCase keys: `updateCounter`, `pathChange`, `userLogin`.
 - Keep flow logic focused and single-purpose.
+
+### Prettier Rules for Blocks
+
+- Always add `<!-- prettier-ignore -->` immediately before the following block tags:
+  - `<x-schema>`
+  - `<x-flow>`
+  - `<x-markdown>`
+- Rationale: these blocks often contain multi-line content where whitespace and newlines matter, and Prettier may mangle formatting. The pre-processing pipeline expects these blocks to be preserved as-authored.
 
 ```html
 <x-flow key="updateCounter">

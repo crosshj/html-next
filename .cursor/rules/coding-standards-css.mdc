@@ -257,3 +257,45 @@ x-button:hover:not([disabled]) {
 	background-color: var(--palettePrimaryDark);
 }
 ```
+
+## Avoid !important
+
+**NEVER use `!important` unless absolutely necessary.** It's a code smell that indicates poor CSS architecture and makes styles hard to override and maintain.
+
+### Why to Avoid !important
+
+- **Breaks cascade**: Defeats the purpose of CSS specificity
+- **Hard to override**: Creates specificity wars
+- **Poor maintainability**: Makes debugging difficult
+- **Indicates design problems**: Usually means CSS structure needs improvement
+
+### Better Alternatives
+
+1. **Increase specificity**: Use more specific selectors
+2. **Restructure CSS**: Organize selectors by specificity
+3. **Use CSS custom properties**: For dynamic values
+4. **Component-scoped styles**: Use web component encapsulation
+
+### When !important Might Be Acceptable
+
+- **Third-party library overrides**: When you can't modify external CSS
+- **Critical CSS**: Above-the-fold styles that must not be overridden
+- **Utility classes**: Framework-level utilities that should always win
+
+### Example of Better Approach
+
+```css
+/* ❌ BAD - Using !important */
+x-form input {
+	width: 100% !important;
+	padding: 0.75rem !important;
+}
+
+/* ✅ GOOD - Using specificity */
+x-form input[type='text'],
+x-form input[type='email'],
+x-form input[type='number'] {
+	width: 100%;
+	padding: 0.75rem;
+}
+```

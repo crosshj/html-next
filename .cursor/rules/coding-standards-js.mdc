@@ -87,6 +87,12 @@ These standards are inferred from the existing implementation under `src/`. They
 - Add new components to the `components` array in `framework.js`.
 - Keep registration centralized; do not call `customElements.define` from component files.
 
+## Pre-processing Components
+
+- Components that use `content` attribute (like `x-markdown`, `x-table`, `x-form`) are pre-processed in `framework.utils.js`.
+- The `transformContentElements` function converts innerHTML to `content` attribute for these components.
+- When adding new content-based components, add their transformation logic to this function.
+
 ## Performance
 
 - Prefer a single `innerHTML` assignment over multiple DOM mutations during render.
