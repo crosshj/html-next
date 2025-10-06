@@ -1,4 +1,45 @@
 <x-page>
+	<x-data
+		name="userList"
+		defaultValue='[
+			{"name": "John Doe", "email": "john.doe@example.com", "isActive": true, "department": "Engineering", "isSkilled": true, "skills": ["JavaScript", "React", "Node.js"]},
+			{"name": "Jane Smith", "email": "jane.smith@example.com", "isActive": false, "department": "Marketing", "isSkilled": false},
+			{"name": "Bob Johnson", "email": "bob.johnson@example.com", "isActive": true, "department": "Sales", "isSkilled": true, "skills": ["Sales", "Customer Service"]}
+		]'
+	></x-data>
+	<x-data
+		name="todoList"
+		defaultValue='[
+			{"title": "Buy groceries", "isActive": false},
+			{"title": "Finish project"},
+			{"title": "Call mom"}
+		]'
+	></x-data>
+	<x-data
+		name="priorityList"
+		defaultValue='[
+			{"task": "Finish project"},
+			{"task": "Call mom"},
+			{"task": "Buy groceries"}
+		]'
+	></x-data>
+	<x-data
+		name="featureList"
+		defaultValue='[
+			{"title": "Feature 1", "description": "Description 1"},
+			{"title": "Feature 2", "description": "Description 2"},
+			{"title": "Feature 3", "description": "Description 3"}
+		]'
+	></x-data>
+	<x-data
+		name="productList"
+		defaultValue='[
+			{"name": "Product 1", "category": "Category 1", "price": 100, "stock": 10},
+			{"name": "Product 2", "category": "Category 2", "price": 200, "stock": 20},
+			{"name": "Product 3", "category": "Category 3", "price": 300, "stock": 30}
+		]'
+	></x-data>
+
 	<x-navbar
 		menuButtonShow="true"
 		menuButtonTarget="sidebar"
@@ -7,17 +48,7 @@
 	<x-content>
 		<!-- prettier-ignore -->
 		<x-markdown>
-			The `Map` component provides powerful template-based rendering for dynamic content generation from arrays of data. It processes data arrays and renders each item using a template with support for conditional rendering, loops, and dynamic content. The component automatically subscribes to state changes and re-renders when data updates, making it ideal for dynamic lists, tables, and other data-driven UI elements.
-
-			## Features
-
-			- **Template Rendering**: Process data arrays with custom templates
-			- **State Subscription**: Automatically updates when data changes
-			- **Conditional Logic**: Support for `{{#if}}` and `{{#each}}` syntax
-			- **Dynamic Content**: Access to item properties and array indices
-			- **Nested Data**: Support for complex nested data structures
-			- **Error Handling**: Graceful handling of missing or invalid data
-			- **Performance**: Efficient rendering with minimal DOM updates
+			The `Map` component provides template-based rendering for dynamic content generation from arrays of data. It processes data arrays and renders each item using a template with support for conditional rendering, loops, and dynamic content. The component automatically subscribes to state changes and re-renders when data updates, making it ideal for dynamic lists, tables, and other data-driven UI elements.
 
 			## Attributes
 
@@ -33,6 +64,10 @@
 			</x-map>
 			```
 
+			<x-map items="global_userList">
+				<x-box>{{item_name}} - {{item_email}}</x-box>
+			</x-map>
+
 			## Basic List
 
 			### Simple List
@@ -43,7 +78,12 @@
 				</x-box>
 			</x-map>
 			```
-			**Description**: Renders a simple list of todo items with basic styling.
+
+			<x-map items="global_todoList">
+				<x-box sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
+					{{item_title}}
+				</x-box>
+			</x-map>
 
 			### Numbered List
 			```html
@@ -54,151 +94,22 @@
 				</x-box>
 			</x-map>
 			```
-			**Description**: Creates a numbered list with index and item content.
 
-			### Styled List
-			```html
-			<x-map items="global_featureList">
-				<x-box sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:border-radius="8px" sx:mb="2" sx:box-shadow="0 1px 3px rgba(0,0,0,0.1)">
-					<x-typography variant="h6" sx:color="var(--palettePrimaryMain)">{{item_title}}</x-typography>
-					<x-typography sx:color="var(--paletteTextSecondary)">{{item_description}}</x-typography>
+			<x-map items="global_priorityList">
+				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1">
+					<x-typography variant="strong">{{index}}.</x-typography>
+					<x-typography>{{item_task}}</x-typography>
 				</x-box>
 			</x-map>
-			```
-			**Description**: Styled list with cards, shadows, and color hierarchy.
 
-			## Data Table
 
-			### Basic Table
-			```html
-			<x-box sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:overflow="hidden">
-				<x-box sx:background="var(--paletteBackgroundPaper)" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)">
-					<x-typography variant="h6">User List</x-typography>
-				</x-box>
-				<x-map items="global_userList">
-					<x-box sx:display="grid" sx:grid-template-columns="1fr 1fr 1fr" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)" sx:gap="2">
-						<x-typography>{{item_name}}</x-typography>
-						<x-typography>{{item_email}}</x-typography>
-						<x-typography>{{item_role}}</x-typography>
-					</x-box>
-				</x-map>
-			</x-box>
-			```
-			**Description**: Creates a data table with headers and grid layout.
-
-			### Styled Table
-			```html
-			<x-box sx:border="1px solid var(--paletteDivider)" sx:border-radius="8px" sx:overflow="hidden">
-				<x-box sx:background="var(--palettePrimaryMain)" sx:color="white" sx:padding="2">
-					<x-typography variant="h6">Product Inventory</x-typography>
-				</x-box>
-				<x-map items="global_productList">
-					<x-box sx:display="grid" sx:grid-template-columns="2fr 1fr 1fr 1fr" sx:padding="2" sx:border-bottom="1px solid var(--paletteDivider)" sx:gap="2" sx:background="WHEN index % 2 === 0 THEN var(--paletteBackgroundPaper) ELSE transparent">
-						<x-typography variant="strong">{{item_name}}</x-typography>
-						<x-typography>{{item_category}}</x-typography>
-						<x-typography>{{item_price}}</x-typography>
-						<x-typography sx:color="WHEN item_stock > 10 THEN var(--paletteSuccessMain) ELSE var(--paletteErrorMain)">{{item_stock}}</x-typography>
-					</x-box>
-				</x-map>
-			</x-box>
-			```
-			**Description**: Styled table with alternating rows, colored headers, and conditional styling.
-
-			## Conditional Rendering
-
-			### Conditional Items
-			```html
-			<x-map items="global_taskList">
-				<x-box sx:display="WHEN item_completed IS true THEN none ELSE flex" sx:gap="2" sx:align-items="center" sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
-					<x-typography>{{item_title}}</x-typography>
-					<x-typography sx:color="var(--paletteTextSecondary)">(Pending)</x-typography>
-				</x-box>
-			</x-map>
-			```
-			**Description**: Only shows incomplete tasks with conditional display.
-
-			### Status-based Styling
-			```html
-			<x-map items="global_orderList">
-				<x-box sx:padding="2" sx:border-radius="4px" sx:mb="2" sx:background="WHEN item_status IS 'shipped' THEN var(--paletteSuccessMain) WHEN item_status IS 'pending' THEN var(--paletteWarningMain) ELSE var(--paletteErrorMain)" sx:color="white">
-					<x-typography variant="strong">Order #{{item_id}}</x-typography>
-					<x-typography>{{item_status}}</x-typography>
-				</x-box>
-			</x-map>
-			```
-			**Description**: Orders with different background colors based on status.
-
-			## Nested Data
-
-			### Nested Object Access
-			```html
-			<x-map items="global_companyList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
-					<x-typography variant="h6">{{item_name}}</x-typography>
-					<x-typography>{{item_address.street}}, {{item_address.city}}</x-typography>
-					<x-typography>{{item_contact.phone}} - {{item_contact.email}}</x-typography>
-				</x-box>
-			</x-map>
-			```
-			**Description**: Accessing nested object properties in the template.
-
-			### Nested Arrays
-			```html
-			<x-map items="global_departmentList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
-					<x-typography variant="h6">{{item_name}}</x-typography>
-					<x-map items="item_employees">
-						<x-typography sx:ml="2">• {{item_name}} ({{item_position}})</x-typography>
-					</x-map>
-				</x-box>
-			</x-map>
-			```
-			**Description**: Nested mapping for departments and their employees.
-
-			## Template Logic
-
-			### Conditional Rendering with {{#if}}
-			```html
-			<x-map items="global_taskList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
-					<x-typography variant="h6">{{item_title}}</x-typography>
-					<x-typography>Priority: {{item_priority}}</x-typography>
-					{{#if item_urgent}}
-					<x-box sx:background="var(--paletteErrorMain)" sx:color="white" sx:padding="1" sx:border-radius="4px" sx:mt="1">
-						<x-typography variant="small">⚠️ URGENT TASK</x-typography>
-					</x-box>
-					{{/if}}
-					{{#if item_assignee}}
-					<x-typography sx:color="var(--paletteTextSecondary)" sx:mt="1">
-						Assigned to: {{item_assignee}}
-					</x-typography>
-					{{/if}}
-				</x-box>
-			</x-map>
-			```
-			**Description**: Shows additional content only when specific conditions are met using `{{#if}}` blocks.
-
-			### Comprehensive {{#if}} Examples
+			### Using {{#each}} + {{#if}}
 			```html
 			<x-map items="global_userList">
 				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
 					<x-typography variant="h6">{{item_name}}</x-typography>
 					<x-typography>{{item_email}}</x-typography>
-					
-					<!-- Boolean property check -->
-					{{#if item_isActive}}
-					<x-box sx:background="var(--paletteSuccessMain)" sx:color="white" sx:padding="0.5" sx:border-radius="4px" sx:display="inline-block">
-						<x-typography variant="small">Active</x-typography>
-					</x-box>
-					{{/if}}
-					
-					<!-- String property existence -->
-					{{#if item_department}}
 					<x-typography sx:color="var(--paletteTextSecondary)">Department: {{item_department}}</x-typography>
-					{{/if}}
-					
-					<!-- Array property existence and length -->
-					{{#if item_skills}}
 					<x-typography variant="strong">Skills:</x-typography>
 					<x-box sx:display="flex" sx:gap="1" sx:flex-wrap="wrap" sx:mt="1">
 						{{#each item_skills}}
@@ -207,211 +118,29 @@
 						</x-box>
 						{{/each}}
 					</x-box>
-					{{/if}}
-					
-					<!-- Nested object property -->
-					{{#if item_profile}}
-					{{#if item_profile.avatar}}
-					<x-typography sx:color="var(--paletteTextSecondary)">Has profile picture</x-typography>
-					{{/if}}
-					{{/if}}
 				</x-box>
 			</x-map>
 			```
-			**Description**: Comprehensive example showing `{{#if}}` with boolean properties, string existence, array checks, and nested object properties.
-
-			### Nested Loops with {{#each}}
-			```html
-			<x-map items="global_projectList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="8px" sx:mb="2">
-					<x-typography variant="h5" sx:color="var(--palettePrimaryMain)">{{item_name}}</x-typography>
-					<x-typography sx:color="var(--paletteTextSecondary)" sx:mb="2">{{item_description}}</x-typography>
-					
-					{{#if item_tags}}
-					<x-box sx:display="flex" sx:gap="1" sx:flex-wrap="wrap" sx:mb="2">
-						{{#each item_tags}}
-						<x-box sx:background="var(--palettePrimaryLight)" sx:color="var(--palettePrimaryMain)" sx:padding="0.5" sx:border-radius="12px" sx:font-size="0.8em">
+			
+			<x-map items="global_userList">
+				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
+					<x-typography variant="h6">{{item_name}}</x-typography>
+					<x-typography>{{item_email}}</x-typography>
+					<x-typography sx:color="var(--paletteTextSecondary)">Department: {{item_department}}</x-typography>
+					{{#if item_isSkilled}}
+					<x-box sx:display="flex" sx:gap="1" sx:flex-wrap="wrap" sx:mt="1">
+						<x-typography variant="strong">Skills:</x-typography>
+						{{#each item_skills}}
+						<x-box sx:background="var(--paletteSecondaryLight)" sx:padding="0.25" sx:border-radius="8px" sx:font-size="0.75em">
 							{{this}}
 						</x-box>
 						{{/each}}
 					</x-box>
 					{{/if}}
-
-					{{#if item_milestones}}
-					<x-typography variant="h6" sx:mt="2" sx:mb="1">Milestones:</x-typography>
-					{{#each item_milestones}}
-					<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1" sx:ml="2">
-						<x-typography variant="strong">{{this_name}}</x-typography>
-						<x-typography sx:color="var(--paletteTextSecondary)">Due: {{this_dueDate}}</x-typography>
-						{{#if this_completed}}
-						<x-typography sx:color="var(--paletteSuccessMain)">✓ Completed</x-typography>
-						{{/if}}
-					</x-box>
-					{{/each}}
-					{{/if}}
 				</x-box>
 			</x-map>
-			```
-			**Description**: Combines `{{#if}}` conditionals with `{{#each}}` loops to handle complex nested data structures like project tags and milestones.
 
-			### Chart Cards with Conditional Chart Types
-			```html
-			<x-map items="global_chartCards">
-				<x-box 
-					class="dashboard-chart-card"
-					sx:padding="1.5rem"
-					sx:background-color="var(--paletteBackgroundPaper)"
-					sx:border-radius="12px"
-					sx:box-shadow="0 2px 8px rgba(0,0,0,0.1)"
-					sx:border="1px solid var(--paletteDivider)"
-					sx:display="flex"
-					sx:flex-direction="column"
-					sx:gap="1rem"
-				>
-					<x-typography variant="h4">{{item_title}}</x-typography>
-					
-					{{#if item_chartType}}
-					{{#if item_chartType === 'line'}}
-					<x-viz-line
-						data="{{item_dataSource}}"
-						sx:color="{{item_color}}"
-						variant="{{item_variant}}"
-						fill="{{item_fill}}"
-					></x-viz-line>
-					{{/if}}
-					
-					{{#if item_chartType === 'pie'}}
-					<x-viz-pie
-						data="{{item_dataSource}}"
-						sx:color="{{item_color}}"
-						variant="{{item_variant}}"
-					></x-viz-pie>
-					{{/if}}
-					
-					{{#if item_chartType === 'bar'}}
-					<x-viz-bar
-						data="{{item_dataSource}}"
-						sx:color="{{item_color}}"
-					></x-viz-bar>
-					{{/if}}
-					{{/if}}
-				</x-box>
-			</x-map>
-			```
-			**Description**: Eliminates repetitive chart card markup by using conditional rendering to show different chart types based on data. A single template handles line charts, pie charts, and bar charts with identical wrapper styling.
-
-			## Dynamic Content
-
-			### Dynamic Styling
-			```html
-			<x-map items="global_metricList">
-				<x-box sx:padding="2" sx:border-radius="4px" sx:mb="2" sx:background="WHEN item_value > item_target THEN var(--paletteSuccessMain) WHEN item_value > item_target * 0.8 THEN var(--paletteWarningMain) ELSE var(--paletteErrorMain)" sx:color="white">
-					<x-typography variant="strong">{{item_name}}</x-typography>
-					<x-typography>{{item_value}} / {{item_target}}</x-typography>
-				</x-box>
-			</x-map>
-			```
-			**Description**: Dynamic background colors based on performance metrics.
-
-			### Interactive Elements
-			```html
-			<x-map items="global_actionList">
-				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
-					<x-typography>{{item_name}}</x-typography>
-					<x-button variant="outlined" size="small" href="flow:{{item_action}}">
-						{{item_buttonText}}
-					</x-button>
-				</x-box>
-			</x-map>
-			```
-			**Description**: Interactive elements with dynamic button actions.
-
-			## Empty State
-
-			### Empty List Handling
-			```html
-			<x-box sx:display="WHEN global_userList.length > 0 THEN none ELSE flex" sx:flex-direction="column" sx:align-items="center" sx:padding="4" sx:color="var(--paletteTextSecondary)">
-				<x-icon icon="User" size="large" sx:color="var(--paletteTextDisabled)"></x-icon>
-				<x-typography variant="h6">No users found</x-typography>
-				<x-typography>Add some users to get started</x-typography>
-			</x-box>
-			<x-map items="global_userList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
-					{{item_name}} - {{item_email}}
-				</x-box>
-			</x-map>
-			```
-			**Description**: Shows empty state when no data is available.
-
-			## How It Works
-
-			### Data Processing
-			1. **Data Retrieval**: Gets data array from state using the `items` attribute
-			2. **Array Validation**: Checks if data is an array and has items
-			3. **Template Processing**: Processes the template for each array item
-			4. **Content Generation**: Creates HTML content for each item
-			5. **DOM Update**: Updates the component's innerHTML with generated content
-
-			### Template Syntax
-			1. **Item Access**: `{{item_propertyName}}` accesses item properties
-			2. **Index Access**: `{{index}}` provides the current array index
-			3. **Conditional Logic**: `{{#if condition}}...{{/if}}` for conditional rendering
-			4. **Loop Logic**: `{{#each array}}...{{/each}}` for nested loops
-
-			#### Conditional Syntax Details
-			- `{{#if item_propertyName}}` - Shows content if property exists and is truthy
-			- `{{#if item_isActive}}` - Shows content if boolean property is true
-			- Content between `{{#if}}` and `{{/if}}` is only rendered when condition is met
-			- Multiple conditions can be nested for complex logic
-
-			#### Loop Syntax Details
-			- `{{#each item_arrayProperty}}` - Iterates over an array property of the current item
-			- Inside `{{#each}}` blocks, use `{{this}}` for primitive values (strings, numbers)
-			- For object arrays, use `{{this_propertyName}}` to access object properties
-			- Loops can be nested and combined with conditionals for complex templates
-
-			### State Subscription
-			1. **Automatic Subscription**: Subscribes to data path for changes
-			2. **Re-rendering**: Automatically re-renders when data changes
-			3. **Cleanup**: Unsubscribes when component is disconnected
-			4. **Performance**: Only re-renders when the specific data path changes
-
-			## Best Practices
-
-			### Data Structure
-			- Use consistent data structures across your application
-			- Keep data arrays focused and single-purpose
-			- Avoid deeply nested structures when possible
-			- Use meaningful property names for better template readability
-
-			### Performance
-			- Avoid extremely large datasets that could impact rendering
-			- Use specific data paths to minimize unnecessary re-renders
-			- Consider pagination for large datasets
-			- Test rendering performance with various data sizes
-
-			### Template Design
-			- Keep templates simple and focused
-			- Use consistent styling across all items
-			- Test templates with different data structures
-			- Consider accessibility in template design
-
-			### Error Handling
-			- Always provide fallback content for missing data
-			- Test with empty arrays and null values
-			- Use conditional rendering to handle edge cases
-			- Monitor console for template processing errors
-
-			## Common Use Cases
-
-			- **Dynamic Lists**: User lists, product catalogs, and content feeds
-			- **Data Tables**: Tabular data display with sorting and filtering
-			- **Dashboard Widgets**: Dynamic content based on user data
-			- **Form Options**: Dynamic form fields based on configuration
-			- **Navigation Menus**: Dynamic menu items based on user permissions
-			- **Content Feeds**: News feeds, activity streams, and notifications
-			- **Search Results**: Dynamic search result display
-			- **Configuration Panels**: Dynamic settings and options display
+			
 		</x-markdown>
 	</x-content>
 </x-page>

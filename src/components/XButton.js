@@ -7,6 +7,20 @@ export class XButton extends BaseUIComponent {
 		super();
 	}
 
+	static get observedAttributes() {
+		return ['disabled'];
+	}
+
+	attributeChangedCallback(name, oldValue, newValue) {
+		if (name === 'disabled') {
+			// Update the inner button's disabled state
+			const innerButton = this.querySelector('button');
+			if (innerButton) {
+				innerButton.disabled = newValue !== null;
+			}
+		}
+	}
+
 	connectedCallback() {
 		// Call parent connectedCallback first to handle sx: styles
 		super.connectedCallback();

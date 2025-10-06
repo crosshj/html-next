@@ -9,8 +9,8 @@ Build interactive apps with custom elements and reactive state using web standar
 - 🎨 **HTML/CSS First** - No JSX, no build step, just web standards
 - 🔄 **Reactive State** - UI updates automatically when data changes
 - 🧩 **Custom Elements** - Reusable components that work like native HTML
-- ⚡ **Zero Dependencies** - Just include files and start coding
-- 🚀 **Small Footprint** - Complete framework in 23kB JS + 6kB CSS
+- ⚡ **Minimal Dependencies** - Just include files and start coding
+- 🚀 **Small Footprint** - Complete framework in ~49kB JS + 6kB CSS (gzipped)
 
 ## Quick Start
 

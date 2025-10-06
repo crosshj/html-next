@@ -56,5 +56,8 @@
 	"homepage": "https://github.com/crosshj/html-next#readme",
 	"bugs": {
 		"url": "https://github.com/crosshj/html-next/issues"
+	},
+	"dependencies": {
+		"yup": "^1.7.1"
 	}
 }

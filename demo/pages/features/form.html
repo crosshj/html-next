@@ -1,0 +1,150 @@
+<x-page>
+	<!-- prettier-ignore -->
+	<x-schema name="userSchema">
+		firstName: string, required, min:2, max:50
+		email: email, required
+		age: number, min:18, max:120
+		country: string, required
+		bio: string, max:500
+		newsletter: boolean
+	</x-schema>
+
+	<x-data
+		name="userForm"
+		defaultValue='{
+			"firstName": "",
+			"email": "",
+			"age": "healthy",
+			"country": "ca",
+			"bio": "",
+			"newsletter": false
+		}'
+	></x-data>
+
+	<!-- prettier-ignore -->
+	<x-flow key="submitForm">
+		const formData = state.userForm || {};
+		
+		// Mark the form as submitted to trigger validation
+		const form = document.querySelector('x-form[name="userForm"]');
+		if(!form) {
+			console.log('Form not found');
+			return;
+		}
+		form.markAsSubmitted();
+		
+		// Only proceed if form is valid AFTER marking as submitted
+		if (form.isValid) {
+			console.log('Form submitted with data:', formData);
+			alert('Form submitted successfully!');
+		} else {
+			console.log('Form is not valid');
+		}
+	</x-flow>
+
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			# Form Component
+
+			The `x-form` component provides a means to create forms with automatic styling, state management, and validation support.
+
+			## Attributes
+
+			| Attribute | Type   | Required | Default | Description                            |
+			|-----------|--------|----------|---------|----------------------------------------|
+			| `data`    | string | Yes      | -       | Global state path to bind form data to |
+			| `schema`  | string | No       | -       | Schema name for validation             |
+
+			## Basic Example
+
+			```html
+			<x-data
+				name="userForm"
+				defaultValue='{
+					"firstName": "",
+					"email": "",
+					"age": "healthy",
+					"country": "ca",
+					"bio": "",
+					"newsletter": false
+				}'
+			></x-data>
+
+			<x-schema name="userSchema">
+				firstName: string, required, min:2, max:50
+				email: email, required
+				age: number, min:18, max:120
+				country: string, required
+				bio: string, max:500
+				newsletter: boolean
+			</x-schema>
+
+			<x-form data="global_userForm" schema="userSchema">
+				<input label="First Name" name="firstName" />
+				<input label="Email" name="email" type="email" />
+				<input label="Age" name="age" type="number" min="18" />
+				<select label="Country" name="country">
+					<option value="us">United States</option>
+					<option value="ca">Canada</option>
+				</select>
+				<textarea label="Bio" name="bio" rows="4"></textarea>
+				<input label="Subscribe to newsletter" type="toggle" name="newsletter" />
+				<x-button
+					label="Save User"
+					handler="submitForm"
+				></x-button>
+			</x-form>
+			```
+
+			> Note: try to type in bio then hit submit.  You will see errors.  Careful, age is invalid from defaul state!
+		</x-markdown>
+
+		<x-form
+			name="userForm"
+			data="global_userForm"
+			schema="userSchema"
+		>
+			<input
+				label="First Name"
+				name="firstName"
+			/>
+			<input
+				label="Email"
+				name="email"
+				type="email"
+			/>
+			<input
+				label="Age"
+				name="age"
+				type="number"
+			/>
+			<select
+				label="Country"
+				name="country"
+			>
+				<option value="us">United States</option>
+				<option value="ca">Canada</option>
+			</select>
+			<textarea
+				label="Bio"
+				name="bio"
+				rows="4"
+			></textarea>
+			<input
+				label="Subscribe to newsletter"
+				type="toggle"
+				name="newsletter"
+			/>
+			<x-button
+				label="Save User"
+				handler="submitForm"
+			/>
+		</x-form>
+	</x-content>
+</x-page>

@@ -290,8 +290,8 @@ export function extractStateReferences(attributes) {
 	return Array.from(stateRefs);
 }
 
-// Function to transform x-markdown and x-table elements to use content attribute
-function transformXMarkdownElements(htmlContent) {
+// Function to transform x-markdown, x-table, x-schema, and x-form elements to use content attribute
+function transformContentElements(htmlContent) {
 	// First, temporarily replace markdown code blocks to avoid processing HTML tags inside them
 	const codeBlockPlaceholder = '___CODE_BLOCK_PLACEHOLDER___';
 	const codeBlockMatches = [];
@@ -401,6 +401,90 @@ function transformXMarkdownElements(htmlContent) {
 		}
 	);
 
+	// Process x-schema elements (only outside of x-markdown)
+	// First, temporarily replace x-markdown content to avoid processing x-schema inside it
+	const schemaMarkdownPlaceholder = '___SCHEMA_MARKDOWN_PLACEHOLDER___';
+	const schemaMarkdownMatches = [];
+	let schemaContent = transformed;
+
+	// Store x-markdown elements temporarily
+	schemaContent = schemaContent.replace(
+		/<x-markdown[^>]*content="[^"]*"[^>]*><\/x-markdown>/gi,
+		(match) => {
+			const index = schemaMarkdownMatches.length;
+			schemaMarkdownMatches.push(match);
+			return `${schemaMarkdownPlaceholder}${index}`;
+		}
+	);
+
+	// Process x-schema elements in the content without x-markdown
+	const xSchemaRegex = /<x-schema([^>]*)>([\s\S]*?)<\/x-schema>/gi;
+	schemaContent = schemaContent.replace(
+		xSchemaRegex,
+		(match, attributes, content) => {
+			// Escape the content for use in HTML attribute
+			const escapedContent = content
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;')
+				.replace(/\n/g, '&#10;')
+				.replace(/\r/g, '&#13;')
+				.replace(/\t/g, '&#9;');
+
+			// Return the transformed element with content attribute
+			return `<x-schema${attributes} content="${escapedContent}"></x-schema>`;
+		}
+	);
+
+	// Restore x-markdown elements
+	transformed = schemaContent.replace(
+		new RegExp(`${schemaMarkdownPlaceholder}(\\d+)`, 'g'),
+		(match, index) => {
+			return schemaMarkdownMatches[parseInt(index)];
+		}
+	);
+
+	// Process x-form elements (only outside of x-markdown)
+	// First, temporarily replace x-markdown content to avoid processing x-form inside it
+	const formMarkdownPlaceholder = '___FORM_MARKDOWN_PLACEHOLDER___';
+	const formMarkdownMatches = [];
+	let formContent = transformed;
+
+	// Store x-markdown elements temporarily
+	formContent = formContent.replace(
+		/<x-markdown[^>]*content="[^"]*"[^>]*><\/x-markdown>/gi,
+		(match) => {
+			const index = formMarkdownMatches.length;
+			formMarkdownMatches.push(match);
+			return `${formMarkdownPlaceholder}${index}`;
+		}
+	);
+
+	// Process x-form elements in the content without x-markdown
+	const xFormRegex = /<x-form([^>]*)>([\s\S]*?)<\/x-form>/gi;
+	formContent = formContent.replace(
+		xFormRegex,
+		(match, attributes, content) => {
+			// Escape the content for use in HTML attribute
+			const escapedContent = content
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;')
+				.replace(/\n/g, '&#10;')
+				.replace(/\r/g, '&#13;')
+				.replace(/\t/g, '&#9;');
+
+			// Return the transformed element with content attribute
+			return `<x-form${attributes} content="${escapedContent}"></x-form>`;
+		}
+	);
+
+	// Restore x-markdown elements
+	transformed = formContent.replace(
+		new RegExp(`${formMarkdownPlaceholder}(\\d+)`, 'g'),
+		(match, index) => {
+			return formMarkdownMatches[parseInt(index)];
+		}
+	);
+
 	return transformed;
 }
 
@@ -431,7 +515,7 @@ export function cleanServerHTML(htmlContent) {
 	cleaned = cleaned.replace(/\n\s*\n\s*\n/g, '\n\n');
 
 	// Transform x-markdown elements to use content attribute
-	cleaned = transformXMarkdownElements(cleaned);
+	cleaned = transformContentElements(cleaned);
 
 	return cleaned;
 }

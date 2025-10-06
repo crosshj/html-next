@@ -324,11 +324,44 @@ class FrameworkCore {
 		window.location.hash = path;
 	}
 
-	// Utility function to set data (with Promise support)
+	// Utility function to set data (with Promise support and dot notation)
 	async SetData(name, value) {
 		// If value is a Promise, await it
 		const resolvedValue = value instanceof Promise ? await value : value;
-		this.set(name, resolvedValue);
+
+		// Handle dot notation for nested objects
+		if (name.includes('.')) {
+			this.setNested(name, resolvedValue);
+		} else {
+			this.set(name, resolvedValue);
+		}
+	}
+
+	// Helper function to set nested object values using dot notation
+	setNested(path, value) {
+		const keys = path.split('.');
+		const rootKey = keys[0];
+
+		// Get or create the root object (copy to ensure change detection works)
+		let rootObject = this.state[rootKey]
+			? JSON.parse(JSON.stringify(this.state[rootKey]))
+			: {};
+		let current = rootObject;
+
+		// Navigate to the parent of the target key
+		for (let i = 1; i < keys.length - 1; i++) {
+			if (!current[keys[i]] || typeof current[keys[i]] !== 'object') {
+				current[keys[i]] = {};
+			}
+			current = current[keys[i]];
+		}
+
+		// Set the final value
+		const finalKey = keys[keys.length - 1];
+		current[finalKey] = value;
+
+		// Update the root object in state (this triggers change detection)
+		this.set(rootKey, rootObject);
 	}
 
 	// Clear all state (useful for testing)
@@ -377,6 +410,11 @@ export function setState(property, value) {
 
 // Export SetState as an alias for setState (for flows compatibility)
 export const SetState = setState;
+
+// Export SetData function
+export function SetData(name, value) {
+	return frameworkCore.SetData(name, value);
+}
 
 export function getState(property) {
 	return frameworkCore.get(property);

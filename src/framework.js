@@ -29,6 +29,8 @@ import { XVizPie } from './components/XVizPie.js';
 import { XVizLine } from './components/XVizLine.js';
 import { XMarkdown } from './components/XMarkdown.js';
 import { XTable } from './components/XTable.js';
+import { XForm } from './components/XForm.js';
+import { XSchema } from './components/XSchema.js';
 import { cleanServerHTML } from './framework.utils.js';
 
 // Register all web components
@@ -53,6 +55,8 @@ function registerFrameworkComponents() {
 		{ name: 'x-viz-line', class: XVizLine },
 		{ name: 'x-markdown', class: XMarkdown },
 		{ name: 'x-table', class: XTable },
+		{ name: 'x-form', class: XForm },
+		{ name: 'x-schema', class: XSchema },
 	];
 
 	for (const { name, class: ComponentClass } of components) {

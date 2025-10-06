@@ -8,6 +8,7 @@ export { initializeFramework } from './framework.js';
 export {
 	setState,
 	SetState,
+	SetData,
 	getState,
 	subscribeToState,
 } from './framework.core.js';
@@ -24,3 +25,4 @@ import './components/XMarkdown.css';
 import './components/XVizBar.css';
 import './components/XVizPie.css';
 import './components/XVizLine.css';
+import './components/XForm.css';
