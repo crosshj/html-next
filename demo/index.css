@@ -140,7 +140,8 @@ body.framework-loaded {
 			width: 100%;
 		}
 	}
-	.dashboard-main > x-navbar .navbar-left .navbar-hamburger {
+	.dashboard-main > x-navbar .navbar-left .navbar-hamburger,
+	x-page > x-navbar .navbar-left .navbar-hamburger {
 		display: none;
 	}
 }
