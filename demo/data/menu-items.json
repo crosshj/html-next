@@ -1,0 +1,17 @@
+[
+	{
+		"label": "Dashboard",
+		"href": "/dashboard",
+		"icon": "fa-tachometer"
+	},
+	{
+		"label": "Users",
+		"href": "/users",
+		"icon": "fa-users"
+	},
+	{
+		"label": "Features",
+		"href": "/features",
+		"icon": "fa-star"
+	}
+]

@@ -58,12 +58,24 @@ export class XFragment extends BaseUIComponent {
 
 		// If content is a string, treat it as HTML
 		if (typeof content === 'string') {
-			// Use centralized cleaning function
-			const cleanedContent = cleanServerHTML(content);
-			this.innerHTML = cleanedContent;
+			try {
+				// Use centralized cleaning function
+				const cleanedContent = cleanServerHTML(content);
+				this.innerHTML = cleanedContent;
+			} catch (error) {
+				console.error('Error processing fragment content:', error);
+				this.innerHTML =
+					'<div style="padding: 20px; color: red;">Error processing content</div>';
+			}
 		} else {
 			// If content is an object or other type, stringify it
-			this.innerHTML = html`<pre>${JSON.stringify(content, null, 2)}</pre>`;
+			try {
+				this.innerHTML = html`<pre>${JSON.stringify(content, null, 2)}</pre>`;
+			} catch (error) {
+				console.error('Error stringifying fragment content:', error);
+				this.innerHTML =
+					'<div style="padding: 20px; color: red;">Error displaying content</div>';
+			}
 		}
 	}
 

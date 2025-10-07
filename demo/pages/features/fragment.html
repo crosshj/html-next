@@ -1,0 +1,45 @@
+<x-page>
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			The `Fragment` component displays dynamic content with state subscription and automatic updates.
+
+			## Attributes
+
+			| Attribute | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `path` | string | Yes | State path to subscribe to for content updates |
+			| `handler` | string | Yes | Flow key to trigger when content changes |
+
+			## Basic Usage
+
+			```html
+			<x-fragment path="global_pageContent" handler="contentChanged"></x-fragment>
+			```
+
+			## Dynamic Content
+
+			```html
+			<x-fragment path="global_userMessage" handler="messageUpdated">
+				<x-typography>{{global_userMessage}}</x-typography>
+			</x-fragment>
+			```
+
+			## Conditional Content
+
+			```html
+			<x-fragment path="global_userRole" handler="roleChanged">
+				<x-box sx:display="WHEN global_userRole IS 'admin' THEN flex ELSE none">
+					<x-typography>Admin Panel</x-typography>
+				</x-box>
+			</x-fragment>
+			```
+
+		</x-markdown>
+	</x-content>
+</x-page>

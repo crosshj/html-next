@@ -1,0 +1,40 @@
+<x-page>
+	<x-navbar titleText="Page Not Found"> <br /><br /> </x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+
+			The page you're looking for doesn't exist or has been moved.
+
+			## What you can do:
+
+			- Check the URL for typos
+			- Use the navigation menu to find what you're looking for
+			- Go back to the [Dashboard](/dashboard)
+
+			## Error Details
+
+			**Requested Path:** `{{global_activePath}}`  
+			**Error Code:** 404
+		</x-markdown>
+
+		<x-box
+			sx:mt="4"
+			sx:display="flex"
+			sx:gap="2"
+			sx:justify-content="center"
+		>
+			<x-button
+				href="/dashboard"
+				variant="primary"
+				label="Go to Dashboard"
+			></x-button>
+			<x-button
+				href="/features"
+				variant="text"
+				label="Browse Features"
+			></x-button>
+		</x-box>
+	</x-content>
+</x-page>

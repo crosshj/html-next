@@ -7,6 +7,9 @@ export class XNavbar extends BaseUIComponent {
 	constructor() {
 		super();
 		this.unsubscribe = null;
+
+		// Store the original content for the right side actions
+		this.originalContent = this.innerHTML + '';
 	}
 
 	connectedCallback() {
@@ -52,9 +55,6 @@ export class XNavbar extends BaseUIComponent {
 				formattedPath.trim().charAt(0).toUpperCase() + formattedPath.slice(1);
 		}
 
-		// Store the original content for the right side actions
-		const originalContent = this.innerHTML;
-
 		// Check if hamburger menu button should be shown
 		const menuButtonShow = this.getAttribute('menuButtonShow');
 		const menuButtonTarget = this.getAttribute('menuButtonTarget') || 'sidebar';
@@ -83,7 +83,9 @@ export class XNavbar extends BaseUIComponent {
 					<x-typography variant="h1"> ${title} </x-typography>
 				</div>
 				<div class="navbar-right">
-					<div class="navbar-actions">${originalContent}</div>
+					${this.originalContent
+						? `<div class="navbar-actions">${this.originalContent}</div>`
+						: ''}
 				</div>
 			</div>
 		`;

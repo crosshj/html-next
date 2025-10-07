@@ -1,0 +1,26 @@
+[
+	{
+		"label": "Projects Completed",
+		"value": "42",
+		"icon": "fa-check-circle",
+		"color": "var(--paletteSuccessMain)"
+	},
+	{
+		"label": "Tasks Assigned",
+		"value": "89",
+		"icon": "fa-tasks",
+		"color": "var(--paletteInfoMain)"
+	},
+	{
+		"label": "Team Members",
+		"value": "12",
+		"icon": "fa-users",
+		"color": "var(--palettePrimaryMain)"
+	},
+	{
+		"label": "Days Active",
+		"value": "234",
+		"icon": "fa-calendar",
+		"color": "var(--paletteWarningMain)"
+	}
+]

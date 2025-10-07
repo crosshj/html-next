@@ -1,4 +1,16 @@
 <x-page>
+	<x-data
+		name="profileStats"
+		url="./data/profile-stats.json"
+		defaultValue="[]"
+	></x-data>
+
+	<x-data
+		name="userProfile"
+		url="./data/user-profile.json"
+		defaultValue="{}"
+	></x-data>
+
 	<x-navbar
 		menuButtonShow="true"
 		menuButtonTarget="sidebar"
@@ -30,7 +42,7 @@
 				>
 					<img
 						src="/assets/test_user.png"
-						style="width: 100%; height: 100%; object-fit: cover;"
+						style="width: 100%; height: 100%; object-fit: cover"
 						alt="Profile Avatar"
 					/>
 				</x-box>

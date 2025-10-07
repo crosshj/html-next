@@ -16,7 +16,24 @@ export class SystemElement extends HTMLElement {
 				.replace(/&#13;/g, '\r')
 				.replace(/&#9;/g, '\t');
 		} else {
-			body = this.textContent.trim();
+			body = this.textContent ? this.textContent.trim() : '';
+		}
+
+		// Protect against empty or malformed content
+		if (!body || typeof body !== 'string') {
+			body = '';
+		}
+
+		// Additional validation for potentially dangerous content
+		if (
+			body.includes('undefined') &&
+			body.includes('null') &&
+			body.length < 10
+		) {
+			console.warn(
+				'SystemElement: potentially malformed content detected, using empty string'
+			);
+			body = '';
 		}
 
 		this.unregister = register({

@@ -8,6 +8,7 @@ class FrameworkCore {
 		this.subscriptions = new Map(); // Map of path -> subscription config
 		this.flows = new Map(); // Map of key -> flow definition
 		this.componentHooks = new Map(); // Map of component type -> Set of hook functions
+		this.urlCache = new Map(); // Map of url -> {data, promise, loading}
 		this.initialized = false;
 	}
 
@@ -45,6 +46,127 @@ class FrameworkCore {
 	// Get a state value
 	get(property) {
 		return this.state[property];
+	}
+
+	// Get data with URL fetching support
+	async GetData(name) {
+		const dataSource = this.dataSources.get(name);
+		if (!dataSource) {
+			return this.get(name);
+		}
+
+		// If it's a URL-based data source, handle fetching
+		if (dataSource.url) {
+			return await this.fetchUrlData(name, dataSource);
+		}
+
+		// Otherwise return the current state value
+		return this.get(name);
+	}
+
+	// Fetch URL data with caching and lazy loading
+	async fetchUrlData(name, dataSource) {
+		const { url, lazy, defaultValue } = dataSource;
+
+		// Check if we already have this data cached
+		if (this.urlCache.has(url)) {
+			const cached = this.urlCache.get(url);
+			if (cached.data !== undefined) {
+				return cached.data;
+			}
+			// If it's currently loading, wait for the existing promise
+			if (cached.promise) {
+				return await cached.promise;
+			}
+		}
+
+		// If lazy loading is enabled and we haven't fetched yet, return default value
+		if (lazy && !this.urlCache.has(url)) {
+			this.urlCache.set(url, {
+				data: undefined,
+				promise: null,
+				loading: false,
+			});
+			return defaultValue;
+		}
+
+		// Create fetch promise
+		const fetchPromise = this.performUrlFetch(url, name);
+
+		// Cache the promise
+		this.urlCache.set(url, {
+			data: undefined,
+			promise: fetchPromise,
+			loading: true,
+		});
+
+		try {
+			const data = await fetchPromise;
+
+			// Update cache with raw data (template processing happens in GetData)
+			this.urlCache.set(url, {
+				data,
+				promise: null,
+				loading: false,
+			});
+
+			// Update state with the raw data
+			this.set(name, data);
+
+			return data;
+		} catch (error) {
+			console.error(`Error fetching data from ${url}:`, error);
+
+			// Update cache to indicate error
+			this.urlCache.set(url, {
+				data: defaultValue,
+				promise: null,
+				loading: false,
+			});
+
+			// Set default value in state
+			this.set(name, defaultValue);
+			return defaultValue;
+		}
+	}
+
+	// Perform the actual URL fetch
+	async performUrlFetch(url, name) {
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+			}
+
+			const text = await response.text();
+
+			// Try to parse as JSON if it looks like JSON
+			if (url.endsWith('.json') || this.looksLikeJson(text)) {
+				try {
+					return JSON.parse(text);
+				} catch (parseError) {
+					console.warn(
+						`Failed to parse JSON from ${url}, using as text:`,
+						parseError
+					);
+					return text;
+				}
+			}
+
+			// Return as text for HTML and other content
+			return text;
+		} catch (error) {
+			throw new Error(`Failed to fetch ${url}: ${error.message}`);
+		}
+	}
+
+	// Check if text looks like JSON
+	looksLikeJson(text) {
+		const trimmed = text.trim();
+		return (
+			(trimmed.startsWith('{') && trimmed.endsWith('}')) ||
+			(trimmed.startsWith('[') && trimmed.endsWith(']'))
+		);
 	}
 
 	// Get the entire state object (read-only copy)
@@ -101,19 +223,45 @@ class FrameworkCore {
 
 	// Register a data source
 	registerDataSource(attributes, body) {
-		const { name, defaultValue, defaultvalue, route } = attributes;
+		const { name, defaultValue, defaultvalue, route, url, lazy } = attributes;
 
 		if (!name) return;
 
 		// Handle both camelCase and lowercase attribute names
 		const value = defaultValue !== undefined ? defaultValue : defaultvalue;
+		const isLazy = lazy === 'true' || lazy === true;
 
 		// Store data source configuration
-		this.dataSources.set(name, { defaultValue: value, route });
+		this.dataSources.set(name, {
+			defaultValue: value,
+			route,
+			url,
+			lazy: isLazy,
+		});
 
 		// Handle route-based data sources
 		if (name === 'pathData' && route) {
 			this.setupPathDataListener(route);
+			return;
+		}
+
+		// Handle URL-based data sources
+		if (url) {
+			// Initialize with default value
+			if (value !== undefined) {
+				let parsedValue = value;
+				try {
+					parsedValue = JSON.parse(value);
+				} catch (e) {
+					// Keep as string if not JSON
+				}
+				this.initializeProperty(name, parsedValue);
+			}
+
+			// If not lazy, fetch immediately
+			if (!isLazy) {
+				this.fetchUrlData(name, { url, lazy: isLazy, defaultValue: value });
+			}
 			return;
 		}
 
@@ -207,6 +355,22 @@ class FrameworkCore {
 			return;
 		}
 
+		// Additional validation for potentially dangerous content
+		if (typeof code !== 'string') {
+			console.warn('Flow execution skipped: code is not a string');
+			return;
+		}
+
+		// Check for obviously malformed code that could crash the browser
+		if (
+			code.includes('undefined') &&
+			code.includes('null') &&
+			code.length < 10
+		) {
+			console.warn('Flow execution skipped: potentially malformed code');
+			return;
+		}
+
 		try {
 			// Create execution context
 			const self = this; // Store reference to FrameworkCore instance
@@ -226,6 +390,8 @@ class FrameworkCore {
 				setState: (name, value) => self.set(name, value),
 				SetData: (name, value) => self.SetData(name, value),
 				setData: (name, value) => self.SetData(name, value),
+				GetData: (name) => self.GetData(name),
+				getData: (name) => self.GetData(name),
 				Query: (options) => self.Query(options),
 				query: (options) => self.Query(options),
 				Navigate: (path) => self.Navigate(path),
@@ -236,15 +402,25 @@ class FrameworkCore {
 				confirm: (message, title) => self.Confirm(message, title),
 			};
 
-			// Execute the flow within an async function to support await syntax
-			const flowFunction = new Function(
-				...Object.keys(flowContext),
-				`"use strict"; return (async () => { ${code} })();`
-			);
+			// Validate that we can create a function from this code
+			let flowFunction;
+			try {
+				flowFunction = new Function(
+					...Object.keys(flowContext),
+					`"use strict"; return (async () => { ${code} })();`
+				);
+			} catch (syntaxError) {
+				console.error('Flow syntax error:', syntaxError);
+				console.error('Problematic code:', code);
+				return;
+			}
 
+			// Execute the flow - no timeout for user interactions
+			// The timeout was too aggressive for flows that involve user interaction (modals, etc.)
 			await flowFunction.apply(flowContext, Object.values(flowContext));
 		} catch (error) {
 			console.error('Flow execution error:', error);
+			console.error('Problematic code:', code);
 		}
 	}
 
@@ -534,6 +710,11 @@ export const SetState = setState;
 // Export SetData function
 export function SetData(name, value) {
 	return frameworkCore.SetData(name, value);
+}
+
+// Export GetData function
+export function GetData(name) {
+	return frameworkCore.GetData(name);
 }
 
 export function getState(property) {

@@ -3,21 +3,33 @@
 		name="activePath"
 		defaultValue=""
 	></x-data>
+
 	<x-data
 		name="pathData"
 		route="/#/:rest*"
 	></x-data>
+
 	<x-data
 		name="mainContent"
 		defaultValue=""
 	></x-data>
+
 	<x-data
 		name="menuItems"
+		url="./data/menu-items.json"
 		defaultValue="[]"
 	></x-data>
+
 	<x-data
 		name="menuItemsBottom"
+		url="./data/menu-items-bottom.json"
 		defaultValue="[]"
+	></x-data>
+
+	<x-data
+		name="errorContent"
+		url="./pages/404.html"
+		lazy="true"
 	></x-data>
 
 	<x-subscribe
@@ -34,18 +46,28 @@
 		SetData("mainContent", ''); //loading
 
 		console.log('Path changed to:', path);
-		fetch(`./pages/${path}.html`).then(x => SetData("mainContent", x.text()));
+		const mainContent = await fetch(`./pages/${path}.html`).then(x => x.text());
 
-		SetState('menuItems', state.menuItems.map(item => ({
+		if(mainContent.trim()) {
+			SetData("mainContent", mainContent.trim())
+		} else {
+			SetData("mainContent", await GetData('errorContent'))
+		}
+
+		// Get menu data from URL sources and update with active states
+		const menuItems = await GetData('menuItems').then(x => x.map(item => ({
 			...item,
 			variant: currentPath.startsWith(item.href) ? "primary" : "text",
 			class: "menuItem " + (currentPath.startsWith(item.href) ? "active" : "inactive"),
 		})));
-		SetState('menuItemsBottom', state.menuItemsBottom.map(item => ({
+		const menuItemsBottom = await GetData('menuItemsBottom').then(x => x.map(item => ({
 			...item,
 			variant: currentPath.startsWith(item.href) ? "primary" : "text",
 			class: "menuItem " + (currentPath.startsWith(item.href) ? "active" : "inactive"),
 		})));
+
+		SetState('menuItems', menuItems);
+		SetState('menuItemsBottom', menuItemsBottom);
 		SetData('activePath', currentPath);
 		Navigate(currentPath);
 		// document.getElementById('sidebar')?.classList?.remove('open')

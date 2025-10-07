@@ -1,0 +1,9 @@
+{
+	"name": "Sarah Johnson",
+	"email": "sarah.johnson@clientinc.com",
+	"role": "Senior Developer",
+	"department": "Engineering",
+	"joinDate": "March 15, 2023",
+	"lastLogin": "15 minutes ago",
+	"avatar": "/assets/test_user.png"
+}

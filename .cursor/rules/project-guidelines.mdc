@@ -67,3 +67,7 @@ This is the html-next framework - a modern, declarative web component framework 
 - **Attribute tables**: Type, Required, Default, Description columns
 - **Examples**: Provide both code snippets and live examples
 - **Markdown**: Use `<x-markdown>` for documentation content
+
+## Development Guidelines
+
+**IMPORTANT**: Never start development servers automatically. The user will start their own servers when needed. This prevents port conflicts and resource waste.

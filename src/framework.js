@@ -82,7 +82,27 @@ export async function loadFragment(fragmentPath) {
 		}
 		const content = await response.text();
 		console.log({ content });
+
+		// Protect against empty content
+		if (!content || typeof content !== 'string') {
+			console.warn('Fragment content is empty or invalid');
+			document.body.innerHTML = html`<div style="padding: 20px; color: orange;">
+				Warning: Fragment content is empty or invalid
+			</div>`;
+			return;
+		}
+
 		const cleanedContent = cleanServerHTML(content);
+
+		// Additional check after cleaning
+		if (!cleanedContent || cleanedContent.trim() === '') {
+			console.warn('Fragment content is empty after cleaning');
+			document.body.innerHTML = html`<div style="padding: 20px; color: orange;">
+				Warning: Fragment content is empty after processing
+			</div>`;
+			return;
+		}
+
 		document.body.innerHTML = cleanedContent;
 
 		// Flows will execute themselves based on their own attributes and state

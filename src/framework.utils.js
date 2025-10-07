@@ -292,6 +292,11 @@ export function extractStateReferences(attributes) {
 
 // Function to transform x-markdown, x-table, x-schema, x-form, and x-flow elements to use content attribute
 function transformContentElements(htmlContent) {
+	// Protect against empty or null content
+	if (!htmlContent || typeof htmlContent !== 'string') {
+		return '';
+	}
+
 	// First, temporarily replace markdown code blocks to avoid processing HTML tags inside them
 	const codeBlockPlaceholder = '___CODE_BLOCK_PLACEHOLDER___';
 	const codeBlockMatches = [];
@@ -532,6 +537,11 @@ function transformContentElements(htmlContent) {
 
 // Function to clean HTML content from server
 export function cleanServerHTML(htmlContent) {
+	// Protect against empty or null content
+	if (!htmlContent || typeof htmlContent !== 'string') {
+		return '';
+	}
+
 	// Remove Vite's injected script tags
 	let cleaned = htmlContent.replace(
 		/<script[^>]*type="module"[^>]*>[\s\S]*?<\/script>/gi,
@@ -556,8 +566,15 @@ export function cleanServerHTML(htmlContent) {
 	// Clean up any extra whitespace that might be left
 	cleaned = cleaned.replace(/\n\s*\n\s*\n/g, '\n\n');
 
-	// Transform x-markdown elements to use content attribute
-	cleaned = transformContentElements(cleaned);
+	// Only transform content elements if we have valid content
+	if (cleaned.trim()) {
+		try {
+			cleaned = transformContentElements(cleaned);
+		} catch (error) {
+			console.error('Error transforming content elements:', error);
+			// Return the cleaned content without transformation if there's an error
+		}
+	}
 
 	return cleaned;
 }

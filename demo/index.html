@@ -17,10 +17,31 @@
 			rel="stylesheet"
 			href="./vendor/inter.css"
 		/>
-		<link
+
+		<!-- old version of font awesome -->
+		<!-- <link
 			rel="stylesheet"
 			href="./vendor/font-awesome.css"
+		/> -->
+
+		<!-- fork of font awesome -->
+		<!-- <link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
+			integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY="
+			crossorigin="anonymous"
+		/> -->
+
+		<!-- new version of font awesome -->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/v4-shims.min.css"
+		/>
+
 		<link
 			rel="stylesheet"
 			href="./vendor/highlightjs/github-dark.min.css"
@@ -49,6 +70,12 @@
 		/>
 	</head>
 	<body class="test-framework">
+		<x-data
+			name="appContent"
+			url="./app.html"
+			defaultValue=""
+		></x-data>
+
 		<x-fragment
 			contents="global_appContent"
 			showLoading="false"
@@ -57,7 +84,6 @@
 		<script type="module">
 			import {
 				initializeFramework,
-				setState,
 				registerComponentHook,
 			} from './dist/htmlNext.js?v=2';
 			initializeFramework();
@@ -68,72 +94,6 @@
 					hljs.highlightAll();
 				}
 			});
-
-			setState('menuItems', [
-				{
-					label: 'Dashboard',
-					href: '/dashboard',
-					icon: 'fa-tachometer',
-				},
-				{ label: 'Users', href: '/users', icon: 'fa-users' },
-				{ label: 'Features', href: '/features', icon: 'fa-star' },
-			]);
-
-			const userProfile = {
-				name: 'Sarah Johnson',
-				email: 'sarah.johnson@clientinc.com',
-				role: 'Senior Developer',
-				department: 'Engineering',
-				joinDate: 'March 15, 2023',
-				lastLogin: '15 minutes ago',
-				avatar: '/assets/test_user.png',
-			};
-
-			setState('menuItemsBottom', [
-				{
-					label: userProfile.name,
-					href: '/profile',
-					avatar: userProfile.avatar,
-					hasAvatar: true,
-				},
-				{ label: 'Settings', href: '/settings', icon: 'fa-cog' },
-				{ label: 'Logout', href: '/logout', icon: 'fa-sign-out' },
-			]);
-
-			// Profile page data
-			setState('userProfile', userProfile);
-
-			setState('profileStats', [
-				{
-					label: 'Projects Completed',
-					value: '42',
-					icon: 'fa-check-circle',
-					color: 'var(--paletteSuccessMain)',
-				},
-				{
-					label: 'Tasks Assigned',
-					value: '89',
-					icon: 'fa-tasks',
-					color: 'var(--paletteInfoMain)',
-				},
-				{
-					label: 'Team Members',
-					value: '12',
-					icon: 'fa-users',
-					color: 'var(--palettePrimaryMain)',
-				},
-				{
-					label: 'Days Active',
-					value: '234',
-					icon: 'fa-calendar',
-					color: 'var(--paletteWarningMain)',
-				},
-			]);
-
-			const appContent = await fetch('./app.html').then((response) =>
-				response.text()
-			);
-			setState('appContent', appContent);
 
 			// FOUC Prevention - Show content after framework loads
 			document.body.classList.add('framework-loaded');
