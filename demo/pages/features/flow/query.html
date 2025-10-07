@@ -1,0 +1,67 @@
+<x-page>
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			The `Query` utility function provides HTTP request capabilities for loading external content and making API calls within flows. It's designed for simple GET requests and returns the response content as text.
+
+			## Usage
+
+			```html
+			<x-flow key="loadContent">
+				const content = await Query({ url: '/api/data' });
+				SetData('apiResponse', content);
+			</x-flow>
+			```
+
+			## Parameters
+
+			| Parameter | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `url` | string | Yes | The URL to fetch content from |
+
+			## Return Value
+
+			Returns a Promise that resolves to:
+			- **Success**: The response content as a string
+			- **Error**: An HTML error message wrapped in a div with red styling
+
+			## Examples
+
+			### Loading API Data
+
+			```html
+			<x-flow key="loadUserData">
+				const userData = await Query({ url: '/api/users/123' });
+				const parsed = JSON.parse(userData);
+				SetData('currentUser', parsed);
+			</x-flow>
+			```
+
+			### Loading External Content
+
+			```html
+			<x-flow key="loadPageContent">
+				const content = await Query({ url: '/fragments/sidebar' });
+				SetData('sidebarContent', content);
+			</x-flow>
+			```
+
+			## Error Handling
+
+			The Query function automatically handles errors and returns a user-friendly error message:
+
+			```html
+			<x-flow key="handleError">
+				const result = await Query({ url: '/nonexistent' });
+				// result will be: "<div style="padding: 20px; color: red;">Error loading content: ...</div>"
+			</x-flow>
+			```
+
+		</x-markdown>
+	</x-content>
+</x-page>

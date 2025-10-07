@@ -95,6 +95,11 @@ body.framework-loaded {
 	width: 100vw;
 	grid-template-columns: 1fr;
 	grid-template-areas: 'main';
+
+	.hljs {
+		color: unset;
+		background: unset;
+	}
 }
 #sidebar {
 	position: absolute;

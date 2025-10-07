@@ -11,6 +11,7 @@ export {
 	SetData,
 	getState,
 	subscribeToState,
+	registerComponentHook,
 } from './framework.core.js';
 
 // Export html utility for templates

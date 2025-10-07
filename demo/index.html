@@ -12,7 +12,7 @@
 			type="image/svg+xml"
 			href="./favicon.svg"
 		/>
-		<!-- Load fonts locally for development -->
+		<!-- vendor css and js-->
 		<link
 			rel="stylesheet"
 			href="./vendor/inter.css"
@@ -21,6 +21,20 @@
 			rel="stylesheet"
 			href="./vendor/font-awesome.css"
 		/>
+		<link
+			rel="stylesheet"
+			href="./vendor/highlightjs/github-dark.min.css"
+			media="(prefers-color-scheme: dark)"
+		/>
+		<link
+			id="hljs-theme"
+			rel="stylesheet"
+			href="./vendor/highlightjs/github.min.css"
+			media="(prefers-color-scheme: light)"
+		/>
+		<script src="./vendor/highlightjs/highlight.min.js"></script>
+
+		<!-- framework and demo css -->
 		<link
 			rel="stylesheet"
 			href="./dist/htmlNext.css"
@@ -41,8 +55,19 @@
 		></x-fragment>
 
 		<script type="module">
-			import { initializeFramework, setState } from './dist/htmlNext.js?v=2';
+			import {
+				initializeFramework,
+				setState,
+				registerComponentHook,
+			} from './dist/htmlNext.js?v=2';
 			initializeFramework();
+
+			// Register a hook for x-markdown components to enable syntax highlighting
+			registerComponentHook('x-markdown', (component) => {
+				if (typeof hljs !== 'undefined') {
+					hljs.highlightAll();
+				}
+			});
 
 			setState('menuItems', [
 				{

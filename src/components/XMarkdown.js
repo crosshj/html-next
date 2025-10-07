@@ -1,6 +1,7 @@
 import { BaseUIComponent } from './BaseUIComponent.js';
 import { marked } from '../vendor/marked.mjs';
 import { getColorHex, html, highlightHTMLString } from '../framework.utils.js';
+import { executeComponentHooks } from '../framework.core.js';
 import './XMarkdown.css';
 
 // Define x-markdown web component
@@ -47,6 +48,9 @@ export class XMarkdown extends BaseUIComponent {
 			const html = this.parseWithCustomRenderer(unescapedContent);
 
 			this.innerHTML = html;
+
+			// Execute component hooks after markdown is rendered
+			executeComponentHooks('x-markdown', this, 'rendered');
 
 			//TODO: fix this and then enable code highlighting
 			// const allCodeBlocks = Array.from(this.querySelectorAll('pre code'));

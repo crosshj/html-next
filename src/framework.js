@@ -31,6 +31,7 @@ import { XMarkdown } from './components/XMarkdown.js';
 import { XTable } from './components/XTable.js';
 import { XForm } from './components/XForm.js';
 import { XSchema } from './components/XSchema.js';
+import { XModal } from './components/XModal.js';
 import { cleanServerHTML } from './framework.utils.js';
 
 // Register all web components
@@ -57,6 +58,7 @@ function registerFrameworkComponents() {
 		{ name: 'x-table', class: XTable },
 		{ name: 'x-form', class: XForm },
 		{ name: 'x-schema', class: XSchema },
+		{ name: 'x-modal', class: XModal },
 	];
 
 	for (const { name, class: ComponentClass } of components) {

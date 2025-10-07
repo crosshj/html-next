@@ -1,0 +1,98 @@
+<x-page>
+	<!-- prettier-ignore -->
+	<x-flow key="testAlert">
+		await Alert({
+			title: 'Test Alert',
+			message: 'This is a test alert message!',
+		});
+		console.log('Test Alert flow completed');
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="testConfirm">
+		const result = await Confirm({
+			title: 'Test Confirmation',
+			message: 'Are you sure you want to proceed with this action?',
+			dispose: false 
+		});
+		if (result) {
+			await Alert({
+				message: 'Action confirmed!',
+				title: 'Success'
+			});
+		} else {
+			await Alert({
+				message: 'Action cancelled.',
+				title: 'Cancelled'
+			});
+		}
+		console.log('Test Confirm flow completed');
+	</x-flow>
+
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			## Alert
+
+			Shows a modal dialog with a message and OK button.
+
+			| Parameter | Type | Required | Default | Description |
+			|-----------|------|----------|---------|-------------|
+			| `message` | string | Yes | - | The message to display |
+			| `title` | string | No | 'Alert' | The modal title |
+			| `dispose` | boolean | No | true | Whether to remove modal after closing |
+
+			```html
+			<x-flow key="testAlert">
+				await Alert({
+					title: 'Test Alert',
+					message: 'This is a test alert message!',
+				});
+				console.log('Test Alert flow completed');
+			</x-flow>
+			```
+
+			<x-button handler="testAlert" label="Show Alert"></x-button>
+
+			## Confirm
+
+			Shows a modal dialog with a message, OK button, and Cancel button. Returns true if OK clicked, false if Cancel clicked.
+
+			| Parameter | Type | Required | Default | Description |
+			|-----------|------|----------|---------|-------------|
+			| `message` | string | Yes | - | The message to display |
+			| `title` | string | No | 'Confirm' | The modal title |
+			| `dispose` | boolean | No | false | Whether to remove modal after closing |
+
+			```html
+			<x-flow key="testConfirm">
+				const result = await Confirm({
+					title: 'Test Confirmation',
+					message: 'Are you sure you want to proceed with this action?',
+					dispose: false 
+				});
+				if (result) {
+					await Alert({
+						message: 'Action confirmed!',
+						title: 'Success'
+					});
+				} else {
+					await Alert({
+						message: 'Action cancelled.',
+						title: 'Cancelled'
+					});
+				}
+				console.log('Test Confirm flow completed');
+			</x-flow>
+			```
+
+			<x-button handler="testConfirm" label="Show Confirm"></x-button>
+
+		</x-markdown>
+	</x-content>
+</x-page>

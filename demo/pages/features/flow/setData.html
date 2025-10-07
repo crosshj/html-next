@@ -1,0 +1,93 @@
+<x-page>
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			The `SetData` utility function provides state management capabilities for updating global application state within flows. It triggers reactive updates across all subscribed components.
+
+			## Usage
+
+			```html
+			<x-flow key="updateState">
+				SetData('userName', 'John Doe');
+			</x-flow>
+			```
+
+			## Parameters
+
+			| Parameter | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `name` | string | Yes | The state property name to update (supports dot notation for nested properties) |
+			| `value` | any | Yes | The value to set for the property |
+
+			## Examples
+
+			### Simple State Update
+
+			```html
+			<x-flow key="updateCounter">
+				const current = global_counter || 0;
+				SetData('counter', current + 1);
+			</x-flow>
+			```
+
+			### Complex Object Update
+
+			```html
+			<x-flow key="updateUser">
+				SetData('user', {
+					name: 'Jane Smith',
+					email: 'jane@example.com',
+					role: 'admin'
+				});
+			</x-flow>
+			```
+
+			### Array Updates
+
+			```html
+			<x-flow key="addItem">
+				const items = global_items || [];
+				SetData('items', [...items, { id: Date.now(), name: 'New Item' }]);
+			</x-flow>
+			```
+
+			### Conditional Updates
+
+			```html
+			<x-flow key="toggleFeature">
+				const isEnabled = global_featureEnabled || false;
+				SetData('featureEnabled', !isEnabled);
+			</x-flow>
+			```
+
+			### Nested Properties (Dot Notation)
+
+			```html
+			<x-flow key="updateNested">
+				SetData('forms.login', { username: '', password: '' });
+				SetData('user.profile.name', 'John Doe');
+				SetData('settings.theme.color', 'dark');
+			</x-flow>
+			```
+
+			## State Access
+
+			State can be accessed in flows using:
+		 - `global.propertyName` - Read-only access to state
+		 - `state.propertyName` - Same as global (alias)
+
+			## Reactive Updates
+
+			When `SetData` is called:
+		 - All components subscribed to that property will re-render
+		 - State changes are logged to console for debugging
+		 - The global `window.state` object is updated
+
+		</x-markdown>
+	</x-content>
+</x-page>

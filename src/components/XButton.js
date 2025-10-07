@@ -81,10 +81,10 @@ export class XButton extends BaseUIComponent {
 
 		// Add click handler for flow execution if handler is provided
 		if (handler && !disabled && !loading) {
-			button.addEventListener('click', (e) => {
+			button.addEventListener('click', async (e) => {
 				e.preventDefault();
 				// Trigger the flow using the framework core
-				frameworkCore.triggerFlow(handler, {
+				await frameworkCore.triggerFlow(handler, {
 					triggeredBy: 'button',
 					element: this,
 				});

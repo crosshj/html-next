@@ -1,0 +1,66 @@
+<x-page>
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			The `Navigate` utility function provides programmatic navigation capabilities for changing application routes within flows. It updates the browser's URL hash to trigger route changes.
+
+			## Usage
+
+			```html
+			<x-flow key="goToPage">
+				Navigate('/dashboard');
+			</x-flow>
+			```
+
+			## Parameters
+
+			| Parameter | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `path` | string | Yes | The route path to navigate to |
+
+			## Examples
+
+			### Basic Navigation
+
+			```html
+			<x-flow key="goHome">
+				Navigate('/');
+			</x-flow>
+			```
+
+			### Conditional Navigation
+
+			```html
+			<x-flow key="conditionalNav">
+				if (global_userRole === 'admin') {
+					Navigate('/admin');
+				} else {
+					Navigate('/dashboard');
+				}
+			</x-flow>
+			```
+
+			### Navigation with State
+
+			```html
+			<x-flow key="navigateWithData">
+				SetData('selectedItem', 'item123');
+				Navigate('/details');
+			</x-flow>
+			```
+
+			## Notes
+
+			- Navigation updates the browser's URL hash (`window.location.hash`)
+			- Route changes trigger the framework's routing system
+			- The path should match your application's route structure
+			- No return value - this is a fire-and-forget operation
+
+		</x-markdown>
+	</x-content>
+</x-page>

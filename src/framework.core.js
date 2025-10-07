@@ -7,6 +7,7 @@ class FrameworkCore {
 		this.dataSources = new Map(); // Map of name -> data source config
 		this.subscriptions = new Map(); // Map of path -> subscription config
 		this.flows = new Map(); // Map of key -> flow definition
+		this.componentHooks = new Map(); // Map of component type -> Set of hook functions
 		this.initialized = false;
 	}
 
@@ -144,16 +145,16 @@ class FrameworkCore {
 		this.subscriptions.set(path, { handler });
 
 		// Set up listener
-		const unsubscribe = this.subscribe(path, (eventDetail) => {
-			this.triggerFlow(handler, eventDetail);
+		const unsubscribe = this.subscribe(path, async (eventDetail) => {
+			await this.triggerFlow(handler, eventDetail);
 		});
 
 		// Trigger the flow immediately with current value if it exists
 		const currentValue = this.get(path);
 		if (currentValue !== undefined) {
 			// Use setTimeout to ensure this happens after the subscription is fully set up
-			setTimeout(() => {
-				this.triggerFlow(handler, {
+			setTimeout(async () => {
+				await this.triggerFlow(handler, {
 					property: path,
 					oldValue: undefined,
 					newValue: currentValue,
@@ -186,19 +187,25 @@ class FrameworkCore {
 	}
 
 	// Trigger a flow by key
-	triggerFlow(flowKey, eventDetail) {
+	async triggerFlow(flowKey, eventDetail) {
 		const code = this.flows.get(flowKey);
 		if (code) {
-			this.executeFlow(code, eventDetail);
+			await this.executeFlow(code, eventDetail);
 		} else {
 			console.warn(`Flow not found: ${flowKey}`);
 		}
 	}
 
 	// Execute flow code
-	executeFlow(code, eventDetail) {
+	async executeFlow(code, eventDetail) {
 		// Store event detail for flow access
 		window.lastFlowEvent = eventDetail;
+
+		// Check if code is empty or just whitespace
+		if (!code || !code.trim()) {
+			console.warn('Flow execution skipped: empty code');
+			return;
+		}
 
 		try {
 			// Create execution context
@@ -223,15 +230,19 @@ class FrameworkCore {
 				query: (options) => self.Query(options),
 				Navigate: (path) => self.Navigate(path),
 				navigate: (path) => self.Navigate(path),
+				Alert: (message, title) => self.Alert(message, title),
+				alert: (message, title) => self.Alert(message, title),
+				Confirm: (message, title) => self.Confirm(message, title),
+				confirm: (message, title) => self.Confirm(message, title),
 			};
 
-			// Execute the flow
+			// Execute the flow within an async function to support await syntax
 			const flowFunction = new Function(
 				...Object.keys(flowContext),
-				`"use strict"; ${code}`
+				`"use strict"; return (async () => { ${code} })();`
 			);
 
-			flowFunction.apply(flowContext, Object.values(flowContext));
+			await flowFunction.apply(flowContext, Object.values(flowContext));
 		} catch (error) {
 			console.error('Flow execution error:', error);
 		}
@@ -324,6 +335,76 @@ class FrameworkCore {
 		window.location.hash = path;
 	}
 
+	// Utility function to show alert dialog
+	async Alert(options = {}) {
+		const { message = '', title = 'Alert', dispose = true } = options;
+		// Import XModal dynamically to avoid circular dependencies
+		const { XModal } = await import('./components/XModal.js');
+
+		// Check for existing modal first
+		const existingModal = XModal.findExistingModal();
+		if (existingModal) {
+			const result = await new Promise((resolve) => {
+				existingModal.updateAndShow(message, title, 'alert', resolve);
+			});
+			// Handle dispose after promise resolves
+			if (dispose) {
+				existingModal.dispose();
+			} else {
+				existingModal.hideContent();
+			}
+			return result;
+		}
+
+		// Create new modal
+		const result = await XModal.alert(message, title);
+		// Handle dispose after promise resolves
+		const modal = XModal.findExistingModal();
+		if (modal) {
+			if (dispose) {
+				modal.dispose();
+			} else {
+				modal.hideContent();
+			}
+		}
+		return result;
+	}
+
+	// Utility function to show confirm dialog
+	async Confirm(options = {}) {
+		const { message = '', title = 'Confirm', dispose = false } = options;
+		// Import XModal dynamically to avoid circular dependencies
+		const { XModal } = await import('./components/XModal.js');
+
+		// Check for existing modal first
+		const existingModal = XModal.findExistingModal();
+		if (existingModal) {
+			const result = await new Promise((resolve) => {
+				existingModal.updateAndShow(message, title, 'confirm', resolve);
+			});
+			// Handle dispose after promise resolves
+			if (dispose) {
+				existingModal.dispose();
+			} else {
+				existingModal.hideContent();
+			}
+			return result;
+		}
+
+		// Create new modal
+		const result = await XModal.confirm(message, title);
+		// Handle dispose after promise resolves
+		const modal = XModal.findExistingModal();
+		if (modal) {
+			if (dispose) {
+				modal.dispose();
+			} else {
+				modal.hideContent();
+			}
+		}
+		return result;
+	}
+
 	// Utility function to set data (with Promise support and dot notation)
 	async SetData(name, value) {
 		// If value is a Promise, await it
@@ -364,6 +445,44 @@ class FrameworkCore {
 		this.set(rootKey, rootObject);
 	}
 
+	// Register a component hook
+	registerComponentHook(componentType, hookFunction) {
+		if (!this.componentHooks.has(componentType)) {
+			this.componentHooks.set(componentType, new Set());
+		}
+		this.componentHooks.get(componentType).add(hookFunction);
+
+		// Return unsubscribe function
+		return () => {
+			const hooks = this.componentHooks.get(componentType);
+			if (hooks) {
+				hooks.delete(hookFunction);
+			}
+		};
+	}
+
+	// Unregister a component hook
+	unregisterComponentHook(componentType, hookFunction) {
+		const hooks = this.componentHooks.get(componentType);
+		if (hooks) {
+			hooks.delete(hookFunction);
+		}
+	}
+
+	// Execute all hooks for a component type
+	executeComponentHooks(componentType, componentInstance, ...args) {
+		const hooks = this.componentHooks.get(componentType);
+		if (hooks) {
+			hooks.forEach((hookFunction) => {
+				try {
+					hookFunction(componentInstance, ...args);
+				} catch (error) {
+					console.error(`Error in ${componentType} hook:`, error);
+				}
+			});
+		}
+	}
+
 	// Clear all state (useful for testing)
 	clear() {
 		this.state = {};
@@ -371,6 +490,7 @@ class FrameworkCore {
 		this.dataSources.clear();
 		this.subscriptions.clear();
 		this.flows.clear();
+		this.componentHooks.clear();
 	}
 
 	// Debug method to get all active subscriptions
@@ -455,6 +575,27 @@ export function unregisterFlow(key) {
 
 export function register({ type, attributes, body }) {
 	return frameworkCore.register({ type, attributes, body });
+}
+
+// Component hook functions
+export function registerComponentHook(componentType, hookFunction) {
+	return frameworkCore.registerComponentHook(componentType, hookFunction);
+}
+
+export function unregisterComponentHook(componentType, hookFunction) {
+	return frameworkCore.unregisterComponentHook(componentType, hookFunction);
+}
+
+export function executeComponentHooks(
+	componentType,
+	componentInstance,
+	...args
+) {
+	return frameworkCore.executeComponentHooks(
+		componentType,
+		componentInstance,
+		...args
+	);
 }
 
 // Export the core instance for advanced usage

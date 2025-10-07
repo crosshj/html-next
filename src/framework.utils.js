@@ -290,7 +290,7 @@ export function extractStateReferences(attributes) {
 	return Array.from(stateRefs);
 }
 
-// Function to transform x-markdown, x-table, x-schema, and x-form elements to use content attribute
+// Function to transform x-markdown, x-table, x-schema, x-form, and x-flow elements to use content attribute
 function transformContentElements(htmlContent) {
 	// First, temporarily replace markdown code blocks to avoid processing HTML tags inside them
 	const codeBlockPlaceholder = '___CODE_BLOCK_PLACEHOLDER___';
@@ -482,6 +482,48 @@ function transformContentElements(htmlContent) {
 		new RegExp(`${formMarkdownPlaceholder}(\\d+)`, 'g'),
 		(match, index) => {
 			return formMarkdownMatches[parseInt(index)];
+		}
+	);
+
+	// Process x-flow elements (only outside of x-markdown)
+	// First, temporarily replace x-markdown content to avoid processing x-flow inside it
+	const flowMarkdownPlaceholder = '___FLOW_MARKDOWN_PLACEHOLDER___';
+	const flowMarkdownMatches = [];
+	let flowContent = transformed;
+
+	// Store x-markdown elements temporarily
+	flowContent = flowContent.replace(
+		/<x-markdown[^>]*content="[^"]*"[^>]*><\/x-markdown>/gi,
+		(match) => {
+			const index = flowMarkdownMatches.length;
+			flowMarkdownMatches.push(match);
+			return `${flowMarkdownPlaceholder}${index}`;
+		}
+	);
+
+	// Process x-flow elements in the content without x-markdown
+	const xFlowRegex = /<x-flow([^>]*)>([\s\S]*?)<\/x-flow>/gi;
+	flowContent = flowContent.replace(
+		xFlowRegex,
+		(match, attributes, content) => {
+			// Escape the content for use in HTML attribute
+			const escapedContent = content
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;')
+				.replace(/\n/g, '&#10;')
+				.replace(/\r/g, '&#13;')
+				.replace(/\t/g, '&#9;');
+
+			// Return the transformed element with content attribute
+			return `<x-flow${attributes} content="${escapedContent}"></x-flow>`;
+		}
+	);
+
+	// Restore x-markdown elements
+	transformed = flowContent.replace(
+		new RegExp(`${flowMarkdownPlaceholder}(\\d+)`, 'g'),
+		(match, index) => {
+			return flowMarkdownMatches[parseInt(index)];
 		}
 	);
 
