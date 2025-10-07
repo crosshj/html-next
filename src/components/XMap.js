@@ -117,6 +117,11 @@ export class XMap extends BaseUIComponent {
 			}
 		);
 
+		// Handle {{item}} for primitive array items
+		processedTemplate = processedTemplate.replace(/\{\{\s*item\s*\}\}/g, () =>
+			item !== undefined && item !== null ? String(item) : ''
+		);
+
 		// Handle {{index}} for array index
 		processedTemplate = processedTemplate.replace(/\{\{index\}\}/g, index);
 

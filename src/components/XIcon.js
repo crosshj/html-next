@@ -25,15 +25,13 @@ export class XIcon extends BaseUIComponent {
 				? `fa ${icon}`
 				: `fa fa-${this.convertToFontAwesome(icon)}`;
 
-			iconElement.className = `${iconClass} ${size}`;
+			// Convert size to Font Awesome size classes
+			const sizeClass = this.getFontAwesomeSizeClass(size);
+			iconElement.className = `${iconClass} ${sizeClass}`;
 
-			// Set consistent dimensions and alignment
-			iconElement.style.display = 'inline-flex';
-			iconElement.style.alignItems = 'center';
-			iconElement.style.justifyContent = 'center';
-			iconElement.style.width = '1.2em';
-			iconElement.style.height = '1.2em';
-			iconElement.style.flexShrink = '0';
+			// Set alignment for consistent display
+			iconElement.style.display = 'inline-block';
+			iconElement.style.verticalAlign = 'middle';
 
 			if (color) {
 				iconElement.style.color = color;
@@ -46,6 +44,16 @@ export class XIcon extends BaseUIComponent {
 			// The button will handle the icon rendering
 			this.style.display = 'none';
 		}
+	}
+
+	getFontAwesomeSizeClass(size) {
+		const sizeMap = {
+			'2x': 'fa-2x',
+			'3x': 'fa-3x',
+			'4x': 'fa-4x',
+			'5x': 'fa-5x',
+		};
+		return sizeMap[size] || '';
 	}
 
 	convertToFontAwesome(pascalCaseName) {

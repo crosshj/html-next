@@ -1,4 +1,32 @@
 <x-page>
+	<x-data
+		name="faIcons"
+		defaultValue="[]"
+	></x-data>
+
+	<!-- prettier-ignore -->
+	<x-flow key="loadFAIconsFromTxt">
+		if (state.faIcons.length > 0) return;
+
+		try {
+			SetData('faIcons', new Promise(async (resolve) => {
+				const text = await Query({ url: '/pages/features/icon.fontAwesome.txt' });
+				const items = String(text)
+					.split(/\r?\n/)
+					.map((s) => s.trim())
+					.filter((s) => s.length > 0);
+				resolve(items);
+			}));
+		} catch (e) {
+			console.error('Failed to load icon.fontAwesome.txt', e);
+		}
+	</x-flow>
+
+	<x-subscribe
+		path="faIcons"
+		handler="loadFAIconsFromTxt"
+	></x-subscribe>
+
 	<x-navbar
 		menuButtonShow="true"
 		menuButtonTarget="sidebar"
@@ -14,91 +42,71 @@
 			| Attribute | Type | Required | Default | Description |
 			|-----------|------|----------|---------|-------------|
 			| `icon` | string | Yes | - | Icon name in PascalCase (e.g., "Home", "Search", "User") |
-			| `color` | string | No | - | Icon color (CSS color value) |
-			| `size` | string | No | `medium` | Icon size: `small`, `medium`, or `large` |
+			| `color` | string | No | - | Icon color (CSS color value or short color name like "green500" when using `sx:color`) |
+			| `size` | string | No | - | Icon size: `2x`, `3x`, `4x`, or `5x` |
 
 			## Usage
 
 			```html
-			<x-icon icon="Home"></x-icon>
-			<x-icon icon="Search" color="blue"></x-icon>
-			<x-icon icon="User" size="large" sx:color="var(--palettePrimaryMain)"></x-icon>
+			<x-icon icon="fa-home" sx:color="green500"></x-icon>
+			<x-icon size="2x" color="var(--palettePrimaryMain)" icon="fa-search"></x-icon>
+			<x-icon size="3x" color="var(--paletteSuccessMain)" icon="fa-check-circle"></x-icon>
+			<x-icon size="4x" color="var(--paletteErrorMain)" icon="fa-exclamation-circle"></x-icon>
+			<x-icon size="5x" color="var(--paletteWarningMain)" icon="fa-exclamation-triangle"></x-icon>
 			```
+			
+			<x-box sx:display="flex" sx:align-items="center" sx:gap="3">
+				<x-icon icon="fa-home" sx:color="green500"></x-icon>
+				<x-icon size="2x" color="var(--palettePrimaryMain)" icon="fa-search"></x-icon>
+				<x-icon size="3x" color="var(--paletteSuccessMain)" icon="fa-check-circle"></x-icon>
+				<x-icon size="4x" color="var(--paletteErrorMain)" icon="fa-exclamation-circle"></x-icon>
+				<x-icon size="5x" color="var(--paletteWarningMain)" icon="fa-exclamation-triangle"></x-icon>
+			</x-box>
 
-			## Live Examples
-
-			### Basic Icons
-			<x-icon icon="Home"></x-icon>
-			<x-icon icon="Search"></x-icon>
-			<x-icon icon="User"></x-icon>
-			<x-icon icon="Settings"></x-icon>
-			<x-icon icon="Menu"></x-icon>
-			<x-icon icon="Close"></x-icon>
-
-			### Size Variations
-			**Small Icons:**
-			<x-icon icon="Home" size="small"></x-icon>
-			<x-icon icon="Search" size="small"></x-icon>
-			<x-icon icon="User" size="small"></x-icon>
-
-			**Medium Icons:**
-			<x-icon icon="Home" size="medium"></x-icon>
-			<x-icon icon="Search" size="medium"></x-icon>
-			<x-icon icon="User" size="medium"></x-icon>
-
-			**Large Icons:**
-			<x-icon icon="Home" size="large"></x-icon>
-			<x-icon icon="Search" size="large"></x-icon>
-			<x-icon icon="User" size="large"></x-icon>
-
-			### Color Variations
-			**Theme Colors:**
-			<x-icon icon="Home" color="var(--palettePrimaryMain)"></x-icon>
-			<x-icon icon="Search" color="var(--paletteSecondaryMain)"></x-icon>
-			<x-icon icon="User" color="var(--paletteTextPrimary)"></x-icon>
-			<x-icon icon="Settings" color="var(--paletteTextSecondary)"></x-icon>
-
-			**Custom Colors:**
-			<x-icon icon="Home" color="#ff6b6b"></x-icon>
-			<x-icon icon="Search" color="#4ecdc4"></x-icon>
-			<x-icon icon="User" color="#45b7d1"></x-icon>
-			<x-icon icon="Settings" color="#96ceb4"></x-icon>
-
-			**Status Colors:**
-			<x-icon icon="CheckCircle" color="var(--paletteSuccessMain)"></x-icon>
-			<x-icon icon="Error" color="var(--paletteErrorMain)"></x-icon>
-			<x-icon icon="Warning" color="var(--paletteWarningMain)"></x-icon>
-			<x-icon icon="Info" color="var(--paletteInfoMain)"></x-icon>
-
-			### Action Icons
-			<x-icon icon="Edit"></x-icon>
-			<x-icon icon="Delete"></x-icon>
-			<x-icon icon="Add"></x-icon>
-			<x-icon icon="Save"></x-icon>
-			<x-icon icon="Cancel"></x-icon>
-			<x-icon icon="Check"></x-icon>
-
-
-			## How It Works
-
-			### Icon Name Conversion
-			1. **PascalCase Input**: Takes icon names like "Home", "Search", "User"
-			2. **Font Awesome Mapping**: Converts to Font Awesome classes like "fa-home", "fa-search", "fa-user"
-			3. **Special Cases**: Handles Material Design icon names with custom mappings
-			4. **Fallback**: Uses the original name if no mapping is found
-
-			### Size Handling
-			1. **Size Attribute**: Processes `size` attribute (small, medium, large)
-			2. **CSS Classes**: Applies appropriate CSS classes for consistent sizing
-			3. **Button Context**: Adjusts sizing when used inside buttons
-			4. **Custom Sizing**: Supports custom sizing via sx: attributes
-
-			### Color Processing
-			1. **Color Attribute**: Processes `color` attribute for direct color values
-			2. **SX Color**: Supports `sx:color` for CSS variable references
-			3. **Theme Integration**: Works with theme color variables
-			4. **Fallback**: Uses default text color if no color is specified
-
+			## All Icons
+			> click on an icon to copy class name to the clipboard
 		</x-markdown>
+
+		<!-- Grid of all available Font Awesome icons -->
+		<x-box
+			sx:display="grid"
+			sx:grid-template-columns="repeat(auto-fill, minmax(120px, 1fr))"
+			sx:gap="2"
+			sx:align-items="center"
+			sx:justify-items="center"
+			sx:mt="3"
+		>
+			<x-map items="global_faIcons">
+				<x-box
+					sx:display="flex"
+					sx:flex-direction="column"
+					sx:align-items="center"
+					sx:gap="1"
+					sx:width="120px"
+					sx:height="120px"
+					sx:justify-content="center"
+					sx:align-items="center"
+					sx:border="1px solid var(--paletteDivider)"
+					sx:border-radius="10px"
+					sx:cursor="pointer"
+					onclick="navigator.clipboard.writeText('{{item}}').then(() => alert('Copied: {{item}}')).catch(err => console.error('Failed to copy: ', err))"
+				>
+					<x-icon
+						icon="fa-{{item}}"
+						size="3x"
+						color="var(--paletteTextTertiary)"
+					></x-icon>
+					<x-typography
+						variant="caption"
+						sx:white-space="nowrap"
+						sx:overflow="hidden"
+						sx:text-overflow="ellipsis"
+						sx:width="100%"
+						sx:text-align="center"
+						>{{item}}</x-typography
+					>
+				</x-box>
+			</x-map>
+		</x-box>
 	</x-content>
 </x-page>

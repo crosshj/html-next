@@ -632,53 +632,8 @@ x-map {
 
 /* x-icon component - Font Awesome Icons */
 x-icon {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 1.2em;
-	height: 1.2em;
-	flex-shrink: 0;
+	display: inline-block;
 	vertical-align: middle;
-
-	/* Font Awesome icon styling */
-	.fa {
-		font-family: 'FontAwesome';
-		font-weight: normal;
-		font-style: normal;
-		line-height: 1;
-		letter-spacing: normal;
-		text-transform: none;
-		display: inline;
-		white-space: nowrap;
-		word-wrap: normal;
-		direction: ltr;
-		color: inherit;
-	}
-
-	/* Size variants */
-	&[size='small'] {
-		width: 1em;
-		height: 1em;
-		font-size: 0.875rem;
-	}
-
-	&[size='medium'] {
-		width: 1.2em;
-		height: 1.2em;
-		font-size: 1rem;
-	}
-
-	&[size='large'] {
-		width: 1.5em;
-		height: 1.5em;
-		font-size: 1.25rem;
-	}
-
-	&[size='xlarge'] {
-		width: 2em;
-		height: 2em;
-		font-size: 1.5rem;
-	}
 }
 
 /* =====================
