@@ -23,6 +23,13 @@
 
 	<!-- prettier-ignore -->
 	<x-flow key="submitForm">
+		const confirmed = await Confirm({
+			title: 'Submit Form',
+			message: 'Are you sure you want to submit this form?'
+		});
+		if (!confirmed) {
+			return;
+		}
 		const formData = state.userForm || {};
 		
 		// Mark the form as submitted to trigger validation
@@ -36,9 +43,35 @@
 		// Only proceed if form is valid AFTER marking as submitted
 		if (form.isValid) {
 			console.log('Form submitted with data:', formData);
-			alert('Form submitted successfully!');
+			
+				// Simulate API call
+				SetData('submitting', true);
+				await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
+				SetData('submitting', false);
+				
+				await Alert({
+					title: 'Success',
+					message: 'Form submitted successfully! Your data has been saved.'
+				});
+				
+				// Reset form state first (clear dirty/touched flags)
+				form.reset();
+				
+				// Then reset form data
+				SetData('userForm', {
+					firstName: "",
+					email: "",
+					age: "",
+					country: "ca",
+					bio: "",
+					newsletter: false
+				});
+			
 		} else {
-			console.log('Form is not valid');
+			await Alert({
+				title: 'Validation Error',
+				message: 'Please fix the errors in the form before submitting.'
+			});
 		}
 	</x-flow>
 
@@ -142,8 +175,9 @@
 				name="newsletter"
 			/>
 			<x-button
-				label="Save User"
+				label="WHEN global_submitting THEN 'Saving...' ELSE 'Save User'"
 				handler="submitForm"
+				sx:disabled="WHEN global_submitting THEN true ELSE false"
 			/>
 		</x-form>
 	</x-content>

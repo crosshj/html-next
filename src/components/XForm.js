@@ -324,4 +324,24 @@ export class XForm extends BaseUIComponent {
 			this.updateButtonStates();
 		}
 	}
+
+	// Method to reset form state (clear validation errors and dirty flags)
+	reset() {
+		// Reset form state
+		this.dirty = false;
+		this.submitted = false;
+		this.isValid = true;
+		this.errors = {};
+		this.currentFormData = {};
+
+		// Clear touched flags on all inputs
+		const inputs = this.querySelectorAll('input, select, textarea');
+		for (const input of inputs) {
+			input.removeAttribute('data-touched');
+		}
+
+		// Force re-render to sync with current state
+		this.renderForm(this.getCurrentState());
+		this.updateButtonStates();
+	}
 }

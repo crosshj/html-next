@@ -372,7 +372,7 @@ class FrameworkCore {
 
 	// Utility function to show confirm dialog
 	async Confirm(options = {}) {
-		const { message = '', title = 'Confirm', dispose = false } = options;
+		const { message = '', title = 'Confirm', dispose = true } = options;
 		// Import XModal dynamically to avoid circular dependencies
 		const { XModal } = await import('./components/XModal.js');
 
