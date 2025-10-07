@@ -34,7 +34,6 @@ body.framework-loaded {
 	--palettePrimaryLight: #60a5fa;
 	--palettePrimaryDark: #1d4ed8;
 	--palettePrimaryContrast: #ffffff;
-	--palettePrimaryContrast: #ffffff;
 	--palettePrimaryNavbar: #f0f8ff;
 
 	/* Secondary Palette - Light Blue */
@@ -141,7 +140,6 @@ body.framework-loaded {
 			width: 100%;
 		}
 	}
-	x-page > x-navbar .navbar-left .navbar-hamburger,
 	.dashboard-main > x-navbar .navbar-left .navbar-hamburger {
 		display: none;
 	}
@@ -166,11 +164,7 @@ body.framework-loaded {
 			border-color: var(--bg-color);
 			color: var(--palettePrimaryContrast);
 			&:hover {
-				--bg-color: color-mix(
-					in srgb,
-					var(--palettePrimaryMain) 60%,
-					var(--paletteBackgroundPaper) 40%
-				);
+				background-color: var(--palettePrimaryMain);
 			}
 		}
 		&.inactive button,
@@ -180,9 +174,6 @@ body.framework-loaded {
 				var(--palettePrimaryNavbar) 60%,
 				var(--paletteTextPrimary)
 			);
-			&:hover {
-				color: var(--palettePrimaryContrast);
-			}
 			&:hover {
 				color: var(--palettePrimaryContrast);
 			}

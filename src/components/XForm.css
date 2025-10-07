@@ -226,6 +226,7 @@ x-form {
 		display: flex;
 		align-items: center;
 		margin-top: 0.5rem;
+		position: relative;
 	}
 
 	.toggle-input {
