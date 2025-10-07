@@ -1,5 +1,13 @@
 /* Framework CSS - All styles should be nested under their component */
 
+/* Import component styles */
+@import './components/XNavbar.css';
+@import './components/XMarkdown.css';
+@import './components/XVizBar.css';
+@import './components/XVizPie.css';
+@import './components/XVizLine.css';
+@import './components/XForm.css';
+
 /* Font imports removed - users should load fonts separately */
 
 /* HTML and Body reset - remove all default browser styles */
@@ -327,96 +335,6 @@ x-page {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-}
-
-/* x-navbar component - navigation bar */
-x-navbar {
-	height: 75px;
-	background: color-mix(
-		in srgb,
-		var(--paletteBackgroundPaper) 95%,
-		transparent
-	);
-	padding: 0 1.5rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-shrink: 0;
-	width: 100%;
-	box-sizing: border-box;
-	position: sticky;
-	top: 0;
-	z-index: 100;
-	backdrop-filter: blur(4px);
-	-webkit-backdrop-filter: blur(4px);
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-	border: none;
-	border-bottom: none;
-	/* Add gradient overlay for smoother transition */
-	background: linear-gradient(
-		to bottom,
-		color-mix(in srgb, var(--paletteBackgroundPaper) 95%, transparent) 0%,
-		color-mix(in srgb, var(--paletteBackgroundPaper) 85%, transparent) 70%,
-		color-mix(in srgb, var(--paletteBackgroundPaper) 60%, transparent) 100%
-	);
-
-	.navbar-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		width: 100%;
-	}
-
-	.navbar-right {
-		display: flex;
-		align-items: center;
-	}
-
-	.navbar-actions {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
-
-	.navbar-left {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		.navbar-hamburger {
-			background: none;
-			border: none;
-			cursor: pointer;
-			padding: 0.5rem;
-			display: flex;
-			flex-direction: column;
-			justify-content: space-around;
-			width: 2rem;
-			height: 2rem;
-			transition: all 0.3s ease;
-			border-radius: 0.25rem;
-
-			&:hover {
-				background-color: color-mix(
-					in srgb,
-					var(--palettePrimaryMain) 20%,
-					transparent
-				);
-			}
-
-			&:focus {
-				outline: 2px solid var(--palettePrimaryMain);
-				outline-offset: 2px;
-			}
-
-			.hamburger-line {
-				width: 100%;
-				height: 2px;
-				background-color: var(--paletteTextPrimary);
-				transition: all 0.3s ease;
-				border-radius: 1px;
-			}
-		}
-	}
 }
 
 /* x-content component - main content area */

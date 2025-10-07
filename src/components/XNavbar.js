@@ -42,10 +42,14 @@ export class XNavbar extends BaseUIComponent {
 			// Extract title from path for other pages
 			const pathName = activePath.substring(1); // Remove leading slash
 			// Add spaces around forward slashes and remove x- prefix for better readability
-			let formattedPath = pathName.replace(/\//g, ' / ');
+			let formattedPath = pathName.replace(
+				/\//g,
+				html`<span class="breadcrumb-separator"> > </span>`
+			);
 			// Remove x- prefix from component names
 			formattedPath = formattedPath.replace(/x-/g, '');
-			title = formattedPath.charAt(0).toUpperCase() + formattedPath.slice(1);
+			title =
+				formattedPath.trim().charAt(0).toUpperCase() + formattedPath.slice(1);
 		}
 
 		// Store the original content for the right side actions

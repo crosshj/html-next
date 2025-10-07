@@ -21,8 +21,3 @@ export { BaseUIComponent } from './components/BaseUIComponent.js';
 
 // Import CSS for bundling
 import './framework.css';
-import './components/XMarkdown.css';
-import './components/XVizBar.css';
-import './components/XVizPie.css';
-import './components/XVizLine.css';
-import './components/XForm.css';
