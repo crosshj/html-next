@@ -224,8 +224,8 @@ export class XTable extends BaseUIComponent {
 					return value;
 				});
 
-				// Replace {{index}} with array index
-				row = row.replace(/\{\{index\}\}/g, index);
+				// Replace {{index}} with array index (1-based)
+				row = row.replace(/\{\{index\}\}/g, index + 1);
 
 				// If no template variables, auto-generate tds based on properties
 				if (!row.includes('{{') && !row.includes('<td>')) {

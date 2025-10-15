@@ -177,7 +177,19 @@ export const parseWithCustomRenderer = (content) => {
 			return `<x-link href="${href}" ${t}>${text}</x-link>`;
 		},
 		tablecell({ tokens, align }) {
-			const text = this.parser.parseInline(tokens);
+			let text = this.parser.parseInline(tokens);
+
+			// Replace all instances of icon syntax: icon:IconName;color (backticks optional)
+			const iconRegex = /`?icon:([^;]+);([^`\s]+)`?/g;
+			text = text.replace(iconRegex, (match, iconName, color) => {
+				const hexColor = getColorHex(color.trim());
+				return `<x-icon
+						icon="${iconName}"
+						sx:color="${hexColor}"
+						size="large"
+					></x-icon>`;
+			});
+
 			// Return the complete td element with alignment
 			const alignAttr = align ? ` style="text-align: ${align}"` : '';
 			return `<td${alignAttr}>${text}</td>`;
@@ -247,20 +259,27 @@ export const parseWithCustomRenderer = (content) => {
 		pedantic: false,
 	});
 
-	// Register custom elements as block-level HTML elements
-	marked.use({
-		tokenizer: {
-			html(src) {
-				// Match any x-* custom elements and treat them as block elements
-				const match = src.match(/^<(x-[\w-]+)[^>]*>[\s\S]*?<\/\1>/);
-				if (match) {
-					return { type: 'html', raw: match[0], block: true };
-				}
-				// Fall back to default HTML tokenizer
-				return false;
-			},
-		},
-	});
+	// Custom HTML tokenizer for x-* elements (currently disabled)
+	// This was added to solve the issue where x-* custom elements wouldn't render correctly
+	// in markdown unless wrapped in a div. The tokenizer was supposed to detect x-* elements
+	// and tell the markdown parser to treat them as block-level HTML elements.
+	// However, it was causing more problems than it solved by interfering with normal
+	// HTML processing. The default markdown parser now handles x-* elements correctly
+	// without this custom tokenizer, so it's disabled but kept for reference.
+	//
+	// marked.use({
+	// 	tokenizer: {
+	// 		html(src) {
+	// 			// Match any x-* custom elements and treat them as block elements
+	// 			const match = src.match(/^<(x-[\w-]+)[^>]*>[\s\S]*?<\/\1>/);
+	// 			if (match) {
+	// 				return { type: 'html', raw: match[0], block: true };
+	// 			}
+	// 			// Fall back to default HTML tokenizer
+	// 			return false;
+	// 		},
+	// 	},
+	// });
 
 	// Use the custom renderer with HTML element support
 	marked.use({

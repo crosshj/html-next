@@ -59,7 +59,7 @@ export const unescapeContentAttribute = (content) => {
 		return '';
 	}
 
-	// First, unescape everything
+	// Unescape all HTML entities in the content
 	let unescaped = content
 		.replace(/&lt;/g, '<')
 		.replace(/&gt;/g, '>')
@@ -68,24 +68,6 @@ export const unescapeContentAttribute = (content) => {
 		.replace(/&#10;/g, '\n')
 		.replace(/&#13;/g, '\r')
 		.replace(/&#9;/g, '\t');
-
-	// Then re-escape ALL entities inside HTML attributes
-	// This prevents breaking component attributes while allowing markdown to render
-	unescaped = unescaped.replace(
-		/(\w+)="([^"]*?)"/g,
-		(match, attrName, attrValue) => {
-			// Re-escape ALL entities in the attribute value
-			const reEscapedValue = attrValue
-				.replace(/</g, '&lt;')
-				.replace(/>/g, '&gt;')
-				.replace(/"/g, '&quot;')
-				.replace(/'/g, '&#39;')
-				.replace(/\n/g, '&#10;')
-				.replace(/\r/g, '&#13;')
-				.replace(/\t/g, '&#9;');
-			return `${attrName}="${reEscapedValue}"`;
-		}
-	);
 
 	return unescaped;
 };
@@ -384,28 +366,61 @@ export function transformContentElements(htmlContent) {
 
 		let content = transformed.substring(startIndex + openTag.length, nextClose);
 
-		// Process x-map elements inside the markdown content (only if they don't already have content attribute)
-		content = content.replace(
-			/<x-map([^>]*)>([\s\S]*?)<\/x-map>/gi,
-			(mapMatch, mapAttributes, mapContent) => {
-				// Skip if x-map already has content attribute (already processed)
-				if (mapAttributes.includes('content=')) {
-					return mapMatch;
-				}
+		// Process x-map elements inside the markdown content
+		// Handle both content-based and template-based approaches
+		let mapContent = content;
+		let mapLastIndex = 0;
 
-				// Escape the map content for use in HTML attribute
-				// NOTE: We don't process the content inside x-map - let the x-map component handle it
-				const escapedMapContent = mapContent
-					.replace(/"/g, '&quot;')
-					.replace(/'/g, '&#39;')
-					.replace(/\n/g, '&#10;')
-					.replace(/\r/g, '&#13;')
-					.replace(/\t/g, '&#9;');
+		while (true) {
+			// Find the next x-map opening tag
+			const mapOpenMatch = mapContent
+				.slice(mapLastIndex)
+				.match(/<x-map([^>]*)>/);
+			if (!mapOpenMatch) break;
 
-				// Return the transformed map element with content attribute
-				return `<x-map${mapAttributes} content="${escapedMapContent}"></x-map>`;
+			const mapOpenTag = mapOpenMatch[0];
+			const mapAttributes = mapOpenMatch[1];
+			const mapOpenStart = mapLastIndex + mapOpenMatch.index;
+			const mapOpenEnd = mapOpenStart + mapOpenTag.length;
+
+			// Skip if x-map already has content attribute (already processed)
+			if (mapAttributes.includes('content=')) {
+				mapLastIndex = mapOpenEnd;
+				continue;
 			}
-		);
+
+			// Find the matching closing tag
+			const mapCloseMatch = mapContent.slice(mapOpenEnd).match(/<\/x-map>/);
+			if (!mapCloseMatch) {
+				mapLastIndex = mapOpenEnd;
+				continue;
+			}
+
+			const mapCloseStart = mapOpenEnd + mapCloseMatch.index;
+			const mapCloseEnd = mapCloseStart + mapCloseMatch[0].length;
+
+			// Extract the content between the tags
+			const mapContentValue = mapContent.slice(mapOpenEnd, mapCloseStart);
+
+			// Check if this x-map already uses template-based approach
+			if (mapContentValue.includes('<template>')) {
+				// Already template-based: leave as-is
+				mapLastIndex = mapCloseEnd;
+				continue;
+			}
+
+			// Convert to template-based approach: wrap content in <template> tags
+			const newMapElement = `<x-map${mapAttributes}><template>${mapContentValue}</template></x-map>`;
+			mapContent =
+				mapContent.slice(0, mapOpenStart) +
+				newMapElement +
+				mapContent.slice(mapCloseEnd);
+
+			// Update lastIndex to continue from after the replacement
+			mapLastIndex = mapOpenStart + newMapElement.length;
+		}
+
+		content = mapContent;
 
 		// Escape the content for use in HTML attribute
 		const escapedContent = content
@@ -635,18 +650,13 @@ export function transformContentElements(htmlContent) {
 			return match;
 		}
 
-		// Escape the content for use in HTML attribute
-		const escapedContent = content
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/"/g, '&quot;')
-			.replace(/'/g, '&#39;')
-			.replace(/\n/g, '&#10;')
-			.replace(/\r/g, '&#13;')
-			.replace(/\t/g, '&#9;');
+		// Skip if already template-based
+		if (content.includes('<template>')) {
+			return match;
+		}
 
-		// Return the transformed element with content attribute
-		return `<x-map${attributes} content="${escapedContent}"></x-map>`;
+		// Convert to template-based approach: wrap content in <template> tags
+		return `<x-map${attributes}><template>${content}</template></x-map>`;
 	});
 
 	// Restore x-markdown elements

@@ -1,4 +1,53 @@
 <x-page>
+	<x-data
+		name="fragmentMessage"
+		defaultValue="Hello from Fragment!"
+	></x-data>
+	<x-data
+		name="fragmentPageContent"
+		defaultValue="<h4>Dynamic Page Content</h4><p>This content is loaded from state.</p>"
+	></x-data>
+	<x-data
+		name="fragmentObject"
+		defaultValue='{"message": "Object content", "count": 1}'
+	></x-data>
+	<x-data
+		name="fragmentCounter"
+		defaultValue="0"
+	></x-data>
+	<x-data
+		name="delayedContent"
+		defaultValue="<div style='margin: 0 auto auto 0;'><h4>Delayed Content</h4><p>Click to show the loading spinner as content loads.</p></div>"
+	></x-data>
+
+	<!-- prettier-ignore -->
+	<x-flow key="updatePageContent">
+		const current = state.fragmentCounter || 0;
+		SetData('fragmentCounter', current + 1);
+		SetData('fragmentPageContent', `<h4>Dynamic Content #${current + 1}</h4><p>This content has been updated ${current + 1} times.</p>`);
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="updateMessage">
+		const current = state.fragmentCounter || 0;
+		SetData('fragmentCounter', current + 1);
+		SetData('fragmentMessage', `Updated message #${current + 1}`);
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="updateObject">
+		const current = state.fragmentCounter || 0;
+		SetData('fragmentCounter', current + 1);
+		SetData('fragmentObject', { message: `Object message #${current + 1}`, count: current + 1 });
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="loadDelayedContent">
+		SetData('delayedContent', ''); // Clear content to show loading
+		await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
+		SetData('delayedContent', '<div style="margin: 0 auto auto 0;"><h4>Delayed Content Loaded!</h4><p>This content took 1 second to load, showing the loading spinner.</p></div>');
+	</x-flow>
+
 	<x-navbar
 		menuButtonShow="true"
 		menuButtonTarget="sidebar"
@@ -7,38 +56,72 @@
 	<x-content>
 		<!-- prettier-ignore -->
 		<x-markdown>
-			The `Fragment` component displays dynamic content with state subscription and automatic updates.
+			The `Fragment` component displays dynamic content with automatic state subscription and updates. It replaces its innerHTML with content from state.
 
 			## Attributes
 
 			| Attribute | Type | Required | Description |
 			|-----------|------|----------|-------------|
-			| `path` | string | Yes | State path to subscribe to for content updates |
-			| `handler` | string | Yes | Flow key to trigger when content changes |
+			| `contents` | string | Yes | State path to subscribe to for content updates |
+			| `showLoading` | boolean | No | Whether to show loading spinner when content is empty (default: true) |
 
-			## Basic Usage
-
-			```html
-			<x-fragment path="global_pageContent" handler="contentChanged"></x-fragment>
-			```
-
-			## Dynamic Content
+			## Show HTML Content
 
 			```html
-			<x-fragment path="global_userMessage" handler="messageUpdated">
-				<x-typography>{{global_userMessage}}</x-typography>
-			</x-fragment>
+			<x-data
+				name="fragmentPageContent"
+				defaultValue="<h4>Dynamic Page Content</h4><p>This content is loaded from state.</p>"
+			></x-data>
+			<x-fragment contents="global_pageContent"></x-fragment>
 			```
 
-			## Conditional Content
+			<x-fragment contents="global_fragmentPageContent"></x-fragment>
+			<x-button handler="updatePageContent" label="Update Page Content"></x-button>
+
+			## Show String Content
 
 			```html
-			<x-fragment path="global_userRole" handler="roleChanged">
-				<x-box sx:display="WHEN global_userRole IS 'admin' THEN flex ELSE none">
-					<x-typography>Admin Panel</x-typography>
-				</x-box>
-			</x-fragment>
+			<x-data
+				name="fragmentMessage"
+				defaultValue="Hello from Fragment!"
+			></x-data>
+			<x-fragment contents="global_userMessage"></x-fragment>
 			```
+
+			<div>
+				<x-fragment contents="global_fragmentMessage"></x-fragment>
+			</div>
+			<x-button handler="updateMessage" label="Update Message"></x-button>
+
+			## Show Object Content
+
+			```html
+			<x-data
+				name="fragmentObject"
+				defaultValue='{"message": "Object content", "count": 1}'
+			></x-data>
+			<x-fragment contents="global_userData"></x-fragment>
+			```
+
+			<x-fragment contents="global_fragmentObject"></x-fragment>
+			<x-button handler="updateObject" label="Update Object"></x-button>
+
+			## Loading With Spinner
+
+			When content is empty or loading, fragments can show a loading spinner. This is useful for asynchronous content loading.
+
+			```html
+			<x-data
+				name="delayedContent"
+				defaultValue="<div style='margin: 0 auto auto 0;'><h4>Delayed Content</h4><p>Click to show the loading spinner as content loads.</p></div>"
+			></x-data>
+			<x-fragment contents="global_delayedContent"></x-fragment>
+			```
+
+			<div style="min-height: 200px; border: 1px solid var(--paletteDivider); padding: 1rem;margin-bottom: 1rem; display: flex; align-items: center; justify-content: center;">
+				<x-fragment contents="global_delayedContent" sx:display="contents"></x-fragment>
+			</div>
+			<x-button handler="loadDelayedContent" label="Update Content with Delay"></x-button>
 
 		</x-markdown>
 	</x-content>

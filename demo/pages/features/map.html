@@ -87,18 +87,18 @@
 
 			### Numbered List
 			```html
-			<x-map items="global_priorityList">
+			<x-map items="global_todoList">
 				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1">
 					<x-typography variant="strong">{{index}}.</x-typography>
-					<x-typography>{{item_task}}</x-typography>
+					<x-typography>{{item_title}}</x-typography>
 				</x-box>
 			</x-map>
 			```
 
-			<x-map items="global_priorityList">
+			<x-map items="global_todoList">
 				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1">
 					<x-typography variant="strong">{{index}}.</x-typography>
-					<x-typography>{{item_task}}</x-typography>
+					<x-typography>{{item_title}}</x-typography>
 				</x-box>
 			</x-map>
 
@@ -139,8 +139,7 @@
 					{{/if}}
 				</x-box>
 			</x-map>
-
-			
+	
 		</x-markdown>
 	</x-content>
 </x-page>

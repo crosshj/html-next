@@ -25,8 +25,8 @@ export class XMap extends BaseUIComponent {
 		// Mark as processed
 		this.setAttribute('data-processed', 'true');
 
-		// Get template from content attribute (content-based component)
-		this.template = this.getAttribute('content') || '';
+		// Get template from either content attribute or template child
+		this.template = this.getTemplate();
 
 		// Clear the initial content since it's just a template
 		this.innerHTML = '';
@@ -39,14 +39,33 @@ export class XMap extends BaseUIComponent {
 		this.processData(items);
 	}
 
+	getTemplate() {
+		// Check for content attribute first (backward compatibility)
+		const contentAttr = this.getAttribute('content');
+		if (contentAttr) {
+			return contentAttr;
+		}
+
+		// Look for template child element
+		const templateElement = this.querySelector('template');
+		if (templateElement) {
+			return templateElement.innerHTML;
+		}
+
+		// Fallback to empty string
+		return '';
+	}
+
 	handleStateChange(newState) {
 		// Call parent method first
 		super.handleStateChange(newState);
 
-		// Update template from content attribute if it changed
-		const newTemplate = this.getAttribute('content') || '';
-		if (newTemplate !== this.template) {
-			this.template = newTemplate;
+		// Only update template if we don't have one yet (first time)
+		if (!this.template) {
+			const newTemplate = this.getTemplate();
+			if (newTemplate) {
+				this.template = newTemplate;
+			}
 		}
 
 		// Re-process data when state changes
@@ -110,8 +129,15 @@ export class XMap extends BaseUIComponent {
 	}
 
 	processTemplate(template, item, index) {
-		// Unescape the content attribute using the utility function
-		let processedTemplate = unescapeContentAttribute(template);
+		// Only unescape if template comes from content attribute (not from <template> element)
+		// Check if template contains HTML entities that need unescaping
+		const needsUnescaping =
+			template.includes('&lt;') ||
+			template.includes('&gt;') ||
+			template.includes('&quot;');
+		let processedTemplate = needsUnescaping
+			? unescapeContentAttribute(template)
+			: template;
 
 		// Replace template variables with item data
 		// Handle {{item_property}} and {{ item_property }} syntax (with or without spaces)
@@ -130,8 +156,8 @@ export class XMap extends BaseUIComponent {
 			item !== undefined && item !== null ? String(item) : ''
 		);
 
-		// Handle {{index}} for array index
-		processedTemplate = processedTemplate.replace(/\{\{index\}\}/g, index);
+		// Handle {{index}} for array index (1-based)
+		processedTemplate = processedTemplate.replace(/\{\{index\}\}/g, index + 1);
 
 		// Process {{#if}} conditionals
 		processedTemplate = processedTemplate.replace(
