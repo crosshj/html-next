@@ -3,7 +3,7 @@ x-breadcrumb {
 	display: block;
 }
 
-.breadcrumb-container {
+x-breadcrumb .breadcrumb-container {
 	display: inline-flex;
 	align-items: center;
 	background: color-mix(
@@ -18,32 +18,32 @@ x-breadcrumb {
 	line-height: 1.25;
 }
 
-.breadcrumb-item {
+x-breadcrumb .breadcrumb-item {
 	text-decoration: none;
 	color: var(--palettePrimaryMain);
 	transition: color 0.2s ease;
 	white-space: nowrap;
 }
 
-.breadcrumb-separator {
+x-breadcrumb .breadcrumb-separator {
 	color: var(--palettePrimaryMain);
 	margin: 0 0.5rem;
 	font-weight: 300;
 	opacity: 0.8;
 }
 
-.breadcrumb-link {
+x-breadcrumb .breadcrumb-link {
 	color: var(--palettePrimaryMain);
 	opacity: 0.85;
 }
 
-.breadcrumb-link:hover {
+x-breadcrumb .breadcrumb-link:hover {
 	color: var(--palettePrimaryMain);
 	opacity: 1;
 	text-decoration: underline;
 }
 
-.breadcrumb-current {
+x-breadcrumb .breadcrumb-current {
 	color: color-mix(
 		in srgb,
 		var(--palettePrimaryMain) 40%,
