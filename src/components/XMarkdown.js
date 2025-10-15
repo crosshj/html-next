@@ -80,9 +80,14 @@ export class XMarkdown extends BaseUIComponent {
 		const temp = document.createElement('div');
 		temp.innerHTML = html;
 
-		// Remove script tags and event handlers
+		// Remove script tags and event handlers (but preserve script flows)
 		const scripts = temp.querySelectorAll('script');
-		scripts.forEach((script) => script.remove());
+		scripts.forEach((script) => {
+			// Don't remove script flows
+			if (script.getAttribute('type') !== 'application/flow') {
+				script.remove();
+			}
+		});
 
 		// Remove event handlers from all elements
 		const allElements = temp.querySelectorAll('*');

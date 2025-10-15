@@ -12,9 +12,9 @@
 			## Usage
 
 			```html
-			<x-flow key="updateState">
+			<script type="application/flow" data-key="updateState">
 				SetData('userName', 'John Doe');
-			</x-flow>
+			</script>
 			```
 
 			## Parameters
@@ -29,50 +29,50 @@
 			### Simple State Update
 
 			```html
-			<x-flow key="updateCounter">
+			<script type="application/flow" data-key="updateCounter">
 				const current = global_counter || 0;
 				SetData('counter', current + 1);
-			</x-flow>
+			</script>
 			```
 
 			### Complex Object Update
 
 			```html
-			<x-flow key="updateUser">
+			<script type="application/flow" data-key="updateUser">
 				SetData('user', {
 					name: 'Jane Smith',
 					email: 'jane@example.com',
 					role: 'admin'
 				});
-			</x-flow>
+			</script>
 			```
 
 			### Array Updates
 
 			```html
-			<x-flow key="addItem">
+			<script type="application/flow" data-key="addItem">
 				const items = global_items || [];
 				SetData('items', [...items, { id: Date.now(), name: 'New Item' }]);
-			</x-flow>
+			</script>
 			```
 
 			### Conditional Updates
 
 			```html
-			<x-flow key="toggleFeature">
+			<script type="application/flow" data-key="toggleFeature">
 				const isEnabled = global_featureEnabled || false;
 				SetData('featureEnabled', !isEnabled);
-			</x-flow>
+			</script>
 			```
 
 			### Nested Properties (Dot Notation)
 
 			```html
-			<x-flow key="updateNested">
+			<script type="application/flow" data-key="updateNested">
 				SetData('forms.login', { username: '', password: '' });
 				SetData('user.profile.name', 'John Doe');
 				SetData('settings.theme.color', 'dark');
-			</x-flow>
+			</script>
 			```
 
 			## State Access

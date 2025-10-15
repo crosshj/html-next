@@ -1,15 +1,15 @@
 <x-page>
 	<!-- prettier-ignore -->
-	<x-flow key="testAlert">
+	<script type="application/flow" data-key="testAlert">
 		await Alert({
 			title: 'Test Alert',
 			message: 'This is a test alert message!',
 		});
 		console.log('Test Alert flow completed');
-	</x-flow>
+	</script>
 
 	<!-- prettier-ignore -->
-	<x-flow key="testConfirm">
+	<script type="application/flow" data-key="testConfirm">
 		const result = await Confirm({
 			title: 'Test Confirmation',
 			message: 'Are you sure you want to proceed with this action?',
@@ -27,7 +27,7 @@
 			});
 		}
 		console.log('Test Confirm flow completed');
-	</x-flow>
+	</script>
 
 	<x-navbar
 		menuButtonShow="true"
@@ -48,13 +48,13 @@
 			| `dispose` | boolean | No | true | Whether to remove modal after closing |
 
 			```html
-			<x-flow key="testAlert">
+			<script type="application/flow" data-key="testAlert">
 				await Alert({
 					title: 'Test Alert',
 					message: 'This is a test alert message!',
 				});
 				console.log('Test Alert flow completed');
-			</x-flow>
+			</script>
 			```
 
 			<x-button handler="testAlert" label="Show Alert"></x-button>
@@ -70,7 +70,7 @@
 			| `dispose` | boolean | No | true | Whether to remove modal after closing |
 
 			```html
-			<x-flow key="testConfirm">
+			<script type="application/flow" data-key="testConfirm">
 				const result = await Confirm({
 					title: 'Test Confirmation',
 					message: 'Are you sure you want to proceed with this action?',
@@ -88,7 +88,7 @@
 					});
 				}
 				console.log('Test Confirm flow completed');
-			</x-flow>
+			</script>
 			```
 
 			<x-button handler="testConfirm" label="Show Confirm"></x-button>

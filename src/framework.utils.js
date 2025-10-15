@@ -316,6 +316,17 @@ export function extractStateReferences(attributes) {
 	return Array.from(stateRefs);
 }
 
+// Check for script flows in the DOM when a flow is requested
+export function findScriptFlow(flowKey) {
+	const script = document.querySelector(
+		`script[type="application/flow"][data-key="${flowKey}"]`
+	);
+	if (script) {
+		return script.textContent.trim();
+	}
+	return null;
+}
+
 // Function to transform x-markdown, x-table, x-schema, x-form, and x-flow elements to use content attribute
 export function transformContentElements(htmlContent) {
 	// Protect against empty or null content

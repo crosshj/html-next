@@ -32,7 +32,10 @@ import { XTable } from './components/XTable.js';
 import { XForm } from './components/XForm.js';
 import { XSchema } from './components/XSchema.js';
 import { XModal } from './components/XModal.js';
-import { cleanServerHTML } from './framework.utils.js';
+import {
+	cleanServerHTML,
+	transformContentElements,
+} from './framework.utils.js';
 
 // Register all web components
 function registerFrameworkComponents() {

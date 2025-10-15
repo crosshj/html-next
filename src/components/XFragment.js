@@ -38,11 +38,14 @@ export class XFragment extends BaseUIComponent {
 	}
 
 	updateContent(content, showLoading) {
-		if (!content) {
+		// Get the fragment's classes to pass to descendants
+		const fragmentClasses = this.className;
+
+		if (content === null || content === undefined) {
 			if (showLoading) {
 				this.innerHTML = html`
 					<div
-						class="fragment-loading-spinner"
+						class="fragment-loading-spinner ${fragmentClasses}"
 						style="display: flex; align-items: center; justify-content: center; height: 100%;"
 					>
 						<div
@@ -51,7 +54,7 @@ export class XFragment extends BaseUIComponent {
 					</div>
 				`;
 			} else {
-				this.innerHTML = '<div class="fragment-no-loading-spinner"></div>';
+				this.innerHTML = `<div class="fragment-no-loading-spinner ${fragmentClasses}"></div>`;
 			}
 			return;
 		}
@@ -61,20 +64,21 @@ export class XFragment extends BaseUIComponent {
 			try {
 				// Use centralized cleaning function
 				const cleanedContent = cleanServerHTML(content);
-				this.innerHTML = cleanedContent;
+				// Wrap the content in a div with the fragment's classes
+				this.innerHTML = `<div class="${fragmentClasses}">${cleanedContent}</div>`;
 			} catch (error) {
 				console.error('Error processing fragment content:', error);
-				this.innerHTML =
-					'<div style="padding: 20px; color: red;">Error processing content</div>';
+				this.innerHTML = `<div class="${fragmentClasses}" style="padding: 20px; color: red;">Error processing content</div>`;
 			}
 		} else {
 			// If content is an object or other type, stringify it
 			try {
-				this.innerHTML = html`<pre>${JSON.stringify(content, null, 2)}</pre>`;
+				this.innerHTML = html`<pre class="${fragmentClasses}">
+${JSON.stringify(content, null, 2)}</pre
+				>`;
 			} catch (error) {
 				console.error('Error stringifying fragment content:', error);
-				this.innerHTML =
-					'<div style="padding: 20px; color: red;">Error displaying content</div>';
+				this.innerHTML = `<div class="${fragmentClasses}" style="padding: 20px; color: red;">Error displaying content</div>`;
 			}
 		}
 	}

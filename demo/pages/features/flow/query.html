@@ -12,10 +12,10 @@
 			## Usage
 
 			```html
-			<x-flow key="loadContent">
+			<script type="application/flow" data-key="loadContent">
 				const content = await Query({ url: '/api/data' });
 				SetData('apiResponse', content);
-			</x-flow>
+			</script>
 			```
 
 			## Parameters
@@ -35,20 +35,20 @@
 			### Loading API Data
 
 			```html
-			<x-flow key="loadUserData">
+			<script type="application/flow" data-key="loadUserData">
 				const userData = await Query({ url: '/api/users/123' });
 				const parsed = JSON.parse(userData);
 				SetData('currentUser', parsed);
-			</x-flow>
+			</script>
 			```
 
 			### Loading External Content
 
 			```html
-			<x-flow key="loadPageContent">
+			<script type="application/flow" data-key="loadPageContent">
 				const content = await Query({ url: '/fragments/sidebar' });
 				SetData('sidebarContent', content);
-			</x-flow>
+			</script>
 			```
 
 			## Error Handling
@@ -56,10 +56,10 @@
 			The Query function automatically handles errors and returns a user-friendly error message:
 
 			```html
-			<x-flow key="handleError">
+			<script type="application/flow" data-key="handleError">
 				const result = await Query({ url: '/nonexistent' });
 				// result will be: "<div style="padding: 20px; color: red;">Error loading content: ...</div>"
-			</x-flow>
+			</script>
 			```
 
 		</x-markdown>

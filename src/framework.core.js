@@ -337,7 +337,15 @@ class FrameworkCore {
 
 	// Trigger a flow by key
 	async triggerFlow(flowKey, eventDetail) {
-		const code = this.flows.get(flowKey);
+		let code = this.flows.get(flowKey);
+
+		// If flow not found in registered flows, check for script flows in DOM
+		if (!code) {
+			// Import findScriptFlow from utils to avoid circular dependency
+			const { findScriptFlow } = await import('./framework.utils.js');
+			code = findScriptFlow(flowKey);
+		}
+
 		if (code) {
 			await this.executeFlow(code, eventDetail);
 		} else {

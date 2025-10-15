@@ -9,11 +9,27 @@
 		<x-markdown>
 			The `Flow` component provides a way to define executable (and somewhat constrained) JavaScript code that can be triggered by events or called directly. Flows are the core mechanism for handling business logic, state changes, and user interactions in the framework. They run in a controlled environment with access to global state and utility functions.
 
+			## Defining Flows
+
+			Flows can be defined using script tags (recommended) or x-flow components:
+
+			```html
+			<!-- Script-based flows (recommended) -->
+			<script type="application/flow" data-key="incrementCounter">
+				SetData('count', state.count + 1);
+			</script>
+
+			<!-- x-flow component -->
+			<x-flow key="incrementCounter">
+				SetData('count', state.count + 1);
+			</x-flow>
+			```
+
 			## Attributes
 
 			| Attribute | Type | Required | Description |
 			|-----------|------|----------|-------------|
-			| `key` | string | Yes | Unique identifier for the flow |
+			| `key` / `data-key` | string | Yes | Unique identifier for the flow |
 
 			## Utility Functions
 

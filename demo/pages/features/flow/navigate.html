@@ -12,9 +12,9 @@
 			## Usage
 
 			```html
-			<x-flow key="goToPage">
+			<script type="application/flow" data-key="goToPage">
 				Navigate('/dashboard');
-			</x-flow>
+			</script>
 			```
 
 			## Parameters
@@ -28,30 +28,30 @@
 			### Basic Navigation
 
 			```html
-			<x-flow key="goHome">
+			<script type="application/flow" data-key="goHome">
 				Navigate('/');
-			</x-flow>
+			</script>
 			```
 
 			### Conditional Navigation
 
 			```html
-			<x-flow key="conditionalNav">
+			<script type="application/flow" data-key="conditionalNav">
 				if (global_userRole === 'admin') {
 					Navigate('/admin');
 				} else {
 					Navigate('/dashboard');
 				}
-			</x-flow>
+			</script>
 			```
 
 			### Navigation with State
 
 			```html
-			<x-flow key="navigateWithData">
+			<script type="application/flow" data-key="navigateWithData">
 				SetData('selectedItem', 'item123');
 				Navigate('/details');
-			</x-flow>
+			</script>
 			```
 
 			## Notes
