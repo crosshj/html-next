@@ -1,5 +1,6 @@
 import { BaseUIComponent } from './BaseUIComponent.js';
 import { getState } from '../framework.core.js';
+import { unescapeContentAttribute } from '../framework.utils.js';
 
 // Define x-map web component
 export class XMap extends BaseUIComponent {
@@ -24,8 +25,8 @@ export class XMap extends BaseUIComponent {
 		// Mark as processed
 		this.setAttribute('data-processed', 'true');
 
-		// Store the template for later use
-		this.template = this.innerHTML;
+		// Get template from content attribute (content-based component)
+		this.template = this.getAttribute('content') || '';
 
 		// Clear the initial content since it's just a template
 		this.innerHTML = '';
@@ -41,6 +42,12 @@ export class XMap extends BaseUIComponent {
 	handleStateChange(newState) {
 		// Call parent method first
 		super.handleStateChange(newState);
+
+		// Update template from content attribute if it changed
+		const newTemplate = this.getAttribute('content') || '';
+		if (newTemplate !== this.template) {
+			this.template = newTemplate;
+		}
 
 		// Re-process data when state changes
 		const items = this.getAttribute('items');
@@ -103,7 +110,8 @@ export class XMap extends BaseUIComponent {
 	}
 
 	processTemplate(template, item, index) {
-		let processedTemplate = template;
+		// Unescape the content attribute using the utility function
+		let processedTemplate = unescapeContentAttribute(template);
 
 		// Replace template variables with item data
 		// Handle {{item_property}} and {{ item_property }} syntax (with or without spaces)

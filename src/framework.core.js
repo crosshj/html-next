@@ -1,4 +1,5 @@
 // Framework Core - Centralized system management
+import { XModal } from './components/XModal.js';
 
 class FrameworkCore {
 	constructor() {
@@ -514,8 +515,6 @@ class FrameworkCore {
 	// Utility function to show alert dialog
 	async Alert(options = {}) {
 		const { message = '', title = 'Alert', dispose = true } = options;
-		// Import XModal dynamically to avoid circular dependencies
-		const { XModal } = await import('./components/XModal.js');
 
 		// Check for existing modal first
 		const existingModal = XModal.findExistingModal();
@@ -549,8 +548,6 @@ class FrameworkCore {
 	// Utility function to show confirm dialog
 	async Confirm(options = {}) {
 		const { message = '', title = 'Confirm', dispose = true } = options;
-		// Import XModal dynamically to avoid circular dependencies
-		const { XModal } = await import('./components/XModal.js');
 
 		// Check for existing modal first
 		const existingModal = XModal.findExistingModal();

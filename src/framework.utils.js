@@ -46,6 +46,50 @@ const baseColors = {
  * @param {string} colorName - The color name (e.g., 'green500', 'amber800', 'redA100')
  * @returns {string} - The CSS color-mix value or fallback hex
  */
+/**
+ * Unescapes content from a content attribute, preserving HTML attributes
+ * This is used by content-based components to safely unescape their content
+ * while keeping HTML attributes properly escaped for component processing
+ *
+ * @param {string} content - The escaped content from a content attribute
+ * @returns {string} - Content with markdown/text unescaped but HTML attributes preserved
+ */
+export const unescapeContentAttribute = (content) => {
+	if (!content || typeof content !== 'string') {
+		return '';
+	}
+
+	// First, unescape everything
+	let unescaped = content
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/&quot;/g, '"')
+		.replace(/&#39;/g, "'")
+		.replace(/&#10;/g, '\n')
+		.replace(/&#13;/g, '\r')
+		.replace(/&#9;/g, '\t');
+
+	// Then re-escape ALL entities inside HTML attributes
+	// This prevents breaking component attributes while allowing markdown to render
+	unescaped = unescaped.replace(
+		/(\w+)="([^"]*?)"/g,
+		(match, attrName, attrValue) => {
+			// Re-escape ALL entities in the attribute value
+			const reEscapedValue = attrValue
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;')
+				.replace(/\n/g, '&#10;')
+				.replace(/\r/g, '&#13;')
+				.replace(/\t/g, '&#9;');
+			return `${attrName}="${reEscapedValue}"`;
+		}
+	);
+
+	return unescaped;
+};
+
 export const getMixedColor = (colorName) => {
 	// Handle accent colors (A100, A200, A400, A700)
 	const accentMatch = colorName.match(/^(\w+)(A\d+)$/);
@@ -291,7 +335,7 @@ export function extractStateReferences(attributes) {
 }
 
 // Function to transform x-markdown, x-table, x-schema, x-form, and x-flow elements to use content attribute
-function transformContentElements(htmlContent) {
+export function transformContentElements(htmlContent) {
 	// Protect against empty or null content
 	if (!htmlContent || typeof htmlContent !== 'string') {
 		return '';
@@ -310,18 +354,25 @@ function transformContentElements(htmlContent) {
 		return `${codeBlockPlaceholder}${index}`;
 	});
 
-	// Now process x-markdown elements in the content without code blocks
+	// Start with the content (no x-map processing needed)
 	let transformed = tempContent;
+
+	// Now process x-markdown elements in the content without code blocks
 	const openTagRegex = /<x-markdown([^>]*)>/gi;
 
 	let match;
-	while ((match = openTagRegex.exec(tempContent)) !== null) {
+	while ((match = openTagRegex.exec(transformed)) !== null) {
 		const openTag = match[0];
 		const attributes = match[1];
 		const startIndex = match.index;
 
+		// Skip if x-markdown already has content attribute (already processed)
+		if (attributes.includes('content=')) {
+			continue;
+		}
+
 		// Find the matching closing tag
-		const nextClose = tempContent.indexOf(
+		const nextClose = transformed.indexOf(
 			'</x-markdown>',
 			startIndex + openTag.length
 		);
@@ -331,21 +382,47 @@ function transformContentElements(htmlContent) {
 			continue;
 		}
 
-		const content = tempContent.substring(
-			startIndex + openTag.length,
-			nextClose
+		let content = transformed.substring(startIndex + openTag.length, nextClose);
+
+		// Process x-map elements inside the markdown content (only if they don't already have content attribute)
+		content = content.replace(
+			/<x-map([^>]*)>([\s\S]*?)<\/x-map>/gi,
+			(mapMatch, mapAttributes, mapContent) => {
+				// Skip if x-map already has content attribute (already processed)
+				if (mapAttributes.includes('content=')) {
+					return mapMatch;
+				}
+
+				// Escape the map content for use in HTML attribute
+				// NOTE: We don't process the content inside x-map - let the x-map component handle it
+				const escapedMapContent = mapContent
+					.replace(/"/g, '&quot;')
+					.replace(/'/g, '&#39;')
+					.replace(/\n/g, '&#10;')
+					.replace(/\r/g, '&#13;')
+					.replace(/\t/g, '&#9;');
+
+				// Return the transformed map element with content attribute
+				return `<x-map${mapAttributes} content="${escapedMapContent}"></x-map>`;
+			}
 		);
 
 		// Escape the content for use in HTML attribute
 		const escapedContent = content
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
 			.replace(/"/g, '&quot;')
 			.replace(/'/g, '&#39;')
 			.replace(/\n/g, '&#10;')
 			.replace(/\r/g, '&#13;')
 			.replace(/\t/g, '&#9;');
 
-		// Replace this specific match
-		const fullMatch = openTag + content + '</x-markdown>';
+		// Replace this specific match - use the original content for matching
+		const originalContent = tempContent.substring(
+			startIndex + openTag.length,
+			nextClose
+		);
+		const fullMatch = openTag + originalContent + '</x-markdown>';
 		const replacement = `<x-markdown${attributes} content="${escapedContent}"></x-markdown>`;
 		transformed = transformed.replace(fullMatch, replacement);
 	}
@@ -355,6 +432,8 @@ function transformContentElements(htmlContent) {
 		new RegExp(`${codeBlockPlaceholder}(\\d+)`, 'g'),
 		(match, index) => {
 			return codeBlockMatches[parseInt(index)]
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
 				.replace(/"/g, '&quot;')
 				.replace(/'/g, '&#39;')
 				.replace(/\n/g, '&#10;')
@@ -529,6 +608,52 @@ function transformContentElements(htmlContent) {
 		new RegExp(`${flowMarkdownPlaceholder}(\\d+)`, 'g'),
 		(match, index) => {
 			return flowMarkdownMatches[parseInt(index)];
+		}
+	);
+
+	// Process standalone x-map elements (only outside of x-markdown)
+	// First, temporarily replace x-markdown content to avoid processing x-map inside it
+	const mapMarkdownPlaceholder = '___MAP_MARKDOWN_PLACEHOLDER___';
+	const mapMarkdownMatches = [];
+	let mapContent = transformed;
+
+	// Store x-markdown elements temporarily
+	mapContent = mapContent.replace(
+		/<x-markdown[^>]*content="[^"]*"[^>]*><\/x-markdown>/gi,
+		(match) => {
+			const index = mapMarkdownMatches.length;
+			mapMarkdownMatches.push(match);
+			return `${mapMarkdownPlaceholder}${index}`;
+		}
+	);
+
+	// Process x-map elements in the content without x-markdown
+	const xMapRegex = /<x-map([^>]*)>([\s\S]*?)<\/x-map>/gi;
+	mapContent = mapContent.replace(xMapRegex, (match, attributes, content) => {
+		// Skip if x-map already has content attribute (already processed)
+		if (attributes.includes('content=')) {
+			return match;
+		}
+
+		// Escape the content for use in HTML attribute
+		const escapedContent = content
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;')
+			.replace(/\n/g, '&#10;')
+			.replace(/\r/g, '&#13;')
+			.replace(/\t/g, '&#9;');
+
+		// Return the transformed element with content attribute
+		return `<x-map${attributes} content="${escapedContent}"></x-map>`;
+	});
+
+	// Restore x-markdown elements
+	transformed = mapContent.replace(
+		new RegExp(`${mapMarkdownPlaceholder}(\\d+)`, 'g'),
+		(match, index) => {
+			return mapMarkdownMatches[parseInt(index)];
 		}
 	);
 

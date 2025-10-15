@@ -1,0 +1,5 @@
+Text with
+<x-map
+	items="list"
+	content="&#10;&#9;<x-box>{{item}}</x-box>&#10;"
+></x-map>

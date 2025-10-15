@@ -1,0 +1,17 @@
+
+	```html
+	<x-map items="global_userList">
+		<x-box>{{item_name}} - {{item_email}}</x-box>
+	</x-map>
+	```
+
+	<x-map items="global_userList" content="&#10;&#9;&#9;&lt;x-box&gt;{{item_name}} - {{item_email}}&lt;/x-box&gt;&#10;&#9;"></x-map>
+
+	```html
+	<x-map items="global_userList">
+		<x-box>{{item_name}} - {{item_email}}</x-box>
+	</x-map>
+	```
+
+	<x-map items="global_userList" content="&#10;&#9;&#9;&lt;x-box sx:display="block">{{item_name}} - {{item_email}}</x-box>
+	"></x-map>

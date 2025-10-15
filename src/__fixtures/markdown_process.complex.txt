@@ -1,0 +1,85 @@
+The `Map` component provides template-based rendering for dynamic content generation from arrays of data. It processes data arrays and renders each item using a template with support for conditional rendering, loops, and dynamic content. The component automatically subscribes to state changes and re-renders when data updates, making it ideal for dynamic lists, tables, and other data-driven UI elements.
+
+## Attributes
+
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `items` | string | Yes | State path to the data array |
+
+## Usage
+
+```html
+<x-map items="global_userList">
+	<x-box>{{item_name}} - {{item_email}}</x-box>
+</x-map>
+```
+
+<x-map items="global_userList" content="&#10;&#9;&#9;&#9;&#9;<x-box>{{item_name}} - {{item_email}}</x-box>&#10;&#9;&#9;&#9;"></x-map>
+
+## Basic List
+
+### Simple List
+```html
+<x-map items="global_todoList">
+	<x-box sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
+		{{item_title}}
+	</x-box>
+</x-map>
+```
+
+<x-map items="global_todoList" content="&#10;&#9;&#9;&#9;&#9;<x-box sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
+		{{item_title}}
+	</x-box>
+"></x-map>
+
+### Numbered List
+```html
+<x-map items="global_priorityList">
+	<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1">
+		<x-typography variant="strong">{{index}}.</x-typography>
+		<x-typography>{{item_task}}</x-typography>
+	</x-box>
+</x-map>
+```
+
+<x-map items="global_priorityList" content="&#10;&#9;&#9;&#9;&#9;<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1">
+		<x-typography variant="strong">{{index}}.</x-typography>
+		<x-typography>{{item_task}}</x-typography>
+	</x-box>
+"></x-map>
+
+### Using {{#each}} + {{#if}}
+```html
+<x-map items="global_userList">
+	<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
+		<x-typography variant="h6">{{item_name}}</x-typography>
+		<x-typography>{{item_email}}</x-typography>
+		<x-typography sx:color="var(--paletteTextSecondary)">Department: {{item_department}}</x-typography>
+		<x-typography variant="strong">Skills:</x-typography>
+		<x-box sx:display="flex" sx:gap="1" sx:flex-wrap="wrap" sx:mt="1">
+			{{#each item_skills}}
+			<x-box sx:background="var(--paletteSecondaryLight)" sx:padding="0.25" sx:border-radius="8px" sx:font-size="0.75em">
+				{{this}}
+			</x-box>
+			{{/each}}
+		</x-box>
+	</x-box>
+</x-map>
+```
+
+<x-map items="global_userList" content="&#10;&#9;&#9;&#9;&#9;<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
+		<x-typography variant="h6">{{item_name}}</x-typography>
+		<x-typography>{{item_email}}</x-typography>
+		<x-typography sx:color="var(--paletteTextSecondary)">Department: {{item_department}}</x-typography>
+		{{#if item_isSkilled}}
+		<x-box sx:display="flex" sx:gap="1" sx:flex-wrap="wrap" sx:mt="1">
+			<x-typography variant="strong">Skills:</x-typography>
+			{{#each item_skills}}
+			<x-box sx:background="var(--paletteSecondaryLight)" sx:padding="0.25" sx:border-radius="8px" sx:font-size="0.75em">
+				{{this}}
+			</x-box>
+			{{/each}}
+		</x-box>
+		{{/if}}
+	</x-box>
+"></x-map>

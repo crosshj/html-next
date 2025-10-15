@@ -49,9 +49,9 @@
 		const mainContent = await fetch(`./pages/${path}.html`).then(x => x.text());
 
 		if(mainContent.trim()) {
-			SetData("mainContent", mainContent.trim())
+			SetData("mainContent", mainContent.trim());
 		} else {
-			SetData("mainContent", await GetData('errorContent'))
+			SetData("mainContent", await GetData('errorContent'));
 		}
 
 		// Get menu data from URL sources and update with active states

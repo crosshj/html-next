@@ -26,7 +26,19 @@
 				- List item 2
 			</x-markdown>
 			```
+		</x-markdown>
 
+		<!-- prettier-ignore -->
+		<x-markdown>
+			# Heading
+			This is **bold** and *italic* text.
+			
+			- List item 1
+			- List item 2
+		</x-markdown>
+
+		<!-- prettier-ignore -->
+		<x-markdown>
 			## Tables
 
 			```html
@@ -37,17 +49,18 @@
 				| Jane | 30 | London |
 			</x-markdown>
 			```
+		</x-markdown>
 
-			## Custom Icons
+		<!-- prettier-ignore -->
+		<x-markdown>
+			| Name | Age | City |
+			|------|-----|------|
+			| John | 25 | New York |
+			| Jane | 30 | London |
+		</x-markdown>
 
-			```html
-			<x-markdown>
-				icon:CheckCircle;green500 Completed
-				icon:Error;red500 Failed
-				icon:Construction;orange500 In Progress
-			</x-markdown>
-			```
-
+		<!-- prettier-ignore -->
+		<x-markdown>
 			## Code Blocks
 
 			```html
@@ -59,7 +72,15 @@
 				```
 			</x-markdown>
 			```
+		</x-markdown>
 
+		<!-- prettier-ignore -->
+		<x-markdown>
+			```javascript
+			function greetUser(name) {
+				console.log(`Hello, ${name}!`);
+			}
+			```
 		</x-markdown>
 	</x-content>
 </x-page>

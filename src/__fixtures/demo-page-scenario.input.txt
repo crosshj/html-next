@@ -1,0 +1,21 @@
+<x-markdown>
+	```html
+	<x-map items="global_userList">
+		<x-box>{{item_name}} - {{item_email}}</x-box>
+	</x-map>
+	```
+
+	<x-map items="global_userList">
+		<x-box>{{item_name}} - {{item_email}}</x-box>
+	</x-map>
+
+	```html
+	<x-map items="global_userList">
+		<x-box>{{item_name}} - {{item_email}}</x-box>
+	</x-map>
+	```
+
+	<x-map items="global_userList">
+		<x-box sx:display="block">{{item_name}} - {{item_email}}</x-box>
+	</x-map>
+</x-markdown>

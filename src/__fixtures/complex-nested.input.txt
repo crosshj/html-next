@@ -1,0 +1,7 @@
+<x-markdown
+	># Users
+
+	<x-map items="users"><div>{{user.name}}</div></x-map>
+
+	More text</x-markdown
+>
