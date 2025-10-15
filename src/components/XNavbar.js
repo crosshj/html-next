@@ -75,13 +75,14 @@ export class XNavbar extends BaseUIComponent {
 			  `
 			: '';
 
-		// Create navbar structure with dark grey header
+		// Create navbar structure with either breadcrumb navigation or custom title
+		const titleElement = manualTitle
+			? html`<div class="navbar-title">${title}</div>`
+			: html`<x-breadcrumb pathSource="${titleSource}"></x-breadcrumb>`;
+
 		this.innerHTML = html`
 			<div class="navbar-header">
-				<div class="navbar-left">
-					${hamburgerButton}
-					<x-typography variant="h1"> ${title} </x-typography>
-				</div>
+				<div class="navbar-left">${hamburgerButton} ${titleElement}</div>
 				<div class="navbar-right">
 					${this.originalContent
 						? `<div class="navbar-actions">${this.originalContent}</div>`

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/dist/main.css">
+	<script src="/dist/main.js"></script>
+</head>
+<body>
+	<x-markdown># Content</x-markdown>
+	<script type="application/flow" data-key="test">SetData('test', 'value');</script>
+</body>
+</html>

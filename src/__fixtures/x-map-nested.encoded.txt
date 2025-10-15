@@ -1,1 +1,0 @@
-<x-map items="list" content="&lt;div&gt;{{item}}&lt;/div&gt;"></x-map>

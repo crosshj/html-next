@@ -1,0 +1,14 @@
+<x-box>
+	<x-typography variant="h3">{{item_name}}</x-typography>
+	<x-typography>{{item_email}}</x-typography>
+	{{#if item_isActive}}
+	<x-box sx:display="flex" sx:gap="1">
+		{{#each item_departments}}
+		<x-box sx:background="blue100" sx:padding="1">
+			<x-typography variant="strong">{{this.name}}</x-typography>
+			<x-typography>{{this.role}}</x-typography>
+		</x-box>
+		{{/each}}
+	</x-box>
+	{{/if}}
+</x-box>

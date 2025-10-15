@@ -157,6 +157,11 @@ export const unescapeHtmlEntities = (content) => {
 		unescaped = unescaped.replace(new RegExp(entity, 'g'), char);
 	}
 
+	// Handle numeric HTML entities like &#10; (newline)
+	unescaped = unescaped.replace(/&#(\d+);/g, (match, dec) => {
+		return String.fromCharCode(parseInt(dec, 10));
+	});
+
 	return unescaped;
 };
 
@@ -180,6 +185,23 @@ export const parseWithCustomRenderer = (content) => {
 			const text = this.parser.parseInline(tokens);
 			const t = title ? ` title="${title}"` : '';
 			return `<x-link href="${href}" ${t}>${text}</x-link>`;
+		},
+		paragraph({ tokens }) {
+			const text = this.parser.parseInline(tokens);
+			// If the paragraph contains only custom elements, don't wrap in <p>
+			// Check for various patterns of custom elements
+			if (text.match(/^<x-[\w-]+[^>]*>[\s\S]*<\/x-[\w-]+>$/)) {
+				return text;
+			}
+			// Also check for custom elements that might have attributes with newlines
+			if (text.match(/^<x-[\w-]+[^>]*content="[^"]*">[\s\S]*<\/x-[\w-]+>$/)) {
+				return text;
+			}
+			// Check for custom elements that span multiple lines with indentation
+			if (text.match(/^<x-[\w-]+[^>]*>[\s\S]*?<\/x-[\w-]+>$/s)) {
+				return text;
+			}
+			return `<p>${text}</p>`;
 		},
 		tablecell({ tokens, align }) {
 			let text = this.parser.parseInline(tokens);

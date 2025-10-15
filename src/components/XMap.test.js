@@ -1,3 +1,10 @@
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Simple test to verify template processing works
 describe('XMap Template Processing', () => {
 	// Create a minimal XMap instance for testing template processing
@@ -139,6 +146,25 @@ describe('XMap Template Processing', () => {
 
 			const result = xMap.processTemplate(template, item, 0);
 			expect(result).toBe('<x-box>JavaScript</x-box><x-box>React</x-box>');
+		});
+
+		test('should handle complex nested scenarios', () => {
+			const item = {
+				name: 'John Doe',
+				email: 'john@example.com',
+				departments: [
+					{ name: 'Engineering', role: 'Senior Developer' },
+					{ name: 'Product', role: 'Tech Lead' },
+				],
+				isActive: true,
+			};
+			const template = readFileSync(
+				join(__dirname, '..', '__fixtures', 'complex-template.input.txt'),
+				'utf8'
+			);
+
+			const result = xMap.processTemplate(template, item, 0);
+			expect(result).toMatchSnapshot();
 		});
 	});
 });

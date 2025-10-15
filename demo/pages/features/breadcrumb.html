@@ -1,0 +1,60 @@
+<x-page>
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			`x-breadcrumb` provides clickable breadcrumb navigation with subtle styling that matches the framework's design system.
+
+			## Attributes
+
+			| Attribute | Type | Required | Default | Description |
+			|-----------|------|----------|---------|-------------|
+			| `pathSource` | string | No | "activePath" | Global state key used to build the breadcrumb path |
+
+			## Features
+
+			- **Clickable Links**: Each breadcrumb segment (except the current page) is a clickable link
+			- **Subtle Styling**: Uses `color-mix` with primary color for a less prominent background effect
+			- **CSS Variables**: Uses framework CSS variables for consistent theming
+			- **Responsive**: Automatically handles different path lengths
+			- **Accessible**: Proper ARIA labels and semantic HTML
+
+			## Examples
+
+			### Basic Usage
+			```html
+			<x-breadcrumb></x-breadcrumb>
+			```
+
+			### Custom Path Source
+			```html
+			<x-breadcrumb pathSource="customPath"></x-breadcrumb>
+			```
+
+			## Styling
+
+			The breadcrumb uses a subtle background with the primary color:
+
+			```css
+			.breadcrumb-container {
+				background: color-mix(
+					in srgb,
+					var(--palettePrimaryMain) 8%,
+					var(--paletteBackgroundPaper)
+				);
+				border-radius: 1.5rem;
+				padding: 0.5rem 1rem;
+			}
+			```
+
+			- **Links**: Use `--paletteTextSecondary` with hover effects
+			- **Current Page**: Uses `--palettePrimaryMain` for emphasis
+			- **Separators**: Use `--paletteTextTertiary` for subtle dividers
+
+		</x-markdown>
+	</x-content>
+</x-page>

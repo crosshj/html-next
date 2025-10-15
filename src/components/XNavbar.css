@@ -88,6 +88,13 @@ x-navbar {
 		}
 	}
 
+	.navbar-title {
+		font-size: 1.125rem;
+		font-weight: 500;
+		color: var(--paletteTextPrimary);
+		white-space: nowrap;
+	}
+
 	.breadcrumb-separator {
 		color: var(--paletteTextTertiary);
 		opacity: 0.6;

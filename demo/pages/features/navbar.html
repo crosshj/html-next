@@ -7,7 +7,7 @@
 	<x-content>
 		<!-- prettier-ignore -->
 		<x-markdown>
-			`x-navbar` renders a breadcrumb-style title and an optional hamburger, and places any children as right-side actions.
+			`x-navbar` renders a clickable breadcrumb navigation and an optional hamburger, and places any children as right-side actions.
 
 			## Attributes
 
@@ -18,7 +18,7 @@
 			| `titleSource`      | string  | No       | "activePath" | Global state key used to build the breadcrumb title.                |
 			| `titleText`        | string  | No       | -            | When provided, bypasses automatic breadcrumb generation.            |
 
-			> **Title**: Uses global `activePath` (configurable via `titleSource`) to derive the title, rendered like breadcrumbs.   
+			> **Breadcrumbs**: Uses global `activePath` (configurable via `titleSource`) to generate clickable breadcrumb navigation. Each segment is a clickable link that navigates to that path.   
 			> **Actions**: Any child content of `x-navbar` is placed at the far right.
 
 			## Examples

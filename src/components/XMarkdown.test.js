@@ -16,17 +16,13 @@ describe('XMarkdown Component', () => {
 			'src/__fixtures/markdown_process.complex.txt',
 			'utf8'
 		);
-		const expected = readFileSync(
-			'src/__fixtures/markdown_process.complex.output.txt',
-			'utf8'
-		);
 
 		// Test the full pipeline: dedent -> unescape -> parse
 		const dedented = dedentContent(input);
 		const unescaped = unescapeHtmlEntities(dedented);
 		const result = parseWithCustomRenderer(unescaped);
 
-		expect(result).toBe(expected);
+		expect(result).toMatchSnapshot();
 	});
 
 	test('demonstrates auto-conversion to template-based approach works correctly', () => {

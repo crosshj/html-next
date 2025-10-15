@@ -1,5 +1,0 @@
-Text with
-<x-map
-	items="list"
-	content="&#10;&#9;&lt;x-box&gt;{{item}}&lt;/x-box&gt;&#10;"
-></x-map>

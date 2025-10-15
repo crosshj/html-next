@@ -1,3 +1,0 @@
-<x-markdown># Title
-
-Paragraph with **bold** text</x-markdown>

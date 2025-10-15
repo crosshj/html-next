@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`XMap Template Processing Template processing should handle complex nested scenarios 1`] = `
+"<x-box>
+	<x-typography variant="h3">John Doe</x-typography>
+	<x-typography>john@example.com</x-typography>
+	
+	<x-box sx:display="flex" sx:gap="1">
+		
+		<x-box sx:background="blue100" sx:padding="1">
+			<x-typography variant="strong">{{this.name}}</x-typography>
+			<x-typography>{{this.role}}</x-typography>
+		</x-box>
+		
+		<x-box sx:background="blue100" sx:padding="1">
+			<x-typography variant="strong">{{this.name}}</x-typography>
+			<x-typography>{{this.role}}</x-typography>
+		</x-box>
+		
+	</x-box>
+	
+</x-box>
+"
+`;

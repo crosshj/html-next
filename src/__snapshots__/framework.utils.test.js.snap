@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Content encoding/decoding pipeline cleanServerHTML removes build artifacts 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/dist/main.css">
+	<script src="/dist/main.js"></script>
+</head>
+<body>
+	<x-markdown content="# Content"></x-markdown>
+	<script type="application/flow" data-key="test">SetData('test', 'value');</script>
+</body>
+</html>
+"
+`;
+
+exports[`Content encoding/decoding pipeline handles nested x-map scenarios 1`] = `
+"<x-map items="categories"><template>
+	<x-box>
+		<h3>{{item_name}}</h3>
+		<x-map items="item_products">
+			<x-box>{{item_name}} - \${{item_price}}</x-box>
+		</template></x-map>
+	</x-box>
+</x-map>
+"
+`;
+
+exports[`Content encoding/decoding pipeline preserves HTML attributes with content transformation 1`] = `
+"Text with
+<x-map
+	items="list"
+	content="&#10;&#9;<x-box>{{item}}</x-box>&#10;"
+></x-map>
+"
+`;
+
+exports[`Content encoding/decoding pipeline transforms complex nested x-map scenario 1`] = `
+"<x-markdown
+	># Users
+
+	<x-map items="users"><template><div>{{user.name}}</div></template></x-map>
+
+	More text</x-markdown
+>
+"
+`;
+
+exports[`Content encoding/decoding pipeline transforms demo page scenario with mixed content 1`] = `
+"<x-markdown content="&#10;&#9;\`\`\`html&#10;&#9;&lt;x-map items=&quot;global_userList&quot;&gt;&#10;&#9;&#9;&lt;x-box&gt;{{item_name}} - {{item_email}}&lt;/x-box&gt;&#10;&#9;&lt;/x-map&gt;&#10;&#9;\`\`\`&#10;&#10;&#9;&lt;x-map items=&quot;global_userList&quot;&gt;&lt;template&gt;&#10;&#9;&#9;&lt;x-box&gt;{{item_name}} - {{item_email}}&lt;/x-box&gt;&#10;&#9;&lt;/template&gt;&lt;/x-map&gt;&#10;&#10;&#9;\`\`\`html&#10;&#9;&lt;x-map items=&quot;global_userList&quot;&gt;&#10;&#9;&#9;&lt;x-box&gt;{{item_name}} - {{item_email}}&lt;/x-box&gt;&#10;&#9;&lt;/x-map&gt;&#10;&#9;\`\`\`&#10;&#10;&#9;&lt;x-map items=&quot;global_userList&quot;&gt;&lt;template&gt;&#10;&#9;&#9;&lt;x-box sx:display=&quot;block&quot;&gt;{{item_name}} - {{item_email}}&lt;/x-box&gt;&#10;&#9;&lt;/template&gt;&lt;/x-map&gt;&#10;"></x-markdown>
+"
+`;
+
+exports[`Content encoding/decoding pipeline unescapeContentAttribute handles complex HTML entities 1`] = `
+"<x-box>
+	{{item_name}}
+</x-box>
+"
+`;

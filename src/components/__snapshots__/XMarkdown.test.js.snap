@@ -1,4 +1,7 @@
-<p>The <code>Map</code> component provides template-based rendering for dynamic content generation from arrays of data. It processes data arrays and renders each item using a template with support for conditional rendering, loops, and dynamic content. The component automatically subscribes to state changes and re-renders when data updates, making it ideal for dynamic lists, tables, and other data-driven UI elements.</p><x-typography variant="h2" sx:mt="5" sx:mb="1" sx:display="inline-block">Attributes</x-typography><table>
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`XMarkdown Component processes markdown_process.complex.txt correctly 1`] = `
+"<p>The <code>Map</code> component provides template-based rendering for dynamic content generation from arrays of data. It processes data arrays and renders each item using a template with support for conditional rendering, loops, and dynamic content. The component automatically subscribes to state changes and re-renders when data updates, making it ideal for dynamic lists, tables, and other data-driven UI elements.</p><x-typography variant="h2" sx:mt="5" sx:mb="1" sx:display="inline-block">Attributes</x-typography><table>
 <thead>
 <tr>
 <td>Attribute</td><td>Type</td><td>Required</td><td>Description</td></tr>
@@ -66,4 +69,5 @@
 		</x-box>
 		{{/if}}
 	</x-box>
-"></x-map></p>
+"></x-map></p>"
+`;

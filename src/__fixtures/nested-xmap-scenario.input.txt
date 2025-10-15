@@ -1,0 +1,8 @@
+<x-map items="categories">
+	<x-box>
+		<h3>{{item_name}}</h3>
+		<x-map items="item_products">
+			<x-box>{{item_name}} - ${{item_price}}</x-box>
+		</x-map>
+	</x-box>
+</x-map>

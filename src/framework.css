@@ -1,6 +1,7 @@
 /* Framework CSS - All styles should be nested under their component */
 
 /* Import component styles */
+@import './components/XBreadcrumb.css';
 @import './components/XNavbar.css';
 @import './components/XMarkdown.css';
 @import './components/XVizBar.css';
@@ -49,6 +50,12 @@ body {
 	--color-background-muted: #f5f5f5;
 	--color-border: #ddd;
 	--color-border-light: #eee;
+
+	/* Design System */
+	--radius-sm: 0.25rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 0.75rem;
+	--radius-xl: 1rem;
 
 	/* Palette System */
 	/* Primary Palette */
@@ -887,7 +894,7 @@ x-button x-link {
 	justify-content: center;
 	gap: 0.5rem;
 	border: 1px solid transparent;
-	border-radius: 4px;
+	border-radius: var(--radius-md);
 	font-family: inherit;
 	font-weight: 500;
 	font-size: 0.875rem;

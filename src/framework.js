@@ -17,6 +17,7 @@ import { XPage } from './components/XPage.js';
 import { XNavbar } from './components/XNavbar.js';
 import { XContent } from './components/XContent.js';
 import { XBox } from './components/XBox.js';
+import { XBreadcrumb } from './components/XBreadcrumb.js';
 import { XButton } from './components/XButton.js';
 import { XTypography } from './components/XTypography.js';
 import { XLink } from './components/XLink.js';
@@ -45,6 +46,7 @@ function registerFrameworkComponents() {
 		{ name: 'x-navbar', class: XNavbar },
 		{ name: 'x-content', class: XContent },
 		{ name: 'x-box', class: XBox },
+		{ name: 'x-breadcrumb', class: XBreadcrumb },
 		{ name: 'x-button', class: XButton },
 		{ name: 'x-typography', class: XTypography },
 		{ name: 'x-include', class: XInclude },

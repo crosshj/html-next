@@ -14,78 +14,74 @@ Build interactive apps with custom elements and reactive state using web standar
 
 ## Quick Start
 
+Copy this code into an html file and open it in your browser.
+
 <!-- prettier-ignore -->
 ```html
 <!DOCTYPE html>
 <html>
-    <head>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.css"
-        />
-    </head>
-    <body>
-        <template id="appContent">
-            <x-data name="count" defaultValue="1"></x-data>
-            <x-data name="isVisible" defaultValue="true"></x-data>
+	<head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.css" />
+	</head>
 
-            <x-flow key="increment">
-                SetState('count', state.count + 1);
-            </x-flow>
-            <x-flow key="toggle">
-                SetState('isVisible', !(state.isVisible+'' === 'true'));
-            </x-flow>
+	<style>
+		/* basic override of theme colors */
+		:root body {
+			--palettePrimaryMain: #007bff;
+			--palettePrimaryLight: #66b3ff;
+			--palettePrimaryDark: #0056b3;
+		}
+		body {
+			padding-top: 4em;
+			height: 100vh;
+			width: 100vw;
+		}
+		.loading { visibility: hidden; }
+		.flex-row-gap-1 { display: flex; gap: 1em; }
+		.flex-column-gap-1 { display: flex; flex-direction: column; gap: 1em; }
+		.align-center { align-items: center; }
+		.justify-center { justify-content: center; }
+		x-fragment pre { margin: 0; min-width: 5em; }
+	</style>
 
-            <x-box>
-                <x-typography variant="h1">Count Demo</x-typography>
-                <x-box
-                    sx:display="flex"
-                    sx:gap="1"
-                    sx:align-items="center"
-                    sx:visibility="WHEN global_isVisible THEN visible ELSE hidden"
-                >
-                    <x-typography variant="h3">Count: </x-typography>
-                    <x-fragment contents="global_count"></x-fragment>
-                    <x-button handler="increment" icon="fa-plus"> Increment </x-button>
-                </x-box>
-                <x-button
-                    handler="toggle"
-                    icon="fa-eye"
-                    sx:color="brown500"
-                    variant="outlined"
-                >
-                    Toggle Visibility
-                </x-button>
-            </x-box>
-        </template>
+	<body class="loading flex-column-gap-1 align-center">
+		<x-data name="count" defaultValue="0"></x-data>
 
-        <x-fragment contents="global_appContent"></x-fragment>
+		<script data-key="increment" type="application/flow">
+			SetState('count', ++state.count);
+		</script>
 
-        <script type="module">
-            import {
-                initializeFramework,
-                SetState,
-            } from 'https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.js';
-            initializeFramework();
-            // loaded from template here, but could be loaded from network
-            const appContent = document.getElementById('appContent').innerHTML;
-            SetState('appContent', appContent);
-        </script>
-    </body>
+		<script data-key="decrement" type="application/flow">
+			SetState('count', --state.count);
+		</script>
+
+		<x-typography variant="h1">Count Demo</x-typography>
+		<x-box class="flex-row-gap-1">
+			<x-button handler="decrement" icon="fa-minus" sx:height="100%"></x-button>
+			<x-fragment contents="global_count" class="flex-row-gap-1 justify-center"></x-fragment>
+			<x-button handler="increment" icon="fa-plus" sx:height="100%"></x-button>
+		</x-box>
+
+		<script type="module">
+			import { initializeFramework } from './dist/htmlNext.js';
+			initializeFramework();
+			document.body.classList.remove('loading');
+		</script>
+	</body>
 </html>
 ```
 
 ## Development
 
+If you want to see a fairly involved example, pull the repo and run locally.
+
 ```bash
-# clone this repo, then...
+git clone https://github.com/crosshj/html-next.git
+cd html-next
 npm install
-# Development watch mode (see /demo/index.html)
 npm run dev
+# see /demo/index.html
 ```
 
 ## License
