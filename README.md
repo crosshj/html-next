@@ -10,7 +10,7 @@ Build interactive apps with custom elements and reactive state using web standar
 - 🔄 **Reactive State** - UI updates automatically when data changes
 - 🧩 **Custom Elements** - Reusable components that work like native HTML
 - ⚡ **Minimal Dependencies** - Just include files and start coding
-- 🚀 **Small Footprint** - Complete framework in ~38kB JS + 6kB CSS (gzipped)
+- 🚀 **Small Footprint** - Complete framework in ~42kB JS + ~8kB CSS (gzipped)
 
 ## Quick Start
 
@@ -64,7 +64,7 @@ Copy this code into an html file and open it in your browser.
 		</x-box>
 
 		<script type="module">
-			import { initializeFramework } from './dist/htmlNext.js';
+			import { initializeFramework } from 'https://cdn.jsdelivr.net/npm/@crosshj/html-next@latest/dist/htmlNext.min.js';
 			initializeFramework();
 			document.body.classList.remove('loading');
 		</script>
