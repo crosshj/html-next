@@ -41,7 +41,7 @@ export class XFragment extends BaseUIComponent {
 		// Get the fragment's classes to pass to descendants
 		const fragmentClasses = this.className;
 
-		if (content === null || content === undefined) {
+		if (content === null || content === undefined || content === '') {
 			if (showLoading) {
 				this.innerHTML = html`
 					<div
