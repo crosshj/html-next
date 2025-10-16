@@ -2,7 +2,6 @@ import { BaseUIComponent } from './BaseUIComponent.js';
 import { html } from '../framework.utils.js';
 import { getState, subscribeToState } from '../framework.core.js';
 
-// Define x-navbar web component
 export class XNavbar extends BaseUIComponent {
 	constructor() {
 		super();
@@ -58,7 +57,7 @@ export class XNavbar extends BaseUIComponent {
 		// Check if hamburger menu button should be shown
 		const menuButtonShow = this.getAttribute('menuButtonShow');
 		const menuButtonTarget = this.getAttribute('menuButtonTarget') || 'sidebar';
-		const showMenuButton = menuButtonShow === 'true';
+		const showMenuButton = menuButtonShow !== 'false';
 
 		// Create hamburger button if needed
 		const hamburgerButton = showMenuButton
