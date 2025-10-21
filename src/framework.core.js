@@ -1,6 +1,17 @@
 // Framework Core - Centralized system management
 import { XModal } from './components/XModal.js';
 
+// Helper function to find script flows in DOM
+function findScriptFlow(flowKey) {
+	const script = document.querySelector(
+		`script[type="application/flow"][data-key="${flowKey}"]`
+	);
+	if (script) {
+		return script.textContent.trim();
+	}
+	return null;
+}
+
 class FrameworkCore {
 	constructor() {
 		this.state = {};
@@ -346,8 +357,6 @@ class FrameworkCore {
 
 		// If flow not found in registered flows, check for script flows in DOM
 		if (!code) {
-			// Import findScriptFlow from utils to avoid circular dependency
-			const { findScriptFlow } = await import('./framework.utils.js');
 			code = findScriptFlow(flowKey);
 		}
 

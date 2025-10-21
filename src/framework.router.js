@@ -18,6 +18,9 @@ export function Router(config = {}) {
 
 		// Method to register router with framework
 		async registerWithFramework(frameworkCore) {
+			// Unregister any existing routerNavigate flow first
+			frameworkCore.unregisterFlow('routerNavigate');
+
 			// Register routerNavigate as a system flow with proper context
 			frameworkCore.registerFlow(
 				{ key: 'routerNavigate' },
@@ -51,10 +54,24 @@ export function Router(config = {}) {
 					cancel: () => { throw new Error('Navigation cancelled'); }
 				};
 				
-				// Call beforeEach hook if provided
+				// Call beforeEach hook if provided (wrapped in requestAnimationFrame)
 				if (typeof routerBeforeEach === 'function') {
 					try {
-						await routerBeforeEach(routeContext);
+						await new Promise((resolve) => {
+							requestAnimationFrame(async () => {
+								try {
+									await routerBeforeEach(routeContext);
+									resolve();
+								} catch (error) {
+									if (error.message === 'Navigation cancelled') {
+										console.log('Navigation cancelled by beforeEach hook');
+										resolve();
+									} else {
+										throw error;
+									}
+								}
+							});
+						});
 					} catch (error) {
 						if (error.message === 'Navigation cancelled') {
 							console.log('Navigation cancelled by beforeEach hook');
@@ -68,9 +85,14 @@ export function Router(config = {}) {
 				SetData('router.previousPath', currentPath);
 				SetData('router.currentPath', toPath);
 				
-				// Call afterEach hook if provided
+				// Call afterEach hook if provided (wrapped in requestAnimationFrame)
 				if (typeof routerAfterEach === 'function') {
-					await routerAfterEach(routeContext);
+					await new Promise((resolve) => {
+						requestAnimationFrame(async () => {
+							await routerAfterEach(routeContext);
+							resolve();
+						});
+					});
 				}
 				
 				
