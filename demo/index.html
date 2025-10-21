@@ -18,20 +18,6 @@
 			href="./vendor/inter.css"
 		/>
 
-		<!-- old version of font awesome -->
-		<!-- <link
-			rel="stylesheet"
-			href="./vendor/font-awesome.css"
-		/> -->
-
-		<!-- fork of font awesome -->
-		<!-- <link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
-			integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY="
-			crossorigin="anonymous"
-		/> -->
-
 		<!-- new version of font awesome -->
 		<link
 			rel="stylesheet"
@@ -82,23 +68,93 @@
 		></x-fragment>
 
 		<script type="module">
-			import {
-				initializeFramework,
-				registerComponentHook,
-			} from './dist/htmlNext.js?v=2';
-			initializeFramework();
+			import { initializeFramework, Router, SetData } from './dist/htmlNext.js';
 
-			// Register a hook for x-markdown components to enable syntax highlighting
-			registerComponentHook('x-markdown', (component) => {
-				if (typeof hljs !== 'undefined') {
-					hljs.highlightAll();
+			const cache = new Map();
+			const fetchPage = async (path) => {
+				if (cache.has(path)) return cache.get(path);
+				try {
+					const response = await fetch(`./pages/${path}.html`);
+					const result = await response.text().then((x) => x.trim());
+					if (!result.trim()) {
+						throw new Error('Page not found');
+					} else {
+						cache.set(path, result.trim());
+						return result.trim();
+					}
+				} catch (error) {
+					console.error(`Failed to fetch page from ${path}:`, error);
+					if (path === '404') {
+						return '<x-page><x-content><x-markdown>Fetch page: Not Found</x-markdown></x-content></x-page>';
+					}
+					return await fetchPage('404');
 				}
-			});
+			};
+			const fetchData = async (path, defaultValue = {}) => {
+				if (cache.has(path)) return cache.get(path);
+				try {
+					const response = await fetch(`./data/${path}`);
+					const result = await response.json();
+					cache.set(path, result);
+					return result;
+				} catch (error) {
+					console.error(`Failed to fetch JSON from ${path}:`, error);
+				}
+			};
 
-			// FOUC Prevention - Show content after framework loads
-			document.body.classList.add('framework-loaded');
+			const routerSetup = async () => {
+				const initialHash = window.location.hash || '#/dashboard';
+				const initialPath = initialHash.replace(/^#/, '');
 
-			window.addUser = () => alert('Add User Clicked');
+				return Router({
+					initialPath,
+					beforeEach: async (context) => {
+						const path = context.to.href;
+						await SetData('mainContent', await fetchPage(path));
+					},
+					afterEach: async (context) => {
+						const path = context.to.href;
+						document.querySelectorAll('.menuItem.active').forEach((button) => {
+							button.classList.remove('active');
+						});
+						const menuItems = document.querySelectorAll('.menuItem');
+						for (const item of menuItems) {
+							const href = item.getAttribute('href');
+							if (!path.startsWith(href)) continue;
+							item.classList.add('active');
+						}
+						document.getElementById('sidebar')?.classList?.remove('open');
+
+						// Handle navigation after all other updates
+						window.location.hash = context.to.path;
+					},
+				});
+			};
+
+			(async () => {
+				const router = await routerSetup();
+				const menuData = await fetchData('menu-data.json', {
+					top: [],
+					bottom: [],
+				});
+				const state = {
+					mainContent: '',
+					menuItems: menuData.top,
+					menuItemsBottom: menuData.bottom,
+				};
+				const hooks = {
+					'x-markdown': (component) => {
+						if (typeof hljs !== 'undefined') {
+							hljs.highlightAll();
+						}
+					},
+				};
+				await initializeFramework({ router, state, hooks });
+				document.body.classList.add('framework-loaded');
+
+				window.addUser = () =>
+					alert('addUser called - this is just an example');
+			})();
 		</script>
 	</body>
 </html>

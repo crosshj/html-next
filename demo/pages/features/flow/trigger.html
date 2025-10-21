@@ -1,0 +1,182 @@
+<x-page>
+	<x-data
+		name="user"
+		defaultValue='{"name": "John", "id": 1}'
+	></x-data>
+	<x-data
+		name="order"
+		defaultValue='{"id": 123, "items": ["item1", "item2"]}'
+	></x-data>
+	<x-data
+		name="payment"
+		defaultValue='{"method": "credit", "amount": 50}'
+	></x-data>
+
+	<!-- prettier-ignore -->
+	<x-flow key="parentFlow">
+		await Alert({
+			message: `Parent flow: Starting process\nTriggered by: ${event.triggeredBy}`,
+			title: 'Flow Started',
+			dispose: false,
+		});
+		Trigger('childFlow', { userId: 123, action: 'update' });
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="childFlow">
+		await Alert({
+			message: 'Child flow: Received data - userId: ' + event.data.userId + ', action: ' + event.data.action + '\nCall chain: ' + event.flowStack.join(' -> '),
+			title: 'Data Received',
+			dispose: false,
+		});
+		Trigger('grandchildFlow', { processed: true, originalData: event.data });
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="grandchildFlow">
+		await Alert({
+			message: 'Grandchild flow: Processing complete\nCall chain: ' + event.flowStack.join(' -> '),
+			title: 'Processing Complete',
+		});
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="multiTriggerFlow">
+		await Alert({
+			message: 'Multi-trigger flow: Starting multiple operations',
+			title: 'Multi-Trigger Started',
+			dispose: false,
+		});
+		
+		// Trigger multiple flows sequentially
+		await Trigger('validateUser', state.user);
+		await Trigger('validateOrder', state.order);
+		await Trigger('processPayment', state.payment);
+		
+		await Alert({
+			message: 'All flows triggered successfully',
+			title: 'Multi-Trigger Complete',
+		});
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="validateUser">
+		await Alert({
+			message: 'Validating user: ' + event.data.name + '\nCall chain: ' + event.flowStack.join(' -> '),
+			title: 'User Validation',
+			dispose: false,
+		});
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="validateOrder">
+		await Alert({
+			message: 'Validating order: ' + event.data.id + ' with ' + event.data.items.length + ' items\nCall chain: ' + event.flowStack.join(' -> '),
+			title: 'Order Validation',
+			dispose: false,
+		});
+	</x-flow>
+
+	<!-- prettier-ignore -->
+	<x-flow key="processPayment">
+		await Alert({
+			message: 'Processing payment: ' + event.data.method + ' for $' + event.data.amount + '\nCall chain: ' + event.flowStack.join(' -> '),
+			title: 'Payment Processing',
+			dispose: false,
+		});
+	</x-flow>
+
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			> **⚠️ Warning**: Flow composition can become complex and difficult to debug. Only use `Trigger()` when you have a clear need for flow orchestration. Prefer simple, single-purpose flows whenever possible.
+
+			The `Trigger()` function allows flows to programmatically trigger other flows, enabling complex workflow orchestration and flow composition.
+
+			## Signature
+
+			```javascript
+			Trigger(flowKey, data)
+			```
+
+			| Parameter | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `flowKey` | string | Yes | The key of the flow to trigger |
+			| `data` | object | No | Data to pass to the triggered flow |
+
+			## Accessing Trigger Data
+
+			Triggered flows receive data through the `event` object:
+
+			| Property | Type | Description |
+			|----------|------|-------------|
+			| `event.data` | object | Data passed via `Trigger(flowKey, data)` |
+			| `event.triggeredBy` | string | Always `'flow'` for flow-triggered flows |
+			| `event.flowStack` | array | Complete call chain: `['flowA', 'flowB', 'flowC']` |
+
+			## Usage
+
+			Trigger another flow from within a flow:
+
+			```html
+			<x-flow key="parentFlow">
+				await Alert({
+					message: 'Parent flow: Starting process',
+					title: 'Flow Started',
+					dispose: false,
+				});
+				Trigger('childFlow', { userId: 123, action: 'update' });
+			</x-flow>
+
+			<x-flow key="childFlow">
+				await Alert({
+					message: 'Child flow: Received data - userId: ' + event.data.userId + ', action: ' + event.data.action + '\nCall chain: ' + event.flowStack.join(' -> '),
+					title: 'Data Received',
+					dispose: false,
+				});
+				Trigger('grandchildFlow', { processed: true, originalData: event.data });
+			</x-flow>
+
+			<x-flow key="grandchildFlow">
+				await Alert({
+					message: 'Grandchild flow: Processing complete\nCall chain: ' + event.flowStack.join(' -> '),
+					title: 'Processing Complete',
+				});
+			</x-flow>
+			```
+
+			<x-button handler="parentFlow" label="Trigger Flow Chain"></x-button>
+
+			## Flow Call Chain
+
+			The `flowStack` tracks the complete call chain, useful for debugging:
+
+			```html
+			<x-flow key="multiTriggerFlow">
+				await Alert({
+					message: 'Multi-trigger flow: Starting multiple operations',
+					title: 'Multi-Trigger Started',
+					dispose: false,
+				});
+				
+				// Trigger multiple flows sequentially
+				await Trigger('validateUser', state.user);
+				await Trigger('validateOrder', state.order);
+				await Trigger('processPayment', state.payment);
+				
+				await Alert({
+					message: 'All flows triggered successfully',
+					title: 'Multi-Trigger Complete',
+				});
+			</x-flow>
+			```
+			<x-button handler="multiTriggerFlow" label="Trigger Multiple Flows"></x-button>
+
+		</x-markdown>
+	</x-content>
+</x-page>

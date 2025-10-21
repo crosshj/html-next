@@ -43,6 +43,20 @@ x-breadcrumb .breadcrumb-link:hover {
 	text-decoration: underline;
 }
 
+/* Style inner links within x-link components in breadcrumbs */
+x-breadcrumb x-link a {
+	color: var(--palettePrimaryMain);
+	opacity: 0.85;
+	text-decoration: none;
+	transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+x-breadcrumb x-link a:hover {
+	color: var(--palettePrimaryMain);
+	opacity: 1;
+	text-decoration: underline;
+}
+
 x-breadcrumb .breadcrumb-current {
 	color: color-mix(
 		in srgb,

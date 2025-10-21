@@ -73,9 +73,9 @@ export class XButton extends BaseUIComponent {
 
 		// Add click handler for navigation if href is provided
 		if (href && !disabled && !loading) {
-			button.addEventListener('click', (e) => {
+			button.addEventListener('click', async (e) => {
 				e.preventDefault();
-				Navigate(href);
+				Navigate(href, { triggeredBy: 'button', element: this });
 			});
 		}
 
@@ -84,10 +84,14 @@ export class XButton extends BaseUIComponent {
 			button.addEventListener('click', async (e) => {
 				e.preventDefault();
 				// Trigger the flow using the framework core
-				await frameworkCore.triggerFlow(handler, {
-					triggeredBy: 'button',
-					element: this,
-				});
+				await frameworkCore.triggerFlow(
+					handler,
+					{
+						triggeredBy: 'button',
+						element: this,
+					},
+					handler
+				);
 			});
 		}
 

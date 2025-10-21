@@ -164,24 +164,33 @@ body.framework-loaded {
 			--bg-color: color-mix(
 				in srgb,
 				var(--palettePrimaryMain) 30%,
-				var(--palettePrimaryNavbar) 60%
+				var(--palettePrimaryNavbar)
 			);
 			background: var(--bg-color);
 			border-color: var(--bg-color);
 			color: var(--palettePrimaryContrast);
 			&:hover {
-				background-color: var(--palettePrimaryMain);
+				background: color-mix(
+					in srgb,
+					var(--palettePrimaryNavbar) 60%,
+					var(--palettePrimaryMain)
+				);
 			}
 		}
-		&.inactive button,
-		&.inactive .menuItem-avatar {
+		button,
+		.menuItem-avatar {
 			color: color-mix(
 				in srgb,
-				var(--palettePrimaryNavbar) 60%,
-				var(--paletteTextPrimary)
+				var(--palettePrimaryNavbar) 10%,
+				var(--palettePrimaryMain)
 			);
 			&:hover {
 				color: var(--palettePrimaryContrast);
+				background: color-mix(
+					in srgb,
+					var(--palettePrimaryNavbar) 50%,
+					var(--palettePrimaryMain)
+				);
 			}
 		}
 	}

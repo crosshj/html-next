@@ -9,6 +9,7 @@ export {
 	setState,
 	SetState,
 	SetData,
+	GetData,
 	getState,
 	subscribeToState,
 	registerComponentHook,
@@ -19,6 +20,9 @@ export { html } from './framework.utils.js';
 
 // Export base component class for custom components
 export { BaseUIComponent } from './components/BaseUIComponent.js';
+
+// Export router functionality
+export { Router } from './framework.router.js';
 
 // Import CSS for bundling
 import './framework.css';

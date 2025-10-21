@@ -6,6 +6,8 @@ import {
 	setState,
 	getState,
 	subscribeToState,
+	frameworkCore,
+	registerComponentHook,
 } from './framework.core.js';
 
 // Import all framework components
@@ -121,12 +123,45 @@ export async function loadFragment(fragmentPath) {
 }
 
 // Initialize framework
-export function initializeFramework() {
-	// Initialize core first
-	initializeCore();
+export async function initializeFramework(options = {}) {
+	// Handle both old signature (routerContext) and new signature (options object)
+	const routerContext = options.router || options;
+	const state = options.state || {};
+	const hooks = options.hooks || {};
+
+	// Initialize core first with router context
+	initializeCore(routerContext);
+
+	// Register router with framework if provided
+	if (
+		routerContext &&
+		typeof routerContext.registerWithFramework === 'function'
+	) {
+		await routerContext.registerWithFramework(frameworkCore);
+	}
+
+	// Register component hooks
+	Object.entries(hooks).forEach(([componentType, hookFunction]) => {
+		registerComponentHook(componentType, hookFunction);
+	});
+
+	// Initialize state if provided
+	if (Object.keys(state).length > 0) {
+		Object.entries(state).forEach(([key, value]) => {
+			frameworkCore.set(key, value);
+		});
+	}
 
 	// Register all components first
 	registerFrameworkComponents();
+
+	// Trigger initial navigation if router is provided
+	if (
+		routerContext &&
+		typeof routerContext.triggerInitialNavigation === 'function'
+	) {
+		await routerContext.triggerInitialNavigation();
+	}
 
 	// Framework initialized with all web components registered
 }

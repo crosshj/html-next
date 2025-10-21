@@ -1,0 +1,119 @@
+<x-page>
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			> **ℹ️ Note**: Router is an optional app-level functionality that integrates into your JavaScript setup. It provides lifecycle hooks for navigation but is not required for basic navigation to work.
+
+			The `Router` provides lifecycle hooks for navigation, enabling route guards, analytics tracking, and navigation state management.
+
+
+			## Configuration
+
+			| Parameter | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `beforeEach` | function | No | Hook called before navigation |
+			| `afterEach` | function | No | Hook called after navigation |
+
+
+			## Setup
+
+			```javascript
+			import { Router } from '@crosshj/html-next';
+
+			Router({
+				beforeEach: async (context) => {
+					// update hash for the new route
+					// Authentication checks
+					// Permission validation
+					// Analytics tracking
+					// Route guards
+					// Data loading
+					
+					// Cancel navigation if needed
+					// context.cancel();
+				},
+				afterEach: async (context) => {
+					// Analytics tracking
+					// Page view logging
+					// State updates
+					// Cleanup tasks
+				}
+			});
+			```
+
+			## Route Context
+
+			Both hooks receive a route context object:
+
+			```javascript
+			{
+				to: { path: '#/dashboard', href: '/dashboard' },
+				from: { path: '#/home' },
+				cancel: () => { /* cancel navigation */ }
+			}
+			```
+
+			| Property | Type | Description |
+			|----------|------|-------------|
+			| `to.path` | string | Target path with hash prefix |
+			| `to.href` | string | Original href value |
+			| `from.path` | string | Previous path |
+			| `cancel` | function | Cancel navigation (beforeEach only) |
+
+			## Basic Setup
+
+			```html
+			<script>
+				import { Router } from '@crosshj/html-next';
+				
+				Router({
+					beforeEach: async (context) => {
+						console.log('Navigating from', context.from.path, 'to', context.to.path);
+					},
+					afterEach: async (context) => {
+						console.log('Navigation completed');
+					}
+				});
+			</script>
+			```
+			## Using with Components
+
+			The router integrates seamlessly with existing navigation components. **No changes needed** - components automatically detect if router is available:
+
+			Navigation components automatically handle both scenarios:
+
+			- **With Router**: Uses `routerNavigate` flow with lifecycle hooks
+			- **Without Router**: Falls back to direct `Navigate(href)` call
+
+			This ensures backward compatibility and graceful degradation.
+
+
+			```html
+			<!-- These automatically use routerNavigate flow if router is set up -->
+			<!-- Otherwise, they fall back to direct navigation -->
+			<x-button href="/dashboard" label="Dashboard"></x-button>
+			<x-link href="/profile">Profile</x-link>
+			```
+
+			## State Management
+
+			The router automatically manages navigation state:
+
+			```html
+			<x-fragment contents="global_router.currentPath"></x-fragment>
+			<x-fragment contents="global_router.previousPath"></x-fragment>
+			```
+
+			| State Property | Description |
+			|----------------|-------------|
+			| `router.currentPath` | Current route path |
+			| `router.previousPath` | Previous route path |
+
+		</x-markdown>
+	</x-content>
+</x-page>

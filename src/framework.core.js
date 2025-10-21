@@ -14,10 +14,15 @@ class FrameworkCore {
 	}
 
 	// Initialize the state manager
-	initialize() {
+	initialize(routerContext = null) {
 		if (this.initialized) return;
 
 		this.initialized = true;
+
+		// Store router context if provided
+		if (routerContext) {
+			this.routerContext = routerContext;
+		}
 		console.log('StateManager initialized');
 	}
 
@@ -336,7 +341,7 @@ class FrameworkCore {
 	}
 
 	// Trigger a flow by key
-	async triggerFlow(flowKey, eventDetail) {
+	async triggerFlow(flowKey, eventDetail, currentFlowKey = null) {
 		let code = this.flows.get(flowKey);
 
 		// If flow not found in registered flows, check for script flows in DOM
@@ -347,14 +352,14 @@ class FrameworkCore {
 		}
 
 		if (code) {
-			await this.executeFlow(code, eventDetail);
+			await this.executeFlow(code, eventDetail, currentFlowKey);
 		} else {
 			console.warn(`Flow not found: ${flowKey}`);
 		}
 	}
 
 	// Execute flow code
-	async executeFlow(code, eventDetail) {
+	async executeFlow(code, eventDetail, currentFlowKey = null) {
 		// Store event detail for flow access
 		window.lastFlowEvent = eventDetail;
 
@@ -409,6 +414,31 @@ class FrameworkCore {
 				alert: (message, title) => self.Alert(message, title),
 				Confirm: (message, title) => self.Confirm(message, title),
 				confirm: (message, title) => self.Confirm(message, title),
+				Trigger: (flowKey, data) => {
+					const newStack = [
+						...(eventDetail.flowStack || []),
+						currentFlowKey,
+					].filter(Boolean);
+					return self.triggerFlow(
+						flowKey,
+						{
+							triggeredBy: 'flow',
+							flowStack: newStack,
+							data: data || {},
+						},
+						flowKey
+					);
+				},
+				// Router hooks - properly injected from router context
+				get routerBeforeEach() {
+					return self.routerContext?.beforeEach;
+				},
+				get routerAfterEach() {
+					return self.routerContext?.afterEach;
+				},
+				get router() {
+					return self.routerContext;
+				},
 			};
 
 			// Validate that we can create a function from this code
@@ -515,9 +545,16 @@ class FrameworkCore {
 	}
 
 	// Utility function to navigate to a new path
-	Navigate(path) {
-		console.log('Navigate: Updating URL hash to:', path);
-		window.location.hash = path;
+	Navigate(path, options = {}) {
+		if (this.routerContext) {
+			this.triggerFlow('routerNavigate', {
+				triggeredBy: options.triggeredBy || 'Navigate',
+				href: path,
+				element: options.element,
+			});
+		} else {
+			window.location.hash = path;
+		}
 	}
 
 	// Utility function to show alert dialog
@@ -698,11 +735,11 @@ class FrameworkCore {
 }
 
 // Create singleton instance
-const frameworkCore = new FrameworkCore();
+export const frameworkCore = new FrameworkCore();
 
 // Export functions that components can use
-export function initializeCore() {
-	frameworkCore.initialize();
+export function initializeCore(routerContext = null) {
+	frameworkCore.initialize(routerContext);
 }
 
 export function setState(property, value) {
@@ -784,8 +821,7 @@ export function executeComponentHooks(
 	);
 }
 
-// Export the core instance for advanced usage
-export { frameworkCore };
+// Export the core instance for advanced usage (already exported above)
 
 // Export utility functions
 export function Navigate(path) {

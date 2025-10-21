@@ -1,4 +1,4 @@
-import { Navigate } from '../framework.core.js';
+import { Navigate, frameworkCore } from '../framework.core.js';
 
 // Define x-link web component
 export class XLink extends HTMLElement {
@@ -12,15 +12,22 @@ export class XLink extends HTMLElement {
 
 		// Create a link element
 		const link = document.createElement('a');
-		link.href = href ? `#${href}` : '#';
+		// For hash navigation, use current page + hash fragment
+		if (href) {
+			const hash = href.startsWith('#') ? href : `#${href}`;
+			link.href = window.location.pathname + window.location.search + hash;
+		} else {
+			link.href = '#';
+		}
 		link.innerHTML = this.innerHTML;
 
 		if (underline === 'none') {
 			link.style.textDecoration = 'none';
 		}
 
-		link.addEventListener('click', () => {
-			Navigate(href);
+		link.addEventListener('click', async (e) => {
+			e.preventDefault();
+			Navigate(href, { triggeredBy: 'link', element: this });
 		});
 
 		this.innerHTML = '';

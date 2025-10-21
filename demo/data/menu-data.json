@@ -1,0 +1,49 @@
+{
+	"top": [
+		{
+			"label": "Dashboard",
+			"href": "/dashboard",
+			"icon": "fa-tachometer",
+			"class": "menuItem",
+			"variant": "text"
+		},
+		{
+			"label": "Users",
+			"href": "/users",
+			"icon": "fa-users",
+			"class": "menuItem",
+			"variant": "text"
+		},
+		{
+			"label": "Features",
+			"href": "/features",
+			"icon": "fa-star",
+			"class": "menuItem",
+			"variant": "text"
+		}
+	],
+	"bottom": [
+		{
+			"label": "Sarah Johnson",
+			"href": "/profile",
+			"avatar": "./assets/test_user.png",
+			"hasAvatar": true,
+			"class": "menuItem",
+			"variant": "text"
+		},
+		{
+			"label": "Settings",
+			"href": "/settings",
+			"icon": "fa-cog",
+			"class": "menuItem",
+			"variant": "text"
+		},
+		{
+			"label": "Logout",
+			"href": "/logout",
+			"icon": "fa-sign-out",
+			"class": "menuItem",
+			"variant": "text"
+		}
+	]
+}

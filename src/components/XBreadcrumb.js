@@ -66,11 +66,8 @@ export class XBreadcrumb extends BaseUIComponent {
 				`);
 			} else {
 				breadcrumbItems.push(html`
-					<a
-						href="${crumb.path}"
-						class="breadcrumb-item breadcrumb-link"
-						onclick="event.preventDefault(); window.location.hash = '${crumb.path}'; return false;"
-						>${crumb.label}</a
+					<x-link href="${crumb.path}" class="breadcrumb-item breadcrumb-link"
+						>${crumb.label}</x-link
 					>
 				`);
 			}

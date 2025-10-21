@@ -10,6 +10,19 @@
 @import './components/XVizLine.css';
 @import './components/XForm.css';
 
+/* Router-based active state management */
+.menuItem {
+	/* Default state */
+	opacity: 0.7;
+	transition: opacity 0.2s ease;
+}
+
+/* Active state */
+.menuItem.active {
+	opacity: 1;
+	font-weight: 600;
+}
+
 /* Font imports removed - users should load fonts separately */
 
 /* HTML and Body reset - remove all default browser styles */
