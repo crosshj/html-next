@@ -15,6 +15,9 @@ export {
 	registerComponentHook,
 } from './framework.core.js';
 
+// Export flow keywords (available in flow context)
+export { Query, Navigate, Alert, Confirm, Trigger } from './framework.core.js';
+
 // Export html utility for templates
 export { html } from './framework.utils.js';
 

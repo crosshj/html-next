@@ -839,6 +839,27 @@ export function Navigate(path) {
 	}
 }
 
+export async function Query(options) {
+	return await frameworkCore.Query(options);
+}
+
+export async function Alert(options = {}) {
+	return await frameworkCore.Alert(options);
+}
+
+export async function Confirm(options = {}) {
+	return await frameworkCore.Confirm(options);
+}
+
+export async function Trigger(flowKey, data = {}, options = {}) {
+	return await frameworkCore.triggerFlow(flowKey, {
+		triggeredBy: options.triggeredBy || 'manual',
+		data: data,
+		flowStack: options.flowStack || [],
+		element: options.element,
+	});
+}
+
 // Initialize window.state for debugging
 if (typeof window !== 'undefined') {
 	window.state = { ...frameworkCore.getState() };
