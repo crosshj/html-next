@@ -1,0 +1,246 @@
+<x-page>
+	<style>
+		.demo-section {
+			margin: 2rem 0;
+			padding: 1.5rem;
+			border: 1px solid var(--paletteDivider);
+			border-radius: var(--radius-lg);
+		}
+
+		.demo-title {
+			margin-bottom: 1rem;
+			color: var(--palettePrimaryMain);
+		}
+
+		.step-title {
+			margin-bottom: 1.5rem;
+		}
+
+		.review-section {
+			margin: 1rem 0 0.5rem 0;
+		}
+
+		.review-data > div {
+			background: var(--paletteBackgroundDefault);
+			padding: 1rem;
+			border-radius: var(--radius-md);
+			margin-top: 0.5rem;
+		}
+
+		/* Custom min-height for stepper content */
+		x-stepper .step-content {
+			min-height: 400px;
+		}
+	</style>
+
+	<x-data
+		name="basicWizardData"
+		defaultValue='{
+            "companyName": "",
+            "website": "",
+            "industry": "",
+            "description": "",
+            "brandVoice": ""
+        }'
+	></x-data>
+
+	<x-data
+		name="reviewDataContent"
+		defaultValue=""
+	></x-data>
+
+	<script
+		type="application/flow"
+		data-key="basicWizardStepChange"
+	>
+		console.log({ event, state});
+
+		const fromStep = event.data.from;
+		const toStep = event.data.to;
+		const stepData = event.data.data;
+
+		if (toStep === 4) {
+			const formData = state.basicWizardData;
+			const reviewMarkdown = `
+				<MARKDOWN>
+					**Company:** ${formData?.companyName || '[Not entered]'}
+					**Website:** ${formData?.website || '[Not entered]'}
+					**Industry:** ${formData?.industry || '[Not selected]'}
+					**Description:** ${formData?.description || '[Not entered]'}
+					**Voice:** ${formData?.brandVoice || '[Not selected]'}
+				</MARKDOWN>
+			`.trim().split('\n').join('   \n').trim();
+
+			SetData('reviewDataContent', reviewMarkdown.replace(/MARKDOWN/g, 'x-markdown'));
+		}
+	</script>
+
+	<script
+		type="application/flow"
+		data-key="basicWizardComplete"
+	>
+		console.log('Wizard completed!', { event, state });
+
+		// Access the final data
+		const formData = state.basicWizardData;
+		console.log('Final form data:', formData);
+
+		// Show success message
+		Alert('Wizard Completed!', 'Your company setup has been completed successfully.');
+
+		// You could also:
+		// - Save data to server
+		// - Redirect to another page
+		// - Show a success page
+		// - Reset the stepper
+	</script>
+
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<x-content>
+		<x-typography variant="h1">X-Stepper Component</x-typography>
+
+		<x-typography variant="body1">
+			The <code>x-stepper</code> component provides a multi-step form/wizard
+			interface with built-in navigation, validation, and event handling.
+		</x-typography>
+
+		<!-- Demo 1: Basic Company Setup -->
+		<x-box class="demo-section">
+			<x-typography
+				variant="h3"
+				class="demo-title"
+				>Demo 1: Basic Company Setup</x-typography
+			>
+			<x-stepper
+				on-step-change="basicWizardStepChange"
+				on-wizard-complete="basicWizardComplete"
+				data="global_basicWizardData"
+				validate="true"
+				back-text="Back"
+				next-text="Next"
+				complete-text="Submit"
+			>
+				<template
+					slot="step-1"
+					data-label="Company Info"
+				>
+					<x-typography
+						variant="h4"
+						class="step-title"
+						>Tell us about your company</x-typography
+					>
+					<x-form
+						name="step1Form"
+						data="global_basicWizardData"
+					>
+						<input
+							label="Company Name"
+							name="companyName"
+							placeholder="Enter your company name"
+							required
+							autocomplete="organization"
+							value="{{global_basicWizardData.companyName}}"
+						/>
+						<input
+							label="Website"
+							name="website"
+							type="url"
+							placeholder="https://yourcompany.com"
+							autocomplete="url"
+							value="{{global_basicWizardData.website}}"
+						/>
+					</x-form>
+				</template>
+
+				<template
+					slot="step-2"
+					data-label="Industry"
+				>
+					<x-typography
+						variant="h4"
+						class="step-title"
+						>What industry are you in?</x-typography
+					>
+					<x-form
+						name="step2Form"
+						data="global_basicWizardData"
+					>
+						<select
+							label="Industry"
+							name="industry"
+							value="{{global_basicWizardData.industry}}"
+							required
+						>
+							<option value="">Select an industry</option>
+							<option value="technology">Technology</option>
+							<option value="retail">Retail</option>
+							<option value="healthcare">Healthcare</option>
+							<option value="finance">Finance</option>
+							<option value="education">Education</option>
+							<option value="other">Other</option>
+						</select>
+
+						<textarea
+							label="Brief Description"
+							name="description"
+							placeholder="Tell us about your business..."
+							rows="3"
+							value="{{global_basicWizardData.description}}"
+						></textarea>
+					</x-form>
+				</template>
+
+				<template
+					slot="step-3"
+					data-label="Brand Voice"
+				>
+					<x-typography
+						variant="h4"
+						class="step-title"
+						>Define your brand voice</x-typography
+					>
+					<x-form
+						name="step3Form"
+						data="global_basicWizardData"
+					>
+						<select
+							label="Brand Voice"
+							name="brandVoice"
+							required
+							value="{{global_basicWizardData.brandVoice}}"
+						>
+							<option value="">Select a voice</option>
+							<option value="Casual & Friendly">Casual & Friendly</option>
+							<option value="Professional & Formal">
+								Professional & Formal
+							</option>
+							<option value="Technical & Detailed">Technical & Detailed</option>
+							<option value="Creative & Playful">Creative & Playful</option>
+						</select>
+					</x-form>
+				</template>
+
+				<template
+					slot="step-4"
+					data-label="Review"
+				>
+					<x-typography
+						variant="h4"
+						class="section-title"
+					>
+						Review your information
+					</x-typography>
+					<x-fragment
+						class="review-data"
+						contents="global_reviewDataContent"
+					>
+					</x-fragment>
+				</template>
+			</x-stepper>
+		</x-box>
+	</x-content>
+</x-page>
