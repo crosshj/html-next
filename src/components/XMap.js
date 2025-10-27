@@ -151,10 +151,15 @@ export class XMap extends BaseUIComponent {
 			}
 		);
 
-		// Handle {{item}} for primitive array items
-		processedTemplate = processedTemplate.replace(/\{\{\s*item\s*\}\}/g, () =>
-			item !== undefined && item !== null ? String(item) : ''
-		);
+		// Handle {{item}} - stringify objects/arrays, otherwise use String()
+		processedTemplate = processedTemplate.replace(/\{\{\s*item\s*\}\}/g, () => {
+			if (item === undefined || item === null) return '';
+			if (typeof item === 'object') {
+				// Escape the JSON string for safe use in HTML attributes
+				return JSON.stringify(item).replace(/"/g, '&quot;');
+			}
+			return String(item);
+		});
 
 		// Handle {{index}} for array index (1-based)
 		processedTemplate = processedTemplate.replace(/\{\{index\}\}/g, index + 1);

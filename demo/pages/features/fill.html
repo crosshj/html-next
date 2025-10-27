@@ -1,0 +1,103 @@
+<x-page>
+	<x-data
+		name="user"
+		defaultValue='{"name": "John Doe", "email": "john.doe@example.com", "department": "Engineering"}'
+	></x-data>
+
+	<x-data
+		name="userList"
+		defaultValue='[
+		{"name": "John Doe", "email": "john.doe@example.com", "isActive": true, "department": "Engineering", "isSkilled": true, "skills": ["JavaScript", "React", "Node.js"]},
+		{"name": "Jane Smith", "email": "jane.smith@example.com", "isActive": false, "department": "Marketing", "isSkilled": false},
+		{"name": "Bob Johnson", "email": "bob.johnson@example.com", "isActive": true, "department": "Sales", "isSkilled": true, "skills": ["Sales", "Customer Service"]}
+	]'
+	></x-data>
+
+	<x-navbar
+		menuButtonShow="true"
+		menuButtonTarget="sidebar"
+	></x-navbar>
+
+	<template id="userTemplate">
+		<x-box><b>Name:</b> {{item_name}}</x-box>
+		<x-box><b>Email:</b> {{item_email}}</x-box>
+		<x-box><b>Department:</b> {{item_department}}</x-box>
+	</template>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			The `Fill` component renders a template with the given item.
+
+			## Attributes
+			| Attribute | Type | Required | Description |
+			|-----------|------|----------|-------------|
+			| `template` | string | Yes   | The template to render |
+			| `item` | object | Yes | The item to render |
+
+
+			## Examples
+			> this template used for examples below
+
+			```html
+			<template id="userTemplate">
+				<x-box><b>Name:</b> {{item_name}}</x-box>
+				<x-box><b>Email:</b> {{item_email}}</x-box>
+				<x-box><b>Department:</b> {{item_department}}</x-box>
+			</template>
+			```
+
+			---
+
+			## Basic
+
+			```html
+			<x-data
+				name="user"
+				defaultValue='{"name": "John Doe", "email": "john.doe@example.com"}'
+			></x-data>
+
+			<x-fill
+				template="userTemplate"
+				item="global_user"
+			></x-fill>
+			```
+		</x-markdown>
+
+		<x-fill
+			template="userTemplate"
+			item="global_user"
+		></x-fill>
+
+		<!-- prettier-ignore -->
+		<x-markdown>
+			--- 
+
+			## With Map
+			```html
+			<x-data
+				name="userList"
+				defaultValue='[
+					{"name": "John Doe", "email": "john.doe@example.com", "isActive": true, "department": "Engineering", "isSkilled": true, "skills": ["JavaScript", "React", "Node.js"]},
+					{"name": "Jane Smith", "email": "jane.smith@example.com", "isActive": false, "department": "Marketing", "isSkilled": false},
+					{"name": "Bob Johnson", "email": "bob.johnson@example.com", "isActive": true, "department": "Sales", "isSkilled": true, "skills": ["Sales", "Customer Service"]}
+				]'
+			></x-data>
+
+			<x-map items="global_userList">
+				<x-fill
+					template="userTemplate"
+					item="{{item}}"
+				></x-fill>
+			</x-map>
+			```
+		</x-markdown>
+
+		<x-map items="global_userList">
+			<x-fill
+				template="userTemplate"
+				item="{{item}}"
+			></x-fill>
+		</x-map>
+	</x-content>
+</x-page>
