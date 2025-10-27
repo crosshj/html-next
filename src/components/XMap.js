@@ -1,5 +1,5 @@
 import { BaseUIComponent } from './BaseUIComponent.js';
-import { getState } from '../framework.core.js';
+import { getState, Trigger } from '../framework.core.js';
 import { unescapeContentAttribute } from '../framework.utils.js';
 
 // Define x-map web component
@@ -39,6 +39,14 @@ export class XMap extends BaseUIComponent {
 		this.processData(items);
 	}
 
+	disconnectedCallback() {
+		// Remove event delegation listener
+		if (this.selectionMode) {
+			this.removeEventListener('click', this.handleSelectionClick);
+		}
+		super.disconnectedCallback();
+	}
+
 	getTemplate() {
 		// Check for content attribute first (backward compatibility)
 		const contentAttr = this.getAttribute('content');
@@ -66,6 +74,24 @@ export class XMap extends BaseUIComponent {
 			if (newTemplate) {
 				this.template = newTemplate;
 			}
+		}
+
+		// Check if selected index changed
+		if (this.selectedPath && this.selectionMode) {
+			const actualPath = this.selectedPath.startsWith('global_')
+				? this.selectedPath.substring(7)
+				: this.selectedPath;
+			const newSelectedIndex = newState[actualPath];
+
+			// Update wrapper classes
+			this.querySelectorAll('div[data-index]').forEach((w) => {
+				const wrapperIndex = parseInt(w.dataset.index, 10);
+				if (newSelectedIndex === wrapperIndex) {
+					w.classList.add('is-selected');
+				} else {
+					w.classList.remove('is-selected');
+				}
+			});
 		}
 
 		// Re-process data when state changes
@@ -106,6 +132,20 @@ export class XMap extends BaseUIComponent {
 		// Clear any previous content (idempotent behavior)
 		this.innerHTML = '';
 
+		// Get selection mode and callbacks
+		const selectMode = this.getAttribute('selectMode');
+		const selectedPath = this.getAttribute('selected');
+		const onSelectHandler = this.getAttribute('onSelect');
+
+		this.selectionMode = selectMode;
+		this.selectedPath = selectedPath;
+		this.onSelectHandler = onSelectHandler;
+
+		// Add event delegation listener if selection is enabled
+		if (selectMode) {
+			this.addEventListener('click', this.handleSelectionClick);
+		}
+
 		// Create actual web component instances instead of HTML strings
 		data.forEach((item, index) => {
 			const processedTemplate = this.processTemplate(
@@ -118,9 +158,37 @@ export class XMap extends BaseUIComponent {
 			const tempDiv = document.createElement('div');
 			tempDiv.innerHTML = processedTemplate;
 
-			// Move all child nodes to the x-map element
-			while (tempDiv.firstChild) {
-				this.appendChild(tempDiv.firstChild);
+			// Wrap in clickable container if selection is enabled
+			if (selectMode) {
+				const wrapper = document.createElement('div');
+				wrapper.dataset.index = index;
+
+				// Add class based on selected index
+				if (selectedPath) {
+					const selectedIndex = getState(
+						selectedPath.startsWith('global_')
+							? selectedPath.substring(7)
+							: selectedPath
+					);
+					if (selectedIndex === index) {
+						wrapper.classList.add('is-selected');
+					}
+				} else if (item.isSelected) {
+					// Fallback: check item.isSelected property
+					wrapper.classList.add('is-selected');
+				}
+
+				// Move all child nodes to the wrapper
+				while (tempDiv.firstChild) {
+					wrapper.appendChild(tempDiv.firstChild);
+				}
+
+				this.appendChild(wrapper);
+			} else {
+				// No selection, just append normally
+				while (tempDiv.firstChild) {
+					this.appendChild(tempDiv.firstChild);
+				}
 			}
 		});
 
@@ -257,4 +325,33 @@ export class XMap extends BaseUIComponent {
 		}
 		return !!value;
 	}
+
+	handleSelectionClick = (event) => {
+		// Find the wrapper div that was clicked
+		const wrapper = event.target.closest('div[data-index]');
+		if (!wrapper) return;
+
+		const index = parseInt(wrapper.dataset.index, 10);
+
+		if (this.selectionMode === 'single') {
+			// Remove is-selected class from all wrappers
+			this.querySelectorAll('div[data-index]').forEach((w) => {
+				w.classList.remove('is-selected');
+			});
+			// Add class to clicked item
+			wrapper.classList.add('is-selected');
+		} else {
+			// Just toggle clicked item
+			wrapper.classList.toggle('is-selected');
+		}
+
+		// Trigger flow handler if provided
+		if (this.onSelectHandler) {
+			Trigger(
+				this.onSelectHandler,
+				{ index },
+				{ triggeredBy: 'x-map', element: wrapper }
+			);
+		}
+	};
 }

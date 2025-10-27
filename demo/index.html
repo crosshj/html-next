@@ -144,8 +144,11 @@
 				};
 				const hooks = {
 					'x-markdown': (component) => {
-						if (typeof hljs !== 'undefined') {
-							hljs.highlightAll();
+						if (typeof hljs === 'undefined') return;
+
+						const codeBlocks = component.querySelectorAll('pre code');
+						for (const codeBlock of codeBlocks) {
+							hljs.highlightElement(codeBlock);
 						}
 					},
 				};

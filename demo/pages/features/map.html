@@ -16,6 +16,10 @@
 		]'
 	></x-data>
 	<x-data
+		name="selectedTodo"
+		defaultValue="0"
+	></x-data>
+	<x-data
 		name="priorityList"
 		defaultValue='[
 			{"task": "Finish project"},
@@ -40,10 +44,38 @@
 		]'
 	></x-data>
 
+	<script
+		type="application/flow"
+		data-key="onSelectTodo"
+	>
+		const selectedTodoElement = document.querySelector('#selectable-list .is-selected');
+		const index = selectedTodoElement.dataset.index;
+		setState('global_selectedTodo', event.data.index);
+	</script>
+
 	<x-navbar
 		menuButtonShow="true"
 		menuButtonTarget="sidebar"
 	></x-navbar>
+
+	<style>
+		#selectable-list > * {
+			cursor: pointer;
+			padding: 0.5rem;
+			border: 1px solid var(--paletteDivider);
+			border-radius: 4px;
+			margin-bottom: 0.5rem;
+			&.is-selected {
+				background-color: var(--palettePrimaryLight);
+				color: var(--palettePrimaryContrast);
+			}
+			.list-item {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+		}
+	</style>
 
 	<x-content>
 		<!-- prettier-ignore -->
@@ -56,64 +88,103 @@
 			|-----------|------|----------|-------------|
 			| `items` | string | Yes | State path to the data array |
 
-			## Usage
+			### Basic List
 
 			```html
 			<x-map items="global_userList">
 				<x-box>{{item_name}} - {{item_email}}</x-box>
 			</x-map>
 			```
+		</x-markdown>
 
-			<x-map items="global_userList">
-				<x-box>{{item_name}} - {{item_email}}</x-box>
-			</x-map>
+		<x-map items="global_userList">
+			<x-box>{{item_name}} - {{item_email}}</x-box>
+		</x-map>
 
-			## Basic List
+		<!-- prettier-ignore -->
+		<x-markdown>
+			---
 
-			### Simple List
+			### Selectable List
 			```html
-			<x-map items="global_todoList">
-				<x-box sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
-					{{item_title}}
-				</x-box>
-			</x-map>
-			```
-
-			<x-map items="global_todoList">
-				<x-box sx:padding="1" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="1">
-					{{item_title}}
-				</x-box>
-			</x-map>
-
-			### Numbered List
-			```html
-			<x-map items="global_todoList">
-				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1">
+			<style>
+				#selectable-list > * {
+					cursor: pointer;
+					padding: 0.5rem;
+					border: 1px solid var(--paletteDivider);
+					border-radius: 4px;
+					margin-bottom: 0.5rem;
+					&.is-selected {
+						background-color: var(--palettePrimaryLight);
+						color: var(--palettePrimaryContrast);
+					}
+					.list-item {
+						display: flex;
+						align-items: center;
+						gap: 0.5rem;
+					}
+				}
+			</style>
+			<x-map
+				id="selectable-list"
+				items="global_todoList"
+				selectMode="single"
+				selected="global_selectedTodo"
+				onSelect="onSelectTodo"
+			>
+				<x-box class="list-item">
 					<x-typography variant="strong">{{index}}.</x-typography>
 					<x-typography>{{item_title}}</x-typography>
 				</x-box>
 			</x-map>
 			```
+		</x-markdown>
 
-			<x-map items="global_todoList">
-				<x-box sx:display="flex" sx:gap="2" sx:align-items="center" sx:padding="1">
-					<x-typography variant="strong">{{index}}.</x-typography>
-					<x-typography>{{item_title}}</x-typography>
-				</x-box>
-			</x-map>
+		<x-map
+			id="selectable-list"
+			items="global_todoList"
+			selectMode="single"
+			selected="global_selectedTodo"
+			onSelect="onSelectTodo"
+		>
+			<x-box class="list-item">
+				<x-typography variant="strong">{{index}}.</x-typography>
+				<x-typography>{{item_title}}</x-typography>
+			</x-box>
+		</x-map>
 
+		<!-- prettier-ignore -->
+		<x-markdown>
+			---
 
-			### Using {{#each}} + {{#if}}
+			### Using {{#each}} + {{#if}} 
 			```html
 			<x-map items="global_userList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
+				<x-box
+					sx:padding="2"
+					sx:border="1px solid var(--paletteDivider)"
+					sx:border-radius="4px"
+					sx:mb="2"
+				>
 					<x-typography variant="h6">{{item_name}}</x-typography>
 					<x-typography>{{item_email}}</x-typography>
-					<x-typography sx:color="var(--paletteTextSecondary)">Department: {{item_department}}</x-typography>
+					<x-typography sx:color="var(--paletteTextSecondary)"
+						>Department: {{item_department}}</x-typography
+					>
 					<x-typography variant="strong">Skills:</x-typography>
-					<x-box sx:display="flex" sx:gap="1" sx:flex-wrap="wrap" sx:mt="1">
+					<x-box
+						sx:display="flex"
+						sx:gap="1"
+						sx:flex-wrap="wrap"
+						sx:mt="1"
+					>
 						{{#each item_skills}}
-						<x-box sx:background="var(--paletteSecondaryLight)" sx:padding="0.25" sx:border-radius="8px" sx:font-size="0.75em">
+						<x-box
+							sx:background="var(--paletteSecondaryLight)"
+							sx:padding="0.25"
+							sx:border-radius="8px"
+							sx:font-size="0.75em"
+						>
 							{{this}}
 						</x-box>
 						{{/each}}
@@ -121,17 +192,34 @@
 				</x-box>
 			</x-map>
 			```
-			
+
 			<x-map items="global_userList">
-				<x-box sx:padding="2" sx:border="1px solid var(--paletteDivider)" sx:border-radius="4px" sx:mb="2">
+				<x-box
+					sx:padding="2"
+					sx:border="1px solid var(--paletteDivider)"
+					sx:border-radius="4px"
+					sx:mb="2"
+				>
 					<x-typography variant="h6">{{item_name}}</x-typography>
 					<x-typography>{{item_email}}</x-typography>
-					<x-typography sx:color="var(--paletteTextSecondary)">Department: {{item_department}}</x-typography>
+					<x-typography sx:color="var(--paletteTextSecondary)"
+						>Department: {{item_department}}</x-typography
+					>
 					{{#if item_isSkilled}}
-					<x-box sx:display="flex" sx:gap="1" sx:flex-wrap="wrap" sx:mt="1">
+					<x-box
+						sx:display="flex"
+						sx:gap="1"
+						sx:flex-wrap="wrap"
+						sx:mt="1"
+					>
 						<x-typography variant="strong">Skills:</x-typography>
 						{{#each item_skills}}
-						<x-box sx:background="var(--paletteSecondaryLight)" sx:padding="0.25" sx:border-radius="8px" sx:font-size="0.75em">
+						<x-box
+							sx:background="var(--paletteSecondaryLight)"
+							sx:padding="0.25"
+							sx:border-radius="8px"
+							sx:font-size="0.75em"
+						>
 							{{this}}
 						</x-box>
 						{{/each}}
@@ -139,7 +227,6 @@
 					{{/if}}
 				</x-box>
 			</x-map>
-	
 		</x-markdown>
 	</x-content>
 </x-page>
