@@ -8,18 +8,6 @@
 		]'
 	></x-data>
 	<x-data
-		name="todoList"
-		defaultValue='[
-			{"title": "Buy groceries", "isActive": false},
-			{"title": "Finish project"},
-			{"title": "Call mom"}
-		]'
-	></x-data>
-	<x-data
-		name="selectedTodo"
-		defaultValue="0"
-	></x-data>
-	<x-data
 		name="priorityList"
 		defaultValue='[
 			{"task": "Finish project"},
@@ -44,6 +32,19 @@
 		]'
 	></x-data>
 
+	<!-- TODO List -->
+	<x-data
+		name="todoList"
+		defaultValue='[
+			{"title": "Buy groceries"},
+			{"title": "Finish project"},
+			{"title": "Call mom"}
+		]'
+	></x-data>
+	<x-data
+		name="selectedTodo"
+		defaultValue="0"
+	></x-data>
 	<script
 		type="application/flow"
 		data-key="onSelectTodo"
@@ -51,6 +52,32 @@
 		const selectedTodoElement = document.querySelector('#selectable-list .is-selected');
 		const index = selectedTodoElement.dataset.index;
 		setState('global_selectedTodo', event.data.index);
+	</script>
+
+	<!-- Tabs List -->
+	<x-data
+		name="tabsList"
+		defaultValue='[
+			{"title": "URGENT", "page": "URGENT TAB CONTENT"},
+			{"title": "MEDIUM", "page": "MEDIUM TAB CONTENT"},
+			{"title": "LOW", "page": "LOW TAB CONTENT"}
+		]'
+	></x-data>
+	<x-data
+		name="selectedTab"
+		defaultValue="0"
+	></x-data>
+	<x-data
+		name="selectedTabContent"
+		defaultValue='<div class="tab-page">URGENT TAB CONTENT</div'
+	></x-data>
+	<script
+		type="application/flow"
+		data-key="onSelectTab"
+	>
+		const currentTab = global.tabsList[event.data.index];
+		SetData('selectedTab', event.data.index);
+		SetData('selectedTabContent', `<div class="tab-page">${currentTab.page}</div>`);
 	</script>
 
 	<x-navbar
@@ -73,6 +100,60 @@
 				display: flex;
 				align-items: center;
 				gap: 0.5rem;
+			}
+		}
+
+		.tabs-container {
+			--border-radius: 12px;
+			display: flex;
+			flex-direction: column;
+			margin-right: auto;
+
+			.tabs-list {
+				display: flex;
+				> * {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					flex: 1;
+					cursor: pointer;
+					padding: 0.5rem;
+					border-left: unset;
+					border-right: 1px solid var(--palettePrimaryLight);
+					border-bottom: 1px solid var(--palettePrimaryLight);
+					border-top: 1px solid var(--palettePrimaryLight);
+					color: var(--palettePrimaryLight);
+					&:first-child {
+						border-left: 1px solid var(--palettePrimaryLight);
+						border-top-left-radius: var(--border-radius);
+					}
+					&:last-child {
+						border-right: 1px solid var(--palettePrimaryLight);
+						border-top-right-radius: var(--border-radius);
+					}
+					&.is-selected {
+						background-color: var(--palettePrimaryLight);
+						color: var(--palettePrimaryContrast);
+					}
+					.tab-item {
+						display: flex;
+						align-items: center;
+					}
+				}
+			}
+
+			.tab-page {
+				width: 400px;
+				height: 400px;
+				border-bottom-left-radius: var(--border-radius);
+				border-bottom-right-radius: var(--border-radius);
+				border: 1px solid var(--palettePrimaryLight);
+				border-top: none;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: var(--palettePrimaryLight);
+				font-style: italic;
 			}
 		}
 	</style>
@@ -106,25 +187,9 @@
 			---
 
 			### Selectable List
+			> you will want to style this list and its children along with .is-selected class.  Otherwise, this features will not appear to work as expected.  See source for an example.
+
 			```html
-			<style>
-				#selectable-list > * {
-					cursor: pointer;
-					padding: 0.5rem;
-					border: 1px solid var(--paletteDivider);
-					border-radius: 4px;
-					margin-bottom: 0.5rem;
-					&.is-selected {
-						background-color: var(--palettePrimaryLight);
-						color: var(--palettePrimaryContrast);
-					}
-					.list-item {
-						display: flex;
-						align-items: center;
-						gap: 0.5rem;
-					}
-				}
-			</style>
 			<x-map
 				id="selectable-list"
 				items="global_todoList"
@@ -157,6 +222,46 @@
 		<x-markdown>
 			---
 
+			### Tabs (using map's select features)
+			> you will need moderate-to-heavy styles here. See source for an example.
+
+			```html
+			<x-box class="tabs-container">
+				<x-map
+					class="tabs-list"
+					items="global_tabsList"
+					selectMode="single"
+					selected="global_selectedTab"
+					onSelect="onSelectTab"
+				>
+					<x-box class="tab-item">
+						<x-typography>{{item_title}}</x-typography>
+					</x-box>
+				</x-map>
+				<x-fragment contents="global_selectedTabContent"></x-fragment>
+			</x-box>
+			```
+		</x-markdown>
+
+		<x-box class="tabs-container">
+			<x-map
+				class="tabs-list"
+				items="global_tabsList"
+				selectMode="single"
+				selected="global_selectedTab"
+				onSelect="onSelectTab"
+			>
+				<x-box class="tab-item">
+					<x-typography>{{item_title}}</x-typography>
+				</x-box>
+			</x-map>
+			<x-fragment contents="global_selectedTabContent"></x-fragment>
+		</x-box>
+
+		<!-- prettier-ignore -->
+		<x-markdown>
+			---
+
 			### Using {{#each}} + {{#if}} 
 			```html
 			<x-map items="global_userList">
@@ -171,13 +276,14 @@
 					<x-typography sx:color="var(--paletteTextSecondary)"
 						>Department: {{item_department}}</x-typography
 					>
-					<x-typography variant="strong">Skills:</x-typography>
+					{{#if item_isSkilled}}
 					<x-box
 						sx:display="flex"
 						sx:gap="1"
 						sx:flex-wrap="wrap"
 						sx:mt="1"
 					>
+						<x-typography variant="strong">Skills:</x-typography>
 						{{#each item_skills}}
 						<x-box
 							sx:background="var(--paletteSecondaryLight)"
@@ -189,6 +295,7 @@
 						</x-box>
 						{{/each}}
 					</x-box>
+					{{/if}}
 				</x-box>
 			</x-map>
 			```

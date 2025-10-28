@@ -1,4 +1,9 @@
 <x-page>
+	<x-data
+		name="manualPath"
+		defaultValue="/manual/path/for/page"
+	></x-data>
+
 	<x-navbar
 		menuButtonShow="true"
 		menuButtonTarget="sidebar"
@@ -29,11 +34,11 @@
 			```
 			<x-navbar></x-navbar>
 
-			### With hamburger
+			### No hamburger
 			```html
-			<x-navbar menuButtonShow="true" menuButtonTarget="sidebar"></x-navbar>
+			<x-navbar menuButtonShow="false" menuButtonTarget="sidebar"></x-navbar>
 			```
-			<x-navbar menuButtonShow="true" menuButtonTarget="sidebar"></x-navbar>
+			<x-navbar menuButtonShow="false" menuButtonTarget="sidebar"></x-navbar>
 
 			### With actions
 			```html
@@ -47,11 +52,23 @@
 				<x-button variant="outlined" size="small">Settings</x-button>
 			</x-navbar>
 
-			### Manual title
+			### Title Text
 			```html
 			<x-navbar titleText="Custom Title" menuButtonShow="true"></x-navbar>
 			```
 			<x-navbar titleText="Custom Title" menuButtonShow="true"></x-navbar>
+
+			### Title Source
+			```html
+			<x-data
+				name="manualPath"
+				defaultValue="/manual/path"
+			></x-data>
+			<x-navbar titleSource="manualPath" ></x-navbar>
+			```
+			> This is useful for cases where default path contains items you don't want visible in breadcrumbs; like with query parameters.
+
+			<x-navbar titleSource="manualPath"></x-navbar>
 		</x-markdown>
 	</x-content>
 </x-page>
