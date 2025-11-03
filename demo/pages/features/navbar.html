@@ -9,6 +9,11 @@
 		menuButtonTarget="sidebar"
 	></x-navbar>
 
+	<x-data
+		name="manualPath"
+		defaultValue="/one/two/three"
+	></x-data>
+
 	<x-content>
 		<!-- prettier-ignore -->
 		<x-markdown>
@@ -23,7 +28,7 @@
 			| `titleSource`      | string  | No       | "activePath" | Global state key used to build the breadcrumb title.                |
 			| `titleText`        | string  | No       | -            | When provided, bypasses automatic breadcrumb generation.            |
 
-			> **Breadcrumbs**: Uses global `activePath` (configurable via `titleSource`) to generate clickable breadcrumb navigation. Each segment is a clickable link that navigates to that path.   
+			> **Breadcrumbs**: Uses global `activePath` (configurable via `titleSource`) to generate clickable breadcrumb navigation. Set `titleSource` to any global state key (e.g., `manualPath`) to control the breadcrumb path. Each segment is a clickable link that navigates to that path.   
 			> **Actions**: Any child content of `x-navbar` is placed at the far right.
 
 			## Examples
@@ -52,7 +57,13 @@
 				<x-button variant="outlined" size="small">Settings</x-button>
 			</x-navbar>
 
-			### Title Text
+			### Manual path
+			```html
+			<x-navbar titleSource="manualPath" menuButtonShow="true"></x-navbar>
+			```
+			<x-navbar titleSource="manualPath" menuButtonShow="true"></x-navbar>
+
+			### Manual title
 			```html
 			<x-navbar titleText="Custom Title" menuButtonShow="true"></x-navbar>
 			```
