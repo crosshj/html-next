@@ -1,6 +1,6 @@
 {
 	"name": "@crosshj/html-next",
-	"version": "0.0.24",
+	"version": "0.0.25",
 	"description": "A modern, declarative web component framework with reactive state management, conditional rendering, data visualization, and server-side fragment loading. Built for building interactive UIs without heavy frameworks.",
 	"type": "module",
 	"main": "./dist/htmlNext.js",
@@ -11,7 +11,11 @@
 			"types": "./dist/htmlNext.d.ts",
 			"import": "./dist/htmlNext.js"
 		},
-		"./css": "./dist/htmlNext.css"
+		"./css": "./dist/htmlNext.css",
+		"./helpers": {
+			"types": "./dist/htmlNext.helpers.d.ts",
+			"import": "./dist/htmlNext.helpers.js"
+		}
 	},
 	"files": [
 		"dist/",

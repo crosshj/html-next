@@ -27,6 +27,21 @@ body.framework-loaded {
 	visibility: visible;
 }
 
+.logo-icon {
+	fill: color-mix(
+		in srgb,
+		var(--paletteTextPrimary) 30%,
+		var(--paletteSecondaryMain)
+	);
+}
+.logo-text {
+	fill: color-mix(
+		in srgb,
+		var(--paletteTextPrimary) 20%,
+		var(--palettePrimaryMain)
+	);
+}
+
 /* Override framework CSS variables for custom theme */
 .test-framework {
 	/* Primary Palette - Modern Blue Theme */
@@ -60,22 +75,22 @@ body.framework-loaded {
 @media (prefers-color-scheme: dark) {
 	.test-framework {
 		/* Primary Palette - Dark Mode Blue Theme */
-		--palettePrimaryMain: #3b82f6;
+		--palettePrimaryMain: #325c62;
 		--palettePrimaryLight: #60a5fa;
 		--palettePrimaryDark: #1d4ed8;
 		--palettePrimaryContrast: #ffffff;
-		--palettePrimaryNavbar: #1b2636;
 
 		/* Secondary Palette - Dark Mode Blue */
-		--paletteSecondaryMain: #06b6d4;
+		--paletteSecondaryMain: #004552;
 		--paletteSecondaryDark: #0891b2;
 		--paletteSecondaryLight: #22d3ee;
 		--paletteSecondaryContrast: #ffffff;
 
 		/* Background Palette - Dark Mode */
 		--paletteBackgroundDefault: #1b2636;
-		--paletteBackgroundPaper: #1e293b;
+		--paletteBackgroundPaper: #101019;
 		--paletteBackgroundContrast: #334155;
+		--palettePrimaryNavbar: #101019;
 
 		/* Text Palette - Dark Mode High Contrast */
 		--paletteTextPrimary: #f8fafc;
@@ -163,7 +178,7 @@ body.framework-loaded {
 		&.active .menuItem-avatar {
 			--bg-color: color-mix(
 				in srgb,
-				var(--palettePrimaryMain) 30%,
+				var(--palettePrimaryMain) 70%,
 				var(--palettePrimaryNavbar)
 			);
 			background: var(--bg-color);
@@ -181,7 +196,7 @@ body.framework-loaded {
 		.menuItem-avatar {
 			color: color-mix(
 				in srgb,
-				var(--palettePrimaryNavbar) 10%,
+				var(--palettePrimaryNavbar) 0%,
 				var(--palettePrimaryMain)
 			);
 			&:hover {

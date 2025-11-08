@@ -6,7 +6,7 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0"
 		/>
-		<title>HTMLNext Test</title>
+		<title>HTMLNext Demo</title>
 		<link
 			rel="icon"
 			type="image/svg+xml"
@@ -56,108 +56,80 @@
 		/>
 	</head>
 	<body class="test-framework">
-		<x-data
-			name="appContent"
-			url="./app.html"
-			defaultValue=""
-		></x-data>
-
 		<x-fragment
 			contents="global_appContent"
-			showLoading="false"
+			showLoading="true"
 		></x-fragment>
 
+		<template id="logoHTML">
+			<svg viewBox="0 0 220 75">
+				<path
+					class="logo-icon"
+					d="M 6.784 20.185 L 39.887 20.185 L 38.319 47.33 L 23.29 52.724 L 8.344 47.557 L 6.784 20.185 Z M 13.429 41.953 L 13.429 34.067 L 19.056 41.953 L 21.885 41.953 L 21.885 29.86 L 19.267 29.86 L 19.267 37.936 L 13.553 29.86 L 10.81 29.86 L 10.81 41.953 L 13.429 41.953 Z M 26.826 41.953 L 29.93 37.772 L 33.025 41.953 L 36.425 41.953 L 31.654 35.733 L 35.996 29.86 L 32.73 29.86 L 29.987 33.746 L 27.188 29.86 L 23.892 29.86 L 28.216 35.642 L 23.445 41.953 L 26.826 41.953 Z"
+				></path>
+				<path
+					class="logo-text"
+					d="M 52.809 18.304 L 55.383 18.304 L 55.383 32.461 L 55.461 32.461 C 55.747 31.967 56.111 31.512 56.553 31.096 C 56.995 30.68 57.489 30.322 58.035 30.023 C 58.581 29.724 59.159 29.49 59.77 29.321 C 60.381 29.152 60.986 29.068 61.584 29.068 C 63.924 29.068 65.653 29.685 66.771 30.92 C 67.889 32.155 68.448 33.917 68.448 36.205 L 68.448 47.788 L 65.874 47.788 L 65.874 37.687 C 65.874 35.659 65.523 34.105 64.821 33.026 C 64.119 31.947 62.819 31.408 60.921 31.408 C 60.791 31.408 60.427 31.46 59.829 31.564 C 59.231 31.668 58.6 31.954 57.937 32.422 C 57.274 32.89 56.683 33.592 56.163 34.528 C 55.643 35.464 55.383 36.764 55.383 38.428 L 55.383 47.788 L 52.809 47.788 L 52.809 18.304 Z M 83.929 31.876 L 78.664 31.876 L 78.664 42.64 C 78.664 43.316 78.729 43.868 78.859 44.297 C 78.989 44.726 79.171 45.058 79.405 45.292 C 79.639 45.526 79.919 45.688 80.244 45.779 C 80.569 45.87 80.926 45.916 81.316 45.916 C 81.758 45.916 82.213 45.851 82.681 45.721 C 83.149 45.591 83.578 45.422 83.968 45.214 L 84.085 47.593 C 83.123 48.035 81.966 48.256 80.614 48.256 C 80.12 48.256 79.607 48.191 79.074 48.061 C 78.541 47.931 78.053 47.684 77.611 47.32 C 77.169 46.956 76.805 46.462 76.519 45.838 C 76.233 45.214 76.09 44.395 76.09 43.381 L 76.09 31.876 L 72.229 31.876 L 72.229 29.536 L 76.09 29.536 L 76.09 24.388 L 78.664 24.388 L 78.664 29.536 L 83.929 29.536 L 83.929 31.876 Z M 87.439 33.592 C 87.439 32.916 87.419 32.24 87.38 31.564 C 87.341 30.888 87.296 30.212 87.244 29.536 L 90.013 29.536 L 90.013 32.305 L 90.091 32.305 C 90.715 31.239 91.579 30.433 92.684 29.887 C 93.789 29.341 94.888 29.068 95.98 29.068 C 96.474 29.068 97 29.12 97.559 29.224 C 98.118 29.328 98.658 29.516 99.178 29.789 C 99.698 30.062 100.185 30.446 100.64 30.94 C 101.095 31.434 101.479 32.071 101.791 32.851 C 102.311 31.681 103.136 30.758 104.267 30.082 C 105.398 29.406 106.575 29.068 107.797 29.068 C 110.137 29.068 111.866 29.685 112.984 30.92 C 114.102 32.155 114.661 33.917 114.661 36.205 L 114.661 47.788 L 112.087 47.788 L 112.087 37.141 C 112.087 35.295 111.762 33.878 111.112 32.89 C 110.462 31.902 109.253 31.408 107.485 31.408 C 106.523 31.408 105.717 31.596 105.067 31.973 C 104.417 32.35 103.89 32.851 103.487 33.475 C 103.084 34.099 102.792 34.807 102.61 35.6 C 102.428 36.393 102.337 37.219 102.337 38.077 L 102.337 47.788 L 99.763 47.788 L 99.763 37.141 C 99.763 35.295 99.438 33.878 98.788 32.89 C 98.138 31.902 96.929 31.408 95.161 31.408 C 95.005 31.408 94.647 31.46 94.088 31.564 C 93.529 31.668 92.951 31.954 92.353 32.422 C 91.755 32.89 91.215 33.592 90.734 34.528 C 90.253 35.464 90.013 36.764 90.013 38.428 L 90.013 47.788 L 87.439 47.788 L 87.439 33.592 Z M 123.826 47.788 L 121.252 47.788 L 121.252 18.304 L 123.826 18.304 L 123.826 47.788 Z M 132.483 29.536 C 132.535 30.03 132.568 30.517 132.581 30.998 C 132.594 31.479 132.6 31.967 132.6 32.461 L 132.678 32.461 C 132.964 31.967 133.328 31.512 133.77 31.096 C 134.212 30.68 134.706 30.322 135.252 30.023 C 135.798 29.724 136.377 29.49 136.988 29.321 C 137.599 29.152 138.203 29.068 138.801 29.068 C 141.141 29.068 142.87 29.685 143.988 30.92 C 145.106 32.155 145.665 33.917 145.665 36.205 L 145.665 47.788 L 143.091 47.788 L 143.091 37.687 C 143.091 35.659 142.74 34.105 142.038 33.026 C 141.336 31.947 140.036 31.408 138.138 31.408 C 138.008 31.408 137.644 31.46 137.046 31.564 C 136.448 31.668 135.818 31.954 135.155 32.422 C 134.492 32.89 133.9 33.592 133.38 34.528 C 132.86 35.464 132.6 36.764 132.6 38.428 L 132.6 47.788 L 130.026 47.788 L 130.026 33.553 C 130.026 33.059 130.007 32.435 129.968 31.681 C 129.929 30.927 129.883 30.212 129.831 29.536 L 132.483 29.536 Z M 165.906 37.258 C 165.906 35.516 165.386 34.105 164.346 33.026 C 163.306 31.947 161.85 31.408 159.978 31.408 C 159.146 31.408 158.34 31.57 157.56 31.895 C 156.78 32.22 156.098 32.656 155.513 33.202 C 154.928 33.748 154.46 34.372 154.109 35.074 C 153.758 35.776 153.582 36.504 153.582 37.258 L 165.906 37.258 Z M 153.504 39.364 C 153.582 40.274 153.803 41.132 154.167 41.938 C 154.531 42.744 155.012 43.439 155.61 44.024 C 156.208 44.609 156.897 45.071 157.677 45.409 C 158.457 45.747 159.302 45.916 160.212 45.916 C 161.59 45.916 162.78 45.597 163.781 44.96 C 164.782 44.323 165.542 43.589 166.062 42.757 L 168.051 44.395 C 166.959 45.773 165.757 46.761 164.444 47.359 C 163.131 47.957 161.72 48.256 160.212 48.256 C 158.86 48.256 157.606 48.015 156.449 47.534 C 155.292 47.053 154.297 46.384 153.465 45.526 C 152.633 44.668 151.977 43.654 151.496 42.484 C 151.015 41.314 150.774 40.04 150.774 38.662 C 150.774 37.284 151.008 36.01 151.476 34.84 C 151.944 33.67 152.594 32.656 153.426 31.798 C 154.258 30.94 155.233 30.27 156.351 29.789 C 157.469 29.308 158.678 29.068 159.978 29.068 C 161.356 29.068 162.591 29.315 163.683 29.809 C 164.775 30.303 165.692 30.959 166.433 31.778 C 167.174 32.597 167.739 33.559 168.129 34.664 C 168.519 35.769 168.714 36.946 168.714 38.194 L 168.714 39.364 L 153.504 39.364 Z M 178.112 38.038 L 171.482 29.536 L 174.992 29.536 L 180.062 36.361 L 184.898 29.536 L 188.096 29.536 L 181.739 38.038 L 189.383 47.788 L 185.873 47.788 L 179.75 39.793 L 173.861 47.788 L 170.585 47.788 L 178.112 38.038 Z M 201.628 31.876 L 196.363 31.876 L 196.363 42.64 C 196.363 43.316 196.428 43.868 196.558 44.297 C 196.688 44.726 196.87 45.058 197.104 45.292 C 197.338 45.526 197.618 45.688 197.943 45.779 C 198.268 45.87 198.625 45.916 199.015 45.916 C 199.457 45.916 199.912 45.851 200.38 45.721 C 200.848 45.591 201.277 45.422 201.667 45.214 L 201.784 47.593 C 200.822 48.035 199.665 48.256 198.313 48.256 C 197.819 48.256 197.306 48.191 196.773 48.061 C 196.24 47.931 195.752 47.684 195.31 47.32 C 194.868 46.956 194.504 46.462 194.218 45.838 C 193.932 45.214 193.789 44.395 193.789 43.381 L 193.789 31.876 L 189.928 31.876 L 189.928 29.536 L 193.789 29.536 L 193.789 24.388 L 196.363 24.388 L 196.363 29.536 L 201.628 29.536 L 201.628 31.876 Z"
+				></path>
+			</svg>
+		</template>
+
 		<script type="module">
-			import { initializeFramework, Router, SetData } from './dist/htmlNext.js';
+			import * as framework from './dist/htmlNext.js';
+			import helpers from './dist/htmlNext.helpers.js';
 
-			const cache = new Map();
-			const fetchPage = async (path) => {
-				if (cache.has(path)) return cache.get(path);
-				try {
-					const response = await fetch(`./pages/${path}.html`);
-					const result = await response.text().then((x) => x.trim());
-					if (!result.trim()) {
-						throw new Error('Page not found');
-					} else {
-						cache.set(path, result.trim());
-						return result.trim();
-					}
-				} catch (error) {
-					console.error(`Failed to fetch page from ${path}:`, error);
-					if (path === '404') {
-						return '<x-page><x-content><x-markdown>Fetch page: Not Found</x-markdown></x-content></x-page>';
-					}
-					return await fetchPage('404');
-				}
-			};
-			const fetchData = async (path, defaultValue = {}) => {
-				if (cache.has(path)) return cache.get(path);
-				try {
-					const response = await fetch(`./data/${path}`);
-					const result = await response.json();
-					cache.set(path, result);
-					return result;
-				} catch (error) {
-					console.error(`Failed to fetch JSON from ${path}:`, error);
-				}
-			};
-
-			const routerSetup = async () => {
-				const initialHash = window.location.hash || '#/dashboard';
-				const initialPath = initialHash.replace(/^#/, '');
-
-				return Router({
-					initialPath,
-					beforeEach: async (context) => {
-						const path = context.to.href;
-						await SetData('mainContent', await fetchPage(path));
+			const logoHTML = document.getElementById('logoHTML').innerHTML;
+			const getFragment = async (path) => await fetch(`./pages/${path}.html`);
+			const getData = async (path) => await fetch(`./data/${path}`);
+			const defaultHash = '/dashboard';
+			const getMenu = async () => ({
+				top: [
+					{
+						label: 'Dashboard',
+						href: '/dashboard',
+						icon: 'fa-tachometer',
 					},
-					afterEach: async (context) => {
-						const path = context.to.href;
-						document.querySelectorAll('.menuItem.active').forEach((button) => {
-							button.classList.remove('active');
-						});
-						const menuItems = document.querySelectorAll('.menuItem');
-						for (const item of menuItems) {
-							const href = item.getAttribute('href');
-							if (!path.startsWith(href)) continue;
-							item.classList.add('active');
-						}
-						document.getElementById('sidebar')?.classList?.remove('open');
-
-						// Handle navigation after all other updates
-						window.location.hash = context.to.path;
+					{
+						label: 'Users',
+						href: '/users',
+						icon: 'fa-users',
 					},
-				});
-			};
-
-			(async () => {
-				const router = await routerSetup();
-				const menuData = await fetchData('menu-data.json', {
-					top: [],
-					bottom: [],
-				});
-				const state = {
-					mainContent: '',
-					menuItems: menuData.top,
-					menuItemsBottom: menuData.bottom,
-				};
-				const hooks = {
-					'x-markdown': (component) => {
-						if (typeof hljs === 'undefined') return;
-
-						const codeBlocks = component.querySelectorAll('pre code');
-						for (const codeBlock of codeBlocks) {
-							hljs.highlightElement(codeBlock);
-						}
+					{
+						label: 'Features',
+						href: '/features',
+						icon: 'fa-star',
 					},
-				};
-				await initializeFramework({ router, state, hooks });
-				document.body.classList.add('framework-loaded');
+				],
+				bottom: [
+					{
+						label: 'Demo Username',
+						href: '/profile',
+						avatar: './assets/test_user.png',
+						hasAvatar: true,
+					},
+					{
+						label: 'Settings',
+						href: '/settings',
+						icon: 'fa-cog',
+					},
+					{
+						label: 'Logout',
+						href: '/logout',
+						icon: 'fa-sign-out',
+					},
+				],
+			});
 
-				window.addUser = () =>
-					alert('addUser called - this is just an example');
-			})();
+			helpers.pages.basic({
+				framework,
+				logoHTML,
+				getFragment,
+				getData,
+				getMenu,
+				defaultHash,
+			});
+
+			window.addUser = () => alert('Add User Clicked');
 		</script>
 	</body>
 </html>
