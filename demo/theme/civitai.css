@@ -1,0 +1,84 @@
+.test-framework {
+	--palettePrimaryMain: #6faeff;
+	--palettePrimaryLight: #93c5fd;
+	--palettePrimaryDark: #1e40af;
+	--palettePrimaryContrast: #388cd5;
+	--palettePrimaryNavbar: #f3f4f6;
+	--paletteSecondaryMain: #dadada;
+	--paletteSecondaryLight: #cbd5e1;
+	--paletteSecondaryDark: #64748b;
+	--paletteSecondaryContrast: #1a2744;
+	--paletteBackgroundDefault: #ffffff;
+	--paletteBackgroundPaper: #f8fafc;
+	--paletteBackgroundContrast: #e5e7eb;
+	--paletteTextPrimary: #0f172a;
+	--paletteTextSecondary: #334155;
+	--paletteTextTertiary: #64748b;
+	--paletteTextDisabled: #94a3b8;
+	--paletteDivider: #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+	.test-framework {
+		--palettePrimaryMain: #1d2c3c;
+		--palettePrimaryLight: #bfdbfe;
+		--palettePrimaryDark: #60a5fa;
+		--palettePrimaryContrast: #74c0fc;
+		--paletteSecondaryMain: #25262b;
+		--paletteSecondaryLight: #c8d3e0;
+		--paletteSecondaryDark: #6b7e95;
+		--paletteSecondaryContrast: #f8fafc;
+		--paletteBackgroundDefault: #0f172a;
+		--paletteBackgroundPaper: #1a1b1e;
+		--palettePrimaryNavbar: #1a1b1e;
+		--paletteBackgroundContrast: #334155;
+		--paletteTextPrimary: #f8fafc;
+		--paletteTextSecondary: #cbd5e1;
+		--paletteTextTertiary: #94a3b8;
+		--paletteTextDisabled: #64748b;
+		--paletteDivider: #263246;
+	}
+}
+
+.better {
+	--color-primary: #2563eb;
+	--color-secondary: #facc15;
+	--color-background: #ffffff;
+	--color-text-primary: #0f172a;
+
+	--color-primary-light: color-mix(
+		in srgb,
+		var(--color-primary),
+		var(--color-background) 25%
+	);
+	--color-primary-dark: color-mix(
+		in srgb,
+		var(--color-primary),
+		var(--color-text-primary) 30%
+	);
+	--color-secondary-light: color-mix(
+		in srgb,
+		var(--color-secondary),
+		var(--color-background) 25%
+	);
+	--color-secondary-dark: color-mix(
+		in srgb,
+		var(--color-secondary),
+		var(--color-text-primary) 30%
+	);
+	--color-text-secondary: color-mix(
+		in srgb,
+		var(--color-text-primary),
+		var(--color-background) 40%
+	);
+	--color-surface: color-mix(
+		in srgb,
+		var(--color-background),
+		var(--color-text-primary) 5%
+	);
+	--color-border: color-mix(
+		in srgb,
+		var(--color-background),
+		var(--color-text-primary) 10%
+	);
+}

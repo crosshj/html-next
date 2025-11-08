@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Better Theme - Color Palette</title>
+		<link
+			rel="stylesheet"
+			href="theme.civitai.css"
+		/>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: system-ui, -apple-system, sans-serif;
+				padding: 2rem;
+				background: var(--color-background);
+				color: var(--color-text-primary);
+			}
+
+			h1 {
+				margin-bottom: 2rem;
+				color: var(--color-text-primary);
+			}
+
+			.color-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				gap: 1.5rem;
+				max-width: 1200px;
+			}
+
+			.color-card {
+				border: 1px solid var(--color-border);
+				border-radius: 8px;
+				overflow: hidden;
+				background: var(--color-surface);
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+			}
+
+			.color-swatch {
+				height: 120px;
+				width: 100%;
+				position: relative;
+			}
+
+			.color-info {
+				padding: 1rem;
+			}
+
+			.color-name {
+				font-weight: 600;
+				font-size: 0.875rem;
+				margin-bottom: 0.5rem;
+				color: var(--color-text-primary);
+			}
+
+			.color-variable {
+				font-size: 0.75rem;
+				color: var(--color-text-secondary);
+				font-family: 'Courier New', monospace;
+				background: var(--color-background);
+				padding: 0.25rem 0.5rem;
+				border-radius: 4px;
+				display: inline-block;
+			}
+
+			.section-title {
+				margin: 2rem 0 1rem 0;
+				padding-bottom: 0.5rem;
+				border-bottom: 2px solid var(--color-border);
+				color: var(--color-text-primary);
+			}
+
+			.section-title:first-of-type {
+				margin-top: 0;
+			}
+
+			/* Demo Elements Styles */
+			.demo-section {
+				margin-top: 3rem;
+				max-width: 1200px;
+			}
+
+			.demo-grid {
+				display: grid;
+				gap: 2rem;
+				margin-top: 1rem;
+			}
+
+			.demo-item {
+				padding: 1.5rem;
+				background: var(--color-surface);
+				border: 1px solid var(--color-border);
+				border-radius: 8px;
+			}
+
+			.demo-label {
+				font-size: 0.75rem;
+				color: var(--color-text-secondary);
+				margin-bottom: 1rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+
+			/* Primary color demos */
+			button,
+			.btn {
+				padding: 0.625rem 1.25rem;
+				border: none;
+				border-radius: 6px;
+				font-size: 0.875rem;
+				font-weight: 500;
+				cursor: pointer;
+				transition: all 0.2s;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+
+			.btn-primary {
+				background: var(--color-primary);
+				color: white;
+			}
+
+			.btn-primary:hover {
+				background: var(--color-primary-light);
+			}
+
+			.btn-primary:active {
+				background: var(--color-primary-dark);
+			}
+
+			a {
+				color: var(--color-primary);
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			.accent-box {
+				padding: 1rem;
+				background: var(--color-primary-light);
+				border-left: 4px solid var(--color-primary);
+				border-radius: 4px;
+			}
+
+			/* Secondary color demos */
+			.badge {
+				display: inline-block;
+				padding: 0.25rem 0.75rem;
+				background: var(--color-secondary);
+				color: var(--color-text-primary);
+				border-radius: 12px;
+				font-size: 0.75rem;
+				font-weight: 600;
+			}
+
+			.btn-secondary {
+				background: var(--color-secondary);
+				color: var(--color-text-primary);
+			}
+
+			.btn-secondary:hover {
+				background: var(--color-secondary-light);
+			}
+
+			.highlight {
+				background: var(--color-secondary-light);
+				padding: 0.125rem 0.25rem;
+				border-radius: 2px;
+			}
+
+			/* Background demos */
+			.main-container {
+				background: var(--color-background);
+				padding: 1.5rem;
+				border-radius: 8px;
+			}
+
+			/* Surface demos */
+			.card {
+				background: var(--color-surface);
+				padding: 1.5rem;
+				border-radius: 8px;
+				border: 1px solid var(--color-border);
+			}
+
+			.modal-panel {
+				background: var(--color-surface);
+				padding: 2rem;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+				max-width: 400px;
+			}
+
+			/* Text demos */
+			.text-demo h3 {
+				color: var(--color-text-primary);
+				margin-bottom: 0.5rem;
+			}
+
+			.text-demo p {
+				color: var(--color-text-primary);
+				line-height: 1.6;
+			}
+
+			.caption {
+				color: var(--color-text-secondary);
+				font-size: 0.875rem;
+			}
+
+			/* Border demos */
+			hr {
+				border: none;
+				border-top: 1px solid var(--color-border);
+				margin: 1rem 0;
+			}
+
+			input,
+			select {
+				padding: 0.5rem;
+				border: 1px solid var(--color-border);
+				border-radius: 4px;
+				background: var(--color-background);
+				color: var(--color-text-primary);
+				font-size: 0.875rem;
+			}
+
+			input:focus,
+			select:focus {
+				outline: 2px solid var(--color-primary);
+				outline-offset: 1px;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			th,
+			td {
+				padding: 0.75rem;
+				text-align: left;
+				border: 1px solid var(--color-border);
+			}
+
+			th {
+				background: var(--color-surface);
+				font-weight: 600;
+			}
+		</style>
+	</head>
+	<body class="better">
+		<h1>Better Theme Color Palette</h1>
+
+		<h2 class="section-title">Base Colors</h2>
+		<div class="color-grid">
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-primary)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Primary</div>
+					<div class="color-variable">--color-primary</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-secondary)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Secondary</div>
+					<div class="color-variable">--color-secondary</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-background)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Background</div>
+					<div class="color-variable">--color-background</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-text-primary)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Text Primary</div>
+					<div class="color-variable">--color-text-primary</div>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="section-title">Primary Variants</h2>
+		<div class="color-grid">
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-primary-light)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Primary Light</div>
+					<div class="color-variable">--color-primary-light</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-primary)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Primary</div>
+					<div class="color-variable">--color-primary</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-primary-dark)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Primary Dark</div>
+					<div class="color-variable">--color-primary-dark</div>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="section-title">Secondary Variants</h2>
+		<div class="color-grid">
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-secondary-light)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Secondary Light</div>
+					<div class="color-variable">--color-secondary-light</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-secondary)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Secondary</div>
+					<div class="color-variable">--color-secondary</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-secondary-dark)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Secondary Dark</div>
+					<div class="color-variable">--color-secondary-dark</div>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="section-title">Text & Surface Colors</h2>
+		<div class="color-grid">
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-text-primary)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Text Primary</div>
+					<div class="color-variable">--color-text-primary</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-text-secondary)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Text Secondary</div>
+					<div class="color-variable">--color-text-secondary</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-surface)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Surface</div>
+					<div class="color-variable">--color-surface</div>
+				</div>
+			</div>
+
+			<div class="color-card">
+				<div
+					class="color-swatch"
+					style="background-color: var(--color-border)"
+				></div>
+				<div class="color-info">
+					<div class="color-name">Border</div>
+					<div class="color-variable">--color-border</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Typical Usage Examples -->
+		<div class="demo-section">
+			<h2 class="section-title">Typical Mappings & Usage</h2>
+
+			<!-- Primary Color Examples -->
+			<div class="demo-item">
+				<div class="demo-label">--color-primary: Main brand color</div>
+				<div
+					style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center"
+				>
+					<button class="btn btn-primary">Primary Button</button>
+					<a href="#">Example Link</a>
+					<div class="accent-box">Accent highlight box</div>
+				</div>
+			</div>
+
+			<!-- Primary Light Examples -->
+			<div class="demo-item">
+				<div class="demo-label">
+					--color-primary-light: Hover or focus variant
+				</div>
+				<div>
+					<button
+						class="btn btn-primary"
+						style="background: var(--color-primary-light)"
+					>
+						:hover state
+					</button>
+					<div
+						style="
+							margin-top: 1rem;
+							padding: 1rem;
+							background: var(--color-primary-light);
+							border-radius: 4px;
+						"
+					>
+						Subtle background using primary-light
+					</div>
+				</div>
+			</div>
+
+			<!-- Primary Dark Examples -->
+			<div class="demo-item">
+				<div class="demo-label">
+					--color-primary-dark: Active or pressed variant
+				</div>
+				<div style="display: flex; gap: 1rem; flex-wrap: wrap">
+					<button
+						class="btn btn-primary"
+						style="background: var(--color-primary-dark)"
+					>
+						Clicked/Active Button
+					</button>
+					<div
+						style="
+							padding: 1rem;
+							border: 2px solid var(--color-primary-dark);
+							border-radius: 4px;
+						"
+					>
+						Emphasis border
+					</div>
+				</div>
+			</div>
+
+			<!-- Secondary Color Examples -->
+			<div class="demo-item">
+				<div class="demo-label">--color-secondary: Secondary brand color</div>
+				<div
+					style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center"
+				>
+					<span class="badge">Badge</span>
+					<button class="btn btn-secondary">Secondary Action</button>
+					<span
+						>Some text with
+						<span class="highlight">highlighted content</span></span
+					>
+				</div>
+			</div>
+
+			<!-- Background Examples -->
+			<div class="demo-item">
+				<div class="demo-label">--color-background: Page background</div>
+				<div class="main-container">
+					<p>This is the main layout container using --color-background</p>
+					<p style="margin-top: 0.5rem">
+						Used for body and main layout containers
+					</p>
+				</div>
+			</div>
+
+			<!-- Surface Examples -->
+			<div class="demo-item">
+				<div class="demo-label">--color-surface: Card or panel backgrounds</div>
+				<div style="display: grid; gap: 1rem">
+					<div class="card">
+						<h3 style="margin: 0 0 0.5rem 0">Card Component</h3>
+						<p style="margin: 0">Using --color-surface for card backgrounds</p>
+					</div>
+					<div style="display: flex; gap: 1rem; flex-wrap: wrap">
+						<div
+							style="
+								background: var(--color-surface);
+								padding: 1rem;
+								border-radius: 4px;
+							"
+						>
+							&lt;div&gt; with surface
+						</div>
+						<select>
+							<option>Select option</option>
+							<option>Option 1</option>
+							<option>Option 2</option>
+						</select>
+					</div>
+					<div class="modal-panel">
+						<h4 style="margin: 0 0 1rem 0">Modal Panel</h4>
+						<p style="margin: 0">
+							This represents a modal or dialog using surface color
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Text Primary Examples -->
+			<div class="demo-item">
+				<div class="demo-label">--color-text-primary: Default text color</div>
+				<div class="text-demo">
+					<h3>Heading Text</h3>
+					<p>
+						This is body text using --color-text-primary. It's used for headings
+						(h1-h6) and paragraph text.
+					</p>
+					<h4>Subheading</h4>
+					<p>
+						All primary content should use this color for optimal readability.
+					</p>
+				</div>
+			</div>
+
+			<!-- Text Secondary Examples -->
+			<div class="demo-item">
+				<div class="demo-label">
+					--color-text-secondary: Subtext, muted info
+				</div>
+				<div>
+					<h3>Article Title</h3>
+					<p class="caption">Published on November 7, 2025 by Author Name</p>
+					<p style="margin-top: 1rem; color: var(--color-text-secondary)">
+						This is helper text or captions that provide additional context
+						without being the main focus.
+					</p>
+				</div>
+			</div>
+
+			<!-- Border Examples -->
+			<div class="demo-item">
+				<div class="demo-label">--color-border: Lines, outlines</div>
+				<div>
+					<h4>Horizontal Rule</h4>
+					<hr />
+					<p style="margin-bottom: 1rem">Divider above uses --color-border</p>
+
+					<div style="margin-bottom: 1rem">
+						<label
+							style="
+								display: block;
+								margin-bottom: 0.25rem;
+								font-size: 0.875rem;
+							"
+							>Input Field</label
+						>
+						<input
+							type="text"
+							placeholder="Enter text..."
+							style="width: 100%; max-width: 300px"
+						/>
+					</div>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Column 1</th>
+								<th>Column 2</th>
+								<th>Column 3</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Row 1 Cell 1</td>
+								<td>Row 1 Cell 2</td>
+								<td>Row 1 Cell 3</td>
+							</tr>
+							<tr>
+								<td>Row 2 Cell 1</td>
+								<td>Row 2 Cell 2</td>
+								<td>Row 2 Cell 3</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

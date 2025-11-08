@@ -41,10 +41,14 @@
 		/>
 		<script src="./vendor/highlightjs/highlight.min.js"></script>
 
-		<!-- framework and demo css -->
+		<!-- framework css -->
 		<link
 			rel="stylesheet"
 			href="./dist/htmlNext.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="./theme/default.css"
 		/>
 		<link
 			rel="stylesheet"
@@ -56,11 +60,13 @@
 		/>
 	</head>
 	<body class="test-framework">
+		<!-- fragment for main application content -->
 		<x-fragment
 			contents="global_appContent"
 			showLoading="true"
 		></x-fragment>
 
+		<!-- Your Logo -->
 		<template id="logoHTML">
 			<svg viewBox="0 0 220 75">
 				<path
@@ -78,10 +84,7 @@
 			import * as framework from './dist/htmlNext.js';
 			import helpers from './dist/htmlNext.helpers.js';
 
-			const logoHTML = document.getElementById('logoHTML').innerHTML;
-			const getFragment = async (path) => await fetch(`./pages/${path}.html`);
-			const getData = async (path) => await fetch(`./data/${path}`);
-			const defaultHash = '/dashboard';
+			// your menu items
 			const getMenu = async () => ({
 				top: [
 					{
@@ -120,7 +123,14 @@
 				],
 			});
 
-			helpers.pages.basic({
+			// basic framework setup
+			const logoHTML = document.getElementById('logoHTML').innerHTML;
+			const getFragment = async (path) => await fetch(`./pages/${path}.html`);
+			const getData = async (path) => await fetch(`./data/${path}`);
+			const defaultHash = '/dashboard';
+
+			// that's it! initialize the framework
+			await helpers.pages.basic({
 				framework,
 				logoHTML,
 				getFragment,
@@ -129,6 +139,7 @@
 				defaultHash,
 			});
 
+			// example global function, see dashboard page for usage
 			window.addUser = () => alert('Add User Clicked');
 		</script>
 	</body>

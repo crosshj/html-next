@@ -30,7 +30,7 @@ body.framework-loaded {
 .logo-icon {
 	fill: color-mix(
 		in srgb,
-		var(--paletteTextPrimary) 30%,
+		var(--paletteTextPrimary) 10%,
 		var(--paletteSecondaryMain)
 	);
 }
@@ -38,68 +38,13 @@ body.framework-loaded {
 	fill: color-mix(
 		in srgb,
 		var(--paletteTextPrimary) 20%,
-		var(--palettePrimaryMain)
+		var(--paletteSecondaryMain)
 	);
 }
 
-/* Override framework CSS variables for custom theme */
 .test-framework {
-	/* Primary Palette - Modern Blue Theme */
-	--palettePrimaryMain: #2563eb;
-	--palettePrimaryLight: #60a5fa;
-	--palettePrimaryDark: #1d4ed8;
-	--palettePrimaryContrast: #ffffff;
-	--palettePrimaryNavbar: #f0f8ff;
-
-	/* Secondary Palette - Light Blue */
-	--paletteSecondaryMain: #6ab0f0;
-	--paletteSecondaryDark: #4a9de8;
-	--paletteSecondaryLight: #8bc3f2;
-	--paletteSecondaryContrast: #ffffff;
-
-	/* Background Palette - Clean Whites and Grays */
-	--paletteBackgroundDefault: #f8fafc;
-	--paletteBackgroundPaper: #ffffff;
-	--paletteBackgroundContrast: #ffffff;
-
-	/* Text Palette - High Contrast */
-	--paletteTextPrimary: #1e293b;
-	--paletteTextSecondary: #475569;
-	--paletteTextTertiary: #64748b;
-	--paletteTextDisabled: #94a3b8;
-
-	/* Divider - Subtle */
-	--paletteDivider: #e2e8f0;
-}
-
-@media (prefers-color-scheme: dark) {
-	.test-framework {
-		/* Primary Palette - Dark Mode Blue Theme */
-		--palettePrimaryMain: #325c62;
-		--palettePrimaryLight: #60a5fa;
-		--palettePrimaryDark: #1d4ed8;
-		--palettePrimaryContrast: #ffffff;
-
-		/* Secondary Palette - Dark Mode Blue */
-		--paletteSecondaryMain: #004552;
-		--paletteSecondaryDark: #0891b2;
-		--paletteSecondaryLight: #22d3ee;
-		--paletteSecondaryContrast: #ffffff;
-
-		/* Background Palette - Dark Mode */
-		--paletteBackgroundDefault: #1b2636;
-		--paletteBackgroundPaper: #101019;
-		--paletteBackgroundContrast: #334155;
-		--palettePrimaryNavbar: #101019;
-
-		/* Text Palette - Dark Mode High Contrast */
-		--paletteTextPrimary: #f8fafc;
-		--paletteTextSecondary: #cbd5e1;
-		--paletteTextTertiary: #94a3b8;
-		--paletteTextDisabled: #64748b;
-
-		/* Divider - Dark Mode */
-		--paletteDivider: #334155;
+	table a {
+		color: var(--palettePrimaryContrast);
 	}
 }
 
@@ -194,18 +139,10 @@ body.framework-loaded {
 		}
 		button,
 		.menuItem-avatar {
-			color: color-mix(
-				in srgb,
-				var(--palettePrimaryNavbar) 0%,
-				var(--palettePrimaryMain)
-			);
+			background-color: transparent;
+			color: var(--paletteSecondaryContrast);
 			&:hover {
-				color: var(--palettePrimaryContrast);
-				background: color-mix(
-					in srgb,
-					var(--palettePrimaryNavbar) 50%,
-					var(--palettePrimaryMain)
-				);
+				background: var(--paletteSecondaryMain);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 # HTMLNext
 
-React + Material-UI without JSX, build systems, or complexity. Just HTML, CSS, and ~23kB JS.
+Imagine something like React + Material-UI without painful setup, build systems, or complexity. Just HTML, CSS, and ~42kB JS.
 
 Build interactive apps with custom elements and reactive state using web standards browsers already support.
 
