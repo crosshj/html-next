@@ -448,6 +448,7 @@ const authHTML = ({ logoHTML }) =>
 export default async (args) => {
 	const {
 		framework,
+		initialState = {},
 		authSetup,
 		logoHTML,
 		getFragment,
@@ -588,6 +589,7 @@ export default async (args) => {
 	const menuItemSelected = menuItems.findIndex((item) => item.path === newPath);
 
 	const state = {
+		...initialState,
 		appContent,
 		mainContent: '',
 		menuItems,
