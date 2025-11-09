@@ -42,12 +42,6 @@ body.framework-loaded {
 	);
 }
 
-.test-framework {
-	table a {
-		color: var(--palettePrimaryContrast);
-	}
-}
-
 /* App Layout - Let framework handle component styling */
 .app-layout {
 	display: grid;

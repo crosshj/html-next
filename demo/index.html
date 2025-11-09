@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+	lang="en"
+	class="app-html"
+>
 	<head>
 		<meta charset="UTF-8" />
 		<meta
@@ -85,58 +88,123 @@
 			import helpers from './dist/htmlNext.helpers.js';
 
 			// your menu items
-			const getMenu = async () => ({
-				top: [
+			const getMenu = ({ user } = {}) => {
+				const menuItems = [
 					{
 						label: 'Dashboard',
-						href: '/dashboard',
-						icon: 'fa-tachometer',
+						icon: 'fa-tasks',
+						path: '/dashboard',
 					},
 					{
 						label: 'Users',
-						href: '/users',
+						path: '/users',
 						icon: 'fa-users',
 					},
 					{
 						label: 'Features',
-						href: '/features',
+						path: '/features',
 						icon: 'fa-star',
 					},
-				],
-				bottom: [
+					{ spacer: true },
 					{
-						label: 'Demo Username',
-						href: '/profile',
+						path: '/profile',
+						label:
+							user?.user_metadata?.displayName || user?.email || 'User Profile',
 						avatar: './assets/test_user.png',
 						hasAvatar: true,
 					},
 					{
+						path: '/settings',
 						label: 'Settings',
-						href: '/settings',
 						icon: 'fa-cog',
 					},
 					{
+						path: '/logout',
 						label: 'Logout',
-						href: '/logout',
 						icon: 'fa-sign-out',
 					},
-				],
-			});
+				];
+				return menuItems;
+			};
 
 			// basic framework setup
 			const logoHTML = document.getElementById('logoHTML').innerHTML;
 			const getFragment = async (path) => await fetch(`./pages/${path}.html`);
 			const getData = async (path) => await fetch(`./data/${path}`);
 			const defaultHash = '/dashboard';
+			const authSetup = () => {
+				const STORAGE_KEY = 'demo_auth_session';
+
+				return {
+					signUp: async (email, password) => {
+						const session = {
+							email,
+							user: {
+								user_metadata: {
+									id: `user-${Date.now()}`,
+									email,
+									avatar: './assets/test_user.png',
+									displayName: 'Demo User',
+									bio: 'This is a demo user account.',
+								},
+							},
+						};
+						localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+						return { data: { session } };
+					},
+					signIn: async (email, password) => {
+						const session = {
+							user: {
+								email,
+								user_metadata: {
+									id: `user-${Date.now()}`,
+									email,
+									avatar: './assets/test_user.png',
+									displayName: 'Demo User',
+									bio: 'This is a demo user account.',
+								},
+							},
+						};
+						localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+						return { data: { session } };
+					},
+					signOut: async () => {
+						localStorage.removeItem(STORAGE_KEY);
+						return {};
+					},
+					getSession: async () => {
+						const stored = localStorage.getItem(STORAGE_KEY);
+						if (stored) {
+							return { data: { session: JSON.parse(stored) } };
+						}
+						return { data: { session: null } };
+					},
+					onAuthChange: (callback) => {
+						const stored = localStorage.getItem(STORAGE_KEY);
+						callback(stored ? JSON.parse(stored) : null);
+					},
+					updateUserMetadata: async (data) => {
+						const stored = localStorage.getItem(STORAGE_KEY);
+						if (stored) {
+							const session = JSON.parse(stored);
+							session.user = { ...session.user, ...data };
+							localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+							return { data: { user: session.user } };
+						}
+						return { error: 'No session found' };
+					},
+				};
+			};
 
 			// that's it! initialize the framework
-			await helpers.pages.basic({
+			await helpers.pages.enhanced({
 				framework,
 				logoHTML,
+				defaultHash,
+				authSetup,
 				getFragment,
 				getData,
 				getMenu,
-				defaultHash,
 			});
 
 			// example global function, see dashboard page for usage

@@ -1,5 +1,5 @@
 /* Override framework CSS variables for custom theme */
-.test-framework {
+html.app-html.light {
 	/* Primary Palette - Modern Blue Theme */
 	--palettePrimaryMain: #2563eb;
 	--palettePrimaryLight: #60a5fa;
@@ -28,33 +28,31 @@
 	--paletteDivider: #e2e8f0;
 }
 
-@media (prefers-color-scheme: dark) {
-	.test-framework {
-		/* Primary Palette - Dark Mode Blue Theme */
-		--palettePrimaryMain: #35838e;
-		--palettePrimaryLight: #60a5fa;
-		--palettePrimaryDark: #1d4ed8;
-		--palettePrimaryContrast: #00ddff;
+html.app-html.dark {
+	/* Primary Palette - Dark Mode Blue Theme */
+	--palettePrimaryMain: #35838e;
+	--palettePrimaryLight: #60a5fa;
+	--palettePrimaryDark: #1d4ed8;
+	--palettePrimaryContrast: #00ddff;
 
-		/* Secondary Palette - Dark Mode Blue */
-		--paletteSecondaryMain: #2d385b;
-		--paletteSecondaryDark: #0891b2;
-		--paletteSecondaryLight: #22d3ee;
-		--paletteSecondaryContrast: #7a92e1;
+	/* Secondary Palette - Dark Mode Blue */
+	--paletteSecondaryMain: #2d385b;
+	--paletteSecondaryDark: #0891b2;
+	--paletteSecondaryLight: #22d3ee;
+	--paletteSecondaryContrast: #7a92e1;
 
-		/* Background Palette - Dark Mode */
-		--paletteBackgroundDefault: #1b2636;
-		--paletteBackgroundPaper: #101019;
-		--paletteBackgroundContrast: #334155;
-		--palettePrimaryNavbar: #101019;
+	/* Background Palette - Dark Mode */
+	--paletteBackgroundDefault: #1b2636;
+	--paletteBackgroundPaper: #101019;
+	--paletteBackgroundContrast: #334155;
+	--palettePrimaryNavbar: #101019;
 
-		/* Text Palette - Dark Mode High Contrast */
-		--paletteTextPrimary: #f8fafc;
-		--paletteTextSecondary: #cbd5e1;
-		--paletteTextTertiary: #94a3b8;
-		--paletteTextDisabled: #64748b;
+	/* Text Palette - Dark Mode High Contrast */
+	--paletteTextPrimary: #f8fafc;
+	--paletteTextSecondary: #cbd5e1;
+	--paletteTextTertiary: #94a3b8;
+	--paletteTextDisabled: #64748b;
 
-		/* Divider - Dark Mode */
-		--paletteDivider: #334155;
-	}
+	/* Divider - Dark Mode */
+	--paletteDivider: #334155;
 }

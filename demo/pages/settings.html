@@ -5,61 +5,125 @@
 	></x-navbar>
 
 	<x-content class="fade-up">
-		<!-- prettier-ignore -->
-		<x-markdown>
-			> **Note**: This settings page demonstrates the full power of the `<x-markdown>` component with headings, lists, code blocks, and more!
-				
-			Configure your application settings and preferences here.
+		<x-box sx:mb="3">
+			<x-form
+				name="themeSettings"
+				data="global_themeSettings"
+			>
+				<select
+					id="themeSettings-mode"
+					label="Theme Mode"
+					name="mode"
+				>
+					<option value="light">Light</option>
+					<option value="dark">Dark</option>
+				</select>
+			</x-form>
+		</x-box>
 
-			## Configuration Options
+		<script
+			type="application/flow"
+			data-key="handleUploadClick"
+		>
+			const fileInput = document.getElementById('accountsFileInput');
+			if (!fileInput) {
+				console.error('File input not found');
+				return;
+			}
 
-			### Theme Settings
+			// Remove existing listener if any
+			const oldHandler = fileInput._changeHandler;
+			if (oldHandler) {
+				fileInput.removeEventListener('change', oldHandler);
+			}
 
-			The application uses a modern blue theme with the following features:
+			// Set up new change handler
+			const changeHandler = async (e) => {
+				// Tear down immediately
+				fileInput.removeEventListener('change', changeHandler);
+				delete fileInput._changeHandler;
 
-			- **Primary Color**: `#2563eb` (Modern Blue)
-			- **Secondary Color**: `#7c3aed` (Complementary Purple)
-			- **Background**: Clean whites and grays
-			- **Typography**: High contrast text for accessibility
+				console.log('File selected');
+				const file = e.target.files[0];
+				if (!file) {
+					console.log('No file selected');
+					return;
+				}
 
-			### Framework Features
+				// Get user session
+				const session = await window.auth?.getSession();
+				if (!session?.data?.session?.user) {
+					alert('You must be logged in to upload accounts data.');
+					fileInput.value = '';
+					return;
+				}
 
-			This demo showcases the HTMLNext Framework's capabilities:
+				const userId = session.data.session.user.id;
+				console.log('User ID:', userId);
 
-			1. **Component System**: Reusable web components
-			2. **State Management**: Centralized state with subscriptions
-			3. **Routing**: Hash-based navigation
-			4. **Styling**: CSS variables and `sx:` attributes
-			5. **Markdown Support**: Rich content rendering
+				// Read file
+				const reader = new FileReader();
+				reader.onload = async (evt) => {
+					try {
+						const json = JSON.parse(evt.target.result);
+						console.log('JSON parsed:', json);
 
-			### Current Capabilities
+						// Validate structure
+						if (!json || typeof json !== 'object') {
+							throw new Error('Invalid JSON structure');
+						}
 
-			- [x] **Add Users**: Create new user accounts
-			- [x] **User Authentication**: Secure login system  
-			- [ ] **Role Management**: Assign user permissions
-			- [ ] **Profile Management**: Update user information
+						// Confirm upload
+						const confirmed = await Confirm({
+							title: 'Upload Accounts',
+							message:
+								'This will replace your current accounts data. Are you sure?',
+						});
 
-			## Code Example
+						if (!confirmed) {
+							fileInput.value = '';
+							return;
+						}
 
-			Here's how to use the markdown component:
+						console.log('Saving to Supabase...');
+						// Save to Supabase
+						await window.saveAccounts(userId, json);
+						console.log('✅ Accounts saved via file upload:', json);
 
-			```html
-			<x-markdown>
-				# Your Title
+						await Alert({
+							title: 'Success',
+							message: 'Accounts data uploaded successfully!',
+						});
 
-				This is **bold** and *italic* text.
+						fileInput.value = '';
+						location.reload();
+					} catch (error) {
+						console.error('Upload error:', error);
+						await Alert({
+							title: 'Upload Error',
+							message:
+								error.message ||
+								'Failed to upload accounts data. Please check the file format.',
+						});
+						fileInput.value = '';
+					}
+				};
 
-				- List item 1
-				- List item 2
+				reader.onerror = () => {
+					alert('Failed to read file.');
+					fileInput.value = '';
+				};
 
-				> This is a blockquote
-			</x-markdown>
-			```
+				reader.readAsText(file);
+			};
 
-			## Advanced Configuration
+			// Store handler reference for cleanup
+			fileInput._changeHandler = changeHandler;
+			fileInput.addEventListener('change', changeHandler);
 
-			For more advanced settings, refer to the framework documentation or contact the development team.
-		</x-markdown>
-
+			// Trigger file input click
+			console.log('Clicking file input');
+			fileInput.click();
+		</script>
 	</x-content>
 </x-page>
