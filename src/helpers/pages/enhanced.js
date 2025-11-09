@@ -6,7 +6,6 @@ const appHTML = ({ logoHTML }) =>
 
 			<!-- Menu Items - loaded from state -->
 			<x-data name="menuItems"></x-data>
-			<x-data name="menuItemsBottom"></x-data>
 
 			<!-- Theme Settings -->
 			<x-data name="themeSettings"></x-data>
@@ -507,7 +506,7 @@ export default async (args) => {
 	};
 
 	const routerSetup = async () => {
-		const initialHash = window.location.hash || '#/dashboard';
+		const initialHash = window.location.hash || defaultHash;
 		const initialPath = initialHash.replace(/^#/, '');
 
 		const cache = new Map();
@@ -545,11 +544,18 @@ export default async (args) => {
 
 		const handleNavigation = async () => {
 			SetData('mainContent', '');
-			const newHash = window.location.hash || '#/dashboard';
+			const newHash = window.location.hash || defaultHash;
 			const newPath = newHash.replace(/^#/, '');
 			await SetData('activePath', newPath);
 			const content = await fetchFragment(newPath.replace(/^\//, ''));
 			await SetData('mainContent', content);
+			const menuItemSelected = state.menuItems.findIndex(
+				(item) => newPath?.startsWith && newPath.startsWith(item.path)
+			);
+			await SetData(
+				'menuItemSelected',
+				menuItemSelected >= 0 ? menuItemSelected : 0
+			);
 		};
 
 		window.addEventListener('hashchange', handleNavigation);
