@@ -240,7 +240,7 @@ export class XModal extends BaseUIComponent {
 
 	// Static method to find existing modal
 	static findExistingModal() {
-		return document.querySelector('x-modal');
+		return document.querySelector('x-modal:not([reuse="false"])');
 	}
 
 	// Static method to show alert
