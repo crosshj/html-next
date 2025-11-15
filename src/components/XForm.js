@@ -15,7 +15,11 @@ function transformFormHTML(html) {
 		const label = input.getAttribute('label');
 		const name = input.getAttribute('name');
 		const type = input.getAttribute('type') || input.tagName.toLowerCase();
-		const id = input.getAttribute('id') || name;
+		let id = input.getAttribute('id');
+		if (!id) {
+			input.setAttribute('id', name);
+			id = name;
+		}
 
 		if (!label || !name) continue;
 

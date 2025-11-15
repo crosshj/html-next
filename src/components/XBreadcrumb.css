@@ -8,7 +8,7 @@ x-breadcrumb .breadcrumb-container {
 	align-items: center;
 	background: color-mix(
 		in srgb,
-		var(--palettePrimaryMain) 4%,
+		var(--palettePrimaryMain) 15%,
 		var(--paletteBackgroundPaper)
 	);
 	padding: 0.5rem 1rem;
@@ -20,39 +20,39 @@ x-breadcrumb .breadcrumb-container {
 
 x-breadcrumb .breadcrumb-item {
 	text-decoration: none;
-	color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
 	transition: color 0.2s ease;
 	white-space: nowrap;
 }
 
 x-breadcrumb .breadcrumb-separator {
-	color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
 	margin: 0 0.5rem;
 	font-weight: 300;
 	opacity: 0.8;
 }
 
 x-breadcrumb .breadcrumb-link {
-	color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
 	opacity: 0.85;
 }
 
 x-breadcrumb .breadcrumb-link:hover {
-	color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
 	opacity: 1;
 	text-decoration: underline;
 }
 
 /* Style inner links within x-link components in breadcrumbs */
 x-breadcrumb x-link a {
-	color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
 	opacity: 0.85;
 	text-decoration: none;
 	transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 x-breadcrumb x-link a:hover {
-	color: var(--palettePrimaryMain);
+	color: var(--palettePrimaryContrast);
 	opacity: 1;
 	text-decoration: underline;
 }
@@ -60,7 +60,7 @@ x-breadcrumb x-link a:hover {
 x-breadcrumb .breadcrumb-current {
 	color: color-mix(
 		in srgb,
-		var(--palettePrimaryMain) 40%,
+		var(--palettePrimaryContrast) 40%,
 		var(--paletteTextPrimary)
 	);
 	font-weight: 500;
