@@ -77,8 +77,15 @@ const appHTML = ({ logoHTML }) =>
 	`.trim();
 
 export default async (args) => {
-	const { framework, logoHTML, getFragment, getData, getMenu, defaultHash } =
-		args;
+	const {
+		framework,
+		hooks = {},
+		logoHTML,
+		getFragment,
+		getData,
+		getMenu,
+		defaultHash,
+	} = args;
 	const { initializeFramework, Router, SetData } = framework;
 
 	const cache = new Map();
@@ -150,16 +157,7 @@ export default async (args) => {
 		menuItems: menuData.top,
 		menuItemsBottom: menuData.bottom,
 	};
-	const hooks = {
-		'x-markdown': (component) => {
-			if (typeof hljs === 'undefined') return;
 
-			const codeBlocks = component.querySelectorAll('pre code');
-			for (const codeBlock of codeBlocks) {
-				hljs.highlightElement(codeBlock);
-			}
-		},
-	};
 	await initializeFramework({ router, state, hooks });
 	document.body.classList.add('framework-loaded');
 };

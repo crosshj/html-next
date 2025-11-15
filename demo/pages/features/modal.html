@@ -1,0 +1,115 @@
+<x-page>
+	<x-data
+		name="userForm"
+		defaultValue='{
+			"firstName": "John",
+			"email": "john@example.com"
+		}'
+	></x-data>
+
+	<x-navbar></x-navbar>
+
+	<x-content>
+		<!-- prettier-ignore -->
+		<x-markdown>
+			The `Modal` component provides a way to create dialogs.  This component is primarly used internally, but it is possible to use it currently with a little bit more work than is ideal (see below for an illustration of this).
+
+			| Parameter | Type | Required | Default | Description |
+			|-----------|------|----------|---------|-------------|
+			| `type` | string | No | - | The type of modal (e.g., 'confirm' for modals with confirm/cancel buttons) |
+			| `title` | string | No | - | The title displayed in the modal header |
+			| `message` | string or html | No | - | The message displayed in the modal body |
+
+			>Note: for simple use cases you will want to use `Alert` and `Confirm` Flow [modal helper functions](/features/Flow/Modal) for modals instead of creating your own modals directly.  The following shows examples for cases where those won't work.
+		</x-markdown>
+
+		<!-- prettier-ignore -->
+		<x-markdown>
+			## Basic Modal with Form
+
+			```html
+			<x-modal
+				id="exampleModal"
+				type="confirm"
+				title="Example Modal"
+			></x-modal>
+
+			<template id="modalBodyTemplate">
+				<x-form data="global_userForm">
+					<input label="First Name" name="firstName" />
+					<input label="Email" name="email" type="email" />
+				</x-form>
+			</template>
+
+			<script type="application/flow" data-key="openModal" >
+				const modal = document.getElementById('exampleModal');
+				const modalBodyTemplate = document.getElementById('modalBodyTemplate');
+				modal.updateBody(modalBodyTemplate.innerHTML);
+				modal.querySelector('.modal-button-confirm').onclick = () => {
+					console.log('Modal confirmed with data:', state.userForm);
+					modal.hide();
+				};
+				modal.querySelector('.modal-button-cancel').onclick = () => {
+					console.log('Modal cancelled');
+					modal.hide();
+				};
+				modal.show();
+			</script>
+
+			<x-button label="Open Modal" handler="openModal">
+			</x-button>
+			```
+
+			<x-button
+				label="Open Modal"
+				handler="openModal"
+			></x-button>
+		</x-markdown>
+
+		<x-modal
+			id="exampleModal"
+			type="confirm"
+			title="Example Modal"
+		>
+		</x-modal>
+		<template id="modalBodyTemplate">
+			<x-form data="global_userForm">
+				<input
+					label="First Name"
+					name="firstName"
+				/>
+				<input
+					label="Email"
+					name="email"
+					type="email"
+				/>
+			</x-form>
+		</template>
+
+		<script
+			type="application/flow"
+			data-key="openModal"
+		>
+			const modal = document.getElementById('exampleModal');
+			if(!modal) return;
+
+			const modalBodyTemplate = document.getElementById('modalBodyTemplate');
+			const modalHTML = modalBodyTemplate.innerHTML;
+			modal.updateBody(modalHTML);
+
+			const confirmButton = modal.querySelector('.modal-button-confirm');
+			confirmButton.onclick = () => {
+				console.log('Modal confirmed with data:', state.userForm);
+				modal.hide();
+			};
+
+			const cancelButton = modal.querySelector('.modal-button-cancel');
+			cancelButton.onclick = () => {
+				console.log('Modal cancelled');
+				modal.hide();
+			};
+
+			modal.show();
+		</script>
+	</x-content>
+</x-page>

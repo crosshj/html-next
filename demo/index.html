@@ -196,9 +196,21 @@
 				};
 			};
 
+			const hooks = {
+				'x-markdown': (component) => {
+					if (typeof hljs === 'undefined') return;
+
+					const codeBlocks = component.querySelectorAll('pre code');
+					for (const codeBlock of codeBlocks) {
+						hljs.highlightElement(codeBlock);
+					}
+				},
+			};
+
 			// that's it! initialize the framework
 			await helpers.pages.enhanced({
 				framework,
+				hooks,
 				logoHTML,
 				defaultHash,
 				authSetup,

@@ -447,6 +447,7 @@ const authHTML = ({ logoHTML }) =>
 export default async (args) => {
 	const {
 		framework,
+		hooks = {},
 		initialState = {},
 		authSetup,
 		logoHTML,
@@ -608,7 +609,6 @@ export default async (args) => {
 		contentLoaded: false,
 	};
 
-	const hooks = {};
 	await initializeFramework({ router, state, hooks });
 
 	document.body.classList.add('framework-loaded');

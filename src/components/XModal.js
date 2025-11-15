@@ -51,17 +51,20 @@ export class XModal extends BaseUIComponent {
 						<div class="modal-footer">
 							${type === 'confirm'
 								? html`
-										<button
-											class="modal-button modal-button-cancel"
-											type="button"
+										<x-button
+											class="modal-button-cancel"
+											variant="text"
+											label="${cancelText}"
 										>
-											${cancelText}
-										</button>
+										</x-button>
 								  `
 								: ''}
-							<button class="modal-button modal-button-confirm" type="button">
-								${confirmText}
-							</button>
+							<x-button
+								class="modal-button-confirm"
+								variant="primary"
+								label="${confirmText}"
+							>
+							</x-button>
 						</div>
 					</div>
 				</div>
@@ -205,7 +208,7 @@ export class XModal extends BaseUIComponent {
 	// Update modal content without full re-render
 	updateContent(message, title, type) {
 		// Update title
-		const titleElement = this.querySelector('#modal-title');
+		const titleElement = this.querySelector('.modal-title');
 		if (titleElement) {
 			titleElement.textContent = title;
 		}
@@ -213,7 +216,7 @@ export class XModal extends BaseUIComponent {
 		// Update message
 		const messageElement = this.querySelector('.modal-body p');
 		if (messageElement) {
-			messageElement.textContent = message;
+			messageElement.innerHTML = message;
 		}
 
 		// Update button visibility for confirm vs alert
@@ -226,6 +229,13 @@ export class XModal extends BaseUIComponent {
 
 		// Update button event listeners
 		this.setupEventListeners();
+	}
+
+	updateBody(bodyHTML) {
+		const messageElement = this.querySelector('.modal-body');
+		if (messageElement) {
+			messageElement.innerHTML = bodyHTML;
+		}
 	}
 
 	// Static method to find existing modal
